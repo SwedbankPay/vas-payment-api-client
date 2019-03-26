@@ -1,0 +1,23 @@
+server:
+  port: 8080
+spring:
+  security:
+    basic:
+      enable: false
+    ignored: "/**"
+    user:
+      name: test
+      password: test
+
+application:
+  vas-payment-server-api-base-url: "http://127.0.0.1:19001/api/payments"
+  default-agreement-merchant-id: "Systemtest"
+
+vas-payment-api:
+  oauth2:
+    client:
+      grantType: client_credentials
+      clientId: systemtest
+      clientSecret: systemtest
+      accessTokenUri: http://noutv002web.utvnet.net/VasIdentityServer/connect/token
+      scope: publicapi
