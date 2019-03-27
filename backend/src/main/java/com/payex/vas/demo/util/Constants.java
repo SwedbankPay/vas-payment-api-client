@@ -3,6 +3,7 @@ package com.payex.vas.demo.util;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Constants {
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

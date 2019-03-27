@@ -1,23 +1,43 @@
 server:
-  port: 8080
+    port: 8080
+
+    error:
+        include-stacktrace: never
 spring:
-  security:
-    basic:
-      enable: false
-    ignored: "/**"
-    user:
-      name: test
-      password: test
+    application:
+        name: vas-payment-api-client
+#        user:
+#          name: test
+#          password: test
+
+    jackson:
+        serialization.write_dates_as_timestamps: false
+        default-property-inclusion: non_null
+
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:postgresql://localhost:5432/postgres
+        username: test
+        password: test
+    jpa:
+        open-in-view: true
+        show_sql: false
+        hibernate:
+            ddl-auto: validate
+        properties:
+            hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+            hibernate:
+                temp:
+                    use_jdbc_metadata_defaults: false
 
 application:
-  vas-payment-server-api-base-url: "http://127.0.0.1:19001/api/payments"
-  default-agreement-merchant-id: "Systemtest"
+    vas-payment-server-api-base-url: "http://127.0.0.1:19001/api/payments"
 
 vas-payment-api:
-  oauth2:
-    client:
-      grantType: client_credentials
-      clientId: systemtest
-      clientSecret: systemtest
-      accessTokenUri: http://noutv002web.utvnet.net/VasIdentityServer/connect/token
-      scope: publicapi
+    oauth2:
+        client:
+            grantType: client_credentials
+            clientId: systemtest
+            clientSecret: systemtest
+            accessTokenUri: http://noutv002web.utvnet.net/VasIdentityServer/connect/token
+            scope: publicapi

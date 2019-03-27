@@ -1,0 +1,14 @@
+${AnsiColor.BRIGHT_BLUE} __     __   ______    ______                     ${AnsiColor.BRIGHT_GREEN}  _______                      ________
+${AnsiColor.BRIGHT_BLUE}|  \   |  \ /      \  /      \                    ${AnsiColor.BRIGHT_GREEN} |       \                    |        \
+${AnsiColor.BRIGHT_BLUE}| $$   | $$|  $$$$$$\|  $$$$$$\                   ${AnsiColor.BRIGHT_GREEN} | $$$$$$$\ ______   __    __ | $$$$$$$$ __    __
+${AnsiColor.BRIGHT_BLUE}| $$   | $$| $$__| $$| $$___\$$       ______      ${AnsiColor.BRIGHT_GREEN} | $$__/ $$|      \ |  \  |  \| $$__    |  \  /  \
+${AnsiColor.BRIGHT_BLUE} \$$\ /  $$| $$    $$ \$$    \       |      \     ${AnsiColor.BRIGHT_GREEN} | $$    $$ \$$$$$$\| $$  | $$| $$  \    \$$\/  $$
+${AnsiColor.BRIGHT_BLUE}  \$$\  $$ | $$$$$$$$ _\$$$$$$\       \$$$$$$     ${AnsiColor.BRIGHT_GREEN} | $$$$$$$ /      $$| $$  | $$| $$$$$     >$$  $$
+${AnsiColor.BRIGHT_BLUE}   \$$ $$  | $$  | $$|  \__| $$                   ${AnsiColor.BRIGHT_GREEN} | $$     |  $$$$$$$| $$__/ $$| $$_____  /  $$$$\
+${AnsiColor.BRIGHT_BLUE}    \$$$   | $$  | $$ \$$    $$                   ${AnsiColor.BRIGHT_GREEN} | $$      \$$    $$ \$$    $$| $$     \|  $$ \$$\
+${AnsiColor.BRIGHT_BLUE}     \$     \$$   \$$  \$$$$$$                    ${AnsiColor.BRIGHT_GREEN}  \$$       \$$$$$$$ _\$$$$$$$ \$$$$$$$$ \$$   \$$
+${AnsiColor.BRIGHT_BLUE}                                                  ${AnsiColor.BRIGHT_GREEN}                    |  \__| $$
+${AnsiColor.BRIGHT_BLUE}                                                  ${AnsiColor.BRIGHT_GREEN}                     \$$    $$
+${AnsiColor.BRIGHT_BLUE}                                                  ${AnsiColor.BRIGHT_GREEN}                      \$$$$$$
+${AnsiColor.BRIGHT_GREEN}:: Running Spring Boot ${AnsiColor.BLACK}${spring-boot.version} ${AnsiColor.BRIGHT_GREEN}::
+${AnsiColor.BLUE}:: http://127.0.0.1:${server.port} ::

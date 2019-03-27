@@ -1,4 +1,4 @@
-package com.payex.vas.demo.config;
+package com.payex.vas.demo.config.security;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
