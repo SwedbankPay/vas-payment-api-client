@@ -1,6 +1,7 @@
-CREATE TABLE payment_account
+CREATE TABLE payment_instrument
 (
     id                  BIGSERIAL,
+    type                 varchar(255)   not null,
     external_account_id varchar(255) not null UNIQUE,
     pan                 varchar(19)  not null,
     cvc                 varchar(3)   not null,
@@ -11,7 +12,7 @@ CREATE TABLE payment_account
 CREATE TABLE payment_operation
 (
     id                      BIGSERIAL,
-    payment_account_id      BIGINT       not null,
+    payment_instrument_id      BIGINT       not null,
     merchant_id             BIGINT       not null,
     transaction_type        varchar(255) not null,
     state                   varchar(255) not null,

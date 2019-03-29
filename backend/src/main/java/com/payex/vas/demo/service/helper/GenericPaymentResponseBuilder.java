@@ -8,7 +8,7 @@ public class GenericPaymentResponseBuilder {
     public static GenericPaymentResponse convertToGenericPaymentResponse(PaymentOperation paymentOperation) {
         return GenericPaymentResponse.builder()
             .paymentId(paymentOperation.getId())
-            .paymentAccountId(paymentOperation.getPaymentAccountId())
+            .paymentAccountId(paymentOperation.getPaymentInstrumentId())
             .amount(paymentOperation.getAmount())
             .externalPaymentId(paymentOperation.getExternalPaymentId())
             .externalAccountId(paymentOperation.getExternalAccountId())

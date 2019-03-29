@@ -17,7 +17,7 @@ public class PaymentOperation {
     private Long id;
 
     @NotNull
-    private Long paymentAccountId;
+    private Long paymentInstrumentId;
 
     @NotNull
     private Long merchantId;

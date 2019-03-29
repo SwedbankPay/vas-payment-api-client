@@ -13,7 +13,6 @@ import com.payex.vas.demo.util.JsonUtil;
 import com.payex.vas.demo.util.error.BadRequestException;
 import com.payex.vas.demo.util.error.InternalServerErrorException;
 import com.payex.vas.demo.util.error.NotFoundException;
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
@@ -29,7 +28,7 @@ import static com.payex.vas.demo.util.Constants.ApiHeaders.*;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor(access = AccessLevel.PUBLIC)
+@RequiredArgsConstructor
 public class VasPaymentApiRepository {
 
     private static final String PAYMENT_PURCHASE_URL = "/payment-account/%s/payment/purchase";

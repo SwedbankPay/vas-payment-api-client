@@ -16,6 +16,10 @@ import java.util.function.Supplier;
 
 public class ControllerExecutorHelper {
 
+    public static <S> ResponseEntity<S> executeAndLogRequest(Logger logger, String method, Supplier<ResponseEntity<S>> operation) {
+        return executeAndLogRequest(logger, method, null, operation);
+    }
+
     public static <S> ResponseEntity<S> executeAndLogRequest(Logger logger, String method, Object payload, Supplier<ResponseEntity<S>> operation) {
         Stopwatch stopwatch = Stopwatch.createStarted();
         String status = "";
@@ -43,7 +47,7 @@ public class ControllerExecutorHelper {
     }
 
     private static String getStatusText(HttpStatus httpStatus) {
-        return "('" + httpStatus.value() + " - " + httpStatus.getReasonPhrase() + "')";
+        return "(status: '" + httpStatus.value() + " - " + httpStatus.getReasonPhrase() + "')";
     }
 
     private static HttpServletRequest getCurrentRequest() {

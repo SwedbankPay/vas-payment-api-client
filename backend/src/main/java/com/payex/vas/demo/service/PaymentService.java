@@ -2,7 +2,7 @@ package com.payex.vas.demo.service;
 
 import com.payex.vas.demo.domain.dto.GenericPaymentRequest;
 import com.payex.vas.demo.domain.dto.GenericPaymentResponse;
-import com.payex.vas.demo.domain.entities.PaymentAccount;
+import com.payex.vas.demo.domain.entities.PaymentInstrument;
 import com.payex.vas.demo.domain.entities.PaymentOperation;
 import com.payex.vas.demo.domain.entities.SimulatedMerchant;
 import com.payex.vas.demo.domain.payex.base.AccountIdentifier;
@@ -10,119 +10,127 @@ import com.payex.vas.demo.domain.payex.base.Merchant;
 import com.payex.vas.demo.domain.payex.request.OperationRequest;
 import com.payex.vas.demo.domain.payex.request.PaymentRequest;
 import com.payex.vas.demo.domain.payex.request.TransactionRequest;
-import com.payex.vas.demo.repository.PaymentAccountRepository;
+import com.payex.vas.demo.repository.PaymentInstrumentRepository;
 import com.payex.vas.demo.repository.PaymentOperationRepository;
 import com.payex.vas.demo.repository.SimulatedMerchantRepository;
 import com.payex.vas.demo.repository.external.VasPaymentApiRepository;
 import com.payex.vas.demo.service.helper.GenericPaymentResponseBuilder;
 import com.payex.vas.demo.service.helper.PaymentOperationBuilder;
 import com.payex.vas.demo.util.error.BadRequestException;
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor(access = AccessLevel.PUBLIC)
+@RequiredArgsConstructor
 public class PaymentService {
 
     private final PaymentOperationRepository paymentOperationRepository;
-    private final PaymentAccountRepository paymentAccountRepository;
+    private final PaymentInstrumentRepository paymentInstrumentRepository;
     private final SimulatedMerchantRepository simulatedMerchantRepository;
 
     private final VasPaymentApiRepository vasPaymentApiRepository;
 
-    public GenericPaymentResponse authorize(Long accountId, GenericPaymentRequest request) {
-        var paymentAccount = findPaymentAccount(accountId);
+    public GenericPaymentResponse authorize(Long paymentInstrumentId, GenericPaymentRequest request) {
+        var paymentInstrument = findPaymentInstrument(paymentInstrumentId);
         var merchant = findMerchant(request.getMerchantId());
 
-        var paymentRequest = buildPaymentRequest(request, paymentAccount, merchant);
-        var paymentResponse = vasPaymentApiRepository.authorize(paymentRequest, paymentAccount.getExternalAccountId(), merchant.getAgreementId());
+        var paymentRequest = buildPaymentRequest(request, paymentInstrument, merchant);
+        var paymentResponse = vasPaymentApiRepository.authorize(paymentRequest, paymentInstrument.getExternalAccountId(), merchant.getAgreementId());
 
-        var paymentOperation = PaymentOperationBuilder.build("Authorize", paymentAccount, merchant.getId(), paymentResponse);
+        var paymentOperation = PaymentOperationBuilder.build("Authorize", paymentInstrument, merchant.getId(), paymentResponse);
 
         paymentOperationRepository.save(paymentOperation);
 
         return GenericPaymentResponseBuilder.convertToGenericPaymentResponse(paymentOperation);
     }
 
-    public GenericPaymentResponse purchase(Long accountId, GenericPaymentRequest request) {
-        var paymentAccount = findPaymentAccount(accountId);
+    public GenericPaymentResponse purchase(Long paymentInstrumentId, GenericPaymentRequest request) {
+        var paymentInstrument = findPaymentInstrument(paymentInstrumentId);
         var merchant = findMerchant(request.getMerchantId());
 
-        var paymentRequest = buildPaymentRequest(request, paymentAccount, merchant);
-        var paymentResponse = vasPaymentApiRepository.purchase(paymentRequest, paymentAccount.getExternalAccountId(), merchant.getAgreementId());
+        var paymentRequest = buildPaymentRequest(request, paymentInstrument, merchant);
+        var paymentResponse = vasPaymentApiRepository.purchase(paymentRequest, paymentInstrument.getExternalAccountId(), merchant.getAgreementId());
 
-        var paymentOperation = PaymentOperationBuilder.build("Purchase", paymentAccount, merchant.getId(), paymentResponse);
+        var paymentOperation = PaymentOperationBuilder.build("Purchase", paymentInstrument, merchant.getId(), paymentResponse);
 
         paymentOperationRepository.save(paymentOperation);
 
         return GenericPaymentResponseBuilder.convertToGenericPaymentResponse(paymentOperation);
     }
 
-    public GenericPaymentResponse capture(Long paymentOperationId) {
+    public GenericPaymentResponse capture(Long paymentInstrumentId, Long paymentOperationId) {
         var orgPaymentOperation = findPaymentOperation(paymentOperationId);
-        var paymentAccount = findPaymentAccount(orgPaymentOperation.getPaymentAccountId());
+        var paymentInstrument = findPaymentInstrument(paymentInstrumentId);
         var merchant = findMerchant(orgPaymentOperation.getMerchantId());
 
         var paymentRequest = buildTransactionRequest("Capture", orgPaymentOperation);
         var paymentResponse = vasPaymentApiRepository.capture(paymentRequest,
-            paymentAccount.getExternalAccountId(),
+            paymentInstrument.getExternalAccountId(),
             orgPaymentOperation.getExternalPaymentId(),
             merchant.getAgreementId());
 
-        var paymentOperation = PaymentOperationBuilder.build("Capture", paymentAccount, merchant.getId(), paymentResponse);
+        var paymentOperation = PaymentOperationBuilder.build("Capture", paymentInstrument, merchant.getId(), paymentResponse);
 
         paymentOperationRepository.save(paymentOperation);
 
         return GenericPaymentResponseBuilder.convertToGenericPaymentResponse(paymentOperation);
     }
 
-    public GenericPaymentResponse reversal(Long paymentOperationId) {
+    public GenericPaymentResponse reversal(Long paymentInstrumentId, Long paymentOperationId) {
         var orgPaymentOperation = findPaymentOperation(paymentOperationId);
-        var paymentAccount = findPaymentAccount(orgPaymentOperation.getPaymentAccountId());
+        var paymentInstrument = findPaymentInstrument(paymentInstrumentId);
         var merchant = findMerchant(orgPaymentOperation.getMerchantId());
 
         var paymentRequest = buildTransactionRequest("Reversal", orgPaymentOperation);
         var paymentResponse = vasPaymentApiRepository.reversal(paymentRequest,
-            paymentAccount.getExternalAccountId(),
+            paymentInstrument.getExternalAccountId(),
             orgPaymentOperation.getExternalPaymentId(),
             merchant.getAgreementId());
 
-        var paymentOperation = PaymentOperationBuilder.build("Reversal", paymentAccount, merchant.getId(), paymentResponse);
+        var paymentOperation = PaymentOperationBuilder.build("Reversal", paymentInstrument, merchant.getId(), paymentResponse);
 
         paymentOperationRepository.save(paymentOperation);
 
         return GenericPaymentResponseBuilder.convertToGenericPaymentResponse(paymentOperation);
     }
 
-    public GenericPaymentResponse cancel(Long paymentOperationId) {
+    public GenericPaymentResponse cancel(Long paymentInstrumentId, Long paymentOperationId) {
         var orgPaymentOperation = findPaymentOperation(paymentOperationId);
-        var paymentAccount = findPaymentAccount(orgPaymentOperation.getPaymentAccountId());
+        var paymentInstrument = findPaymentInstrument(paymentInstrumentId);
         var merchant = findMerchant(orgPaymentOperation.getMerchantId());
 
         var paymentRequest = buildOperationRequest(orgPaymentOperation, merchant);
         var paymentResponse = vasPaymentApiRepository.cancel(paymentRequest,
-            paymentAccount.getExternalAccountId(),
+            paymentInstrument.getExternalAccountId(),
             orgPaymentOperation.getExternalPaymentId(),
             merchant.getAgreementId());
 
-        var paymentOperation = PaymentOperationBuilder.build("Cancel", paymentAccount, merchant.getId(), paymentResponse);
+        var paymentOperation = PaymentOperationBuilder.build("Cancel", paymentInstrument, merchant.getId(), paymentResponse);
 
         paymentOperationRepository.save(paymentOperation);
 
         return GenericPaymentResponseBuilder.convertToGenericPaymentResponse(paymentOperation);
+    }
+
+    public List<GenericPaymentResponse> listPaymentsForPaymentInstrument(Long paymentInstrumentId) {
+        var paymentList = paymentOperationRepository.findTop100ByPaymentInstrumentIdOrderByCreatedDesc(paymentInstrumentId);
+        return paymentList.stream()
+            .map(GenericPaymentResponseBuilder::convertToGenericPaymentResponse)
+            .collect(Collectors.toList());
     }
 
     private SimulatedMerchant findMerchant(Long merchantId) {
         return simulatedMerchantRepository.findById(merchantId).orElseThrow(() -> new BadRequestException("Unable to find Merchant by id: " + merchantId));
     }
 
-    private PaymentAccount findPaymentAccount(Long accountId) {
-        return paymentAccountRepository.findById(accountId).orElseThrow(() -> new BadRequestException("Unable to find PaymentAccount by id: " + accountId));
+    private PaymentInstrument findPaymentInstrument(Long paymentInstrumentId) {
+        return paymentInstrumentRepository.findById(paymentInstrumentId).orElseThrow(() -> new BadRequestException("Unable to find PaymentInstrument by id: " + paymentInstrumentId));
     }
 
     private PaymentOperation findPaymentOperation(Long findPaymentOperation) {
@@ -149,7 +157,7 @@ public class PaymentService {
             .build();
     }
 
-    private PaymentRequest buildPaymentRequest(GenericPaymentRequest request, PaymentAccount paymentAccount, SimulatedMerchant merchant) {
+    private PaymentRequest buildPaymentRequest(GenericPaymentRequest request, PaymentInstrument paymentInstrument, SimulatedMerchant merchant) {
         return PaymentRequest.builder()
             .amount(request.getAmount())
             .description(request.getDescription())
@@ -160,9 +168,9 @@ public class PaymentService {
                 .merchantName(merchant.getMerchantName())
                 .build())
             .accountIdentifier(AccountIdentifier.builder()
-                .accountId(paymentAccount.getExternalAccountId())
-                .accountKey(paymentAccount.getPan())
-                .cvc(paymentAccount.getCvc()) //TODO:: ExpiryDate?
+                .accountId(paymentInstrument.getExternalAccountId())
+                .accountKey(paymentInstrument.getPan())
+                .cvc(paymentInstrument.getCvc()) //TODO:: ExpiryDate?
                 .build())
             .build();
     }

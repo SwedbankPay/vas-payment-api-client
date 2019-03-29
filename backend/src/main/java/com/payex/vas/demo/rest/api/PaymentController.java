@@ -9,55 +9,63 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/payment-accounts/{id}")
+@RequestMapping("/api/payment-instruments/{id}")
 public class PaymentController {
 
     private final PaymentService paymentService;
 
+    @GetMapping("/payments")
+    public ResponseEntity<List<GenericPaymentResponse>> listPaymentsForPaymentInstrument(@PathVariable(value = "id") Long paymentInstrumentId) {
+        return ControllerExecutorHelper.executeAndLogRequest(log, "listPaymentsForPaymentInstrument",
+            () -> ResponseEntity.ok(paymentService.listPaymentsForPaymentInstrument(paymentInstrumentId)));
+    }
+
     @PostMapping("/authorize")
-    public ResponseEntity<GenericPaymentResponse> authorize(@PathVariable(value = "id") Long paymentAccountId,
+    public ResponseEntity<GenericPaymentResponse> authorize(@PathVariable(value = "id") Long paymentInstrumentId,
                                                             @RequestBody GenericPaymentRequest request) {
         return ControllerExecutorHelper.executeAndLogRequest(log, "authorize", request, () -> {
-            var paymentResponse = paymentService.authorize(paymentAccountId, request);
+            var paymentResponse = paymentService.authorize(paymentInstrumentId, request);
             return ResponseEntity.ok(paymentResponse);
         });
     }
 
     @PostMapping("/purchase")
-    public ResponseEntity<GenericPaymentResponse> purchase(@PathVariable(value = "id") Long paymentAccountId,
+    public ResponseEntity<GenericPaymentResponse> purchase(@PathVariable(value = "id") Long paymentInstrumentId,
                                                            @RequestBody GenericPaymentRequest request) {
         return ControllerExecutorHelper.executeAndLogRequest(log, "purchase", request, () -> {
-            var paymentResponse = paymentService.purchase(paymentAccountId, request);
+            var paymentResponse = paymentService.purchase(paymentInstrumentId, request);
             return ResponseEntity.ok(paymentResponse);
         });
     }
 
     @PostMapping("/payments/{paymentId}/capture")
-    public ResponseEntity<GenericPaymentResponse> capture(@PathVariable(value = "id") Long paymentAccountId, //TODO::
+    public ResponseEntity<GenericPaymentResponse> capture(@PathVariable(value = "id") Long paymentInstrumentId,
                                                           @PathVariable(value = "paymentId") Long paymentId) {
-        return ControllerExecutorHelper.executeAndLogRequest(log, "capture", null, () -> {
-            var paymentResponse = paymentService.capture(paymentId);
+        return ControllerExecutorHelper.executeAndLogRequest(log, "capture", () -> {
+            var paymentResponse = paymentService.capture(paymentInstrumentId, paymentId);
             return ResponseEntity.ok(paymentResponse);
         });
     }
 
     @PostMapping("/payments/{paymentId}/reversal")
-    public ResponseEntity<GenericPaymentResponse> reversal(@PathVariable(value = "id") Long paymentAccountId, //TODO::
+    public ResponseEntity<GenericPaymentResponse> reversal(@PathVariable(value = "id") Long paymentInstrumentId,
                                                            @PathVariable(value = "paymentId") Long paymentId) {
-        return ControllerExecutorHelper.executeAndLogRequest(log, "reversal", null, () -> {
-            var paymentResponse = paymentService.reversal(paymentId);
+        return ControllerExecutorHelper.executeAndLogRequest(log, "reversal", () -> {
+            var paymentResponse = paymentService.reversal(paymentInstrumentId, paymentId);
             return ResponseEntity.ok(paymentResponse);
         });
     }
 
     @PostMapping("/payments/{paymentId}/cancel")
-    public ResponseEntity<GenericPaymentResponse> cancel(@PathVariable(value = "id") Long paymentAccountId, //TODO::
+    public ResponseEntity<GenericPaymentResponse> cancel(@PathVariable(value = "id") Long paymentInstrumentId,
                                                          @PathVariable(value = "paymentId") Long paymentId) {
-        return ControllerExecutorHelper.executeAndLogRequest(log, "cancel", null, () -> {
-            var paymentResponse = paymentService.cancel(paymentId);
+        return ControllerExecutorHelper.executeAndLogRequest(log, "cancel", () -> {
+            var paymentResponse = paymentService.cancel(paymentInstrumentId, paymentId);
             return ResponseEntity.ok(paymentResponse);
         });
     }
