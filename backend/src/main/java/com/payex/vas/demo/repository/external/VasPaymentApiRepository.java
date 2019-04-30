@@ -3,10 +3,12 @@ package com.payex.vas.demo.repository.external;
 import com.google.common.base.Stopwatch;
 import com.payex.vas.demo.config.ApplicationProperties;
 import com.payex.vas.demo.config.security.SecurityUtils;
+import com.payex.vas.demo.domain.payex.request.BalanceRequest;
 import com.payex.vas.demo.domain.payex.request.OperationRequest;
 import com.payex.vas.demo.domain.payex.request.PaymentRequest;
 import com.payex.vas.demo.domain.payex.request.TransactionRequest;
 import com.payex.vas.demo.domain.payex.response.OperationResponse;
+import com.payex.vas.demo.domain.payex.response.PaymentAccountResponse;
 import com.payex.vas.demo.domain.payex.response.PaymentResponse;
 import com.payex.vas.demo.domain.payex.response.TransactionResponse;
 import com.payex.vas.demo.util.JsonUtil;
@@ -44,6 +46,8 @@ public class VasPaymentApiRepository {
     private static final String GET_OPERATION_URL = "/payment-account/%s/payment/%s/operations/%s";
     private static final String GET_PAYMENT_URL = "/payment-account/%s/payment/%s";
 
+    private static final String BALANCE_URL = "/payment-account/balance";
+
     private final ApplicationProperties applicationProperties;
     private final RestTemplate restTemplate;
 
@@ -58,6 +62,12 @@ public class VasPaymentApiRepository {
         var url = getUrlWithAccountAsParam(PAYMENT_AUTH_URL, externalAccountId);
         var payload = createPayload(url, request, agreementMerchantId);
         return executeForEntity(url, HttpMethod.POST, payload, PaymentResponse.class);
+    }
+
+    public PaymentAccountResponse balance(BalanceRequest request, String agreementMerchantId) {
+        var url = getUrl(BALANCE_URL);
+        var payload = createPayload(url, request, agreementMerchantId);
+        return executeForEntity(url, HttpMethod.POST, payload, PaymentAccountResponse.class);
     }
 
     public PaymentResponse deposit(PaymentRequest request, String externalAccountId, String agreementMerchantId) {
@@ -131,6 +141,10 @@ public class VasPaymentApiRepository {
 
     private String getUrlWithAccountAndPaymentAsParam(String postfix, String externalAccountId, String externalPaymentId) {
         return applicationProperties.getVasPaymentServerApiBaseUrl() + String.format(postfix, externalAccountId, externalPaymentId);
+    }
+
+    private String getUrl(String postfix) {
+        return applicationProperties.getVasPaymentServerApiBaseUrl() + postfix;
     }
 
     private <T> T executeForEntity(String url, HttpMethod httpMethod, HttpEntity payload, Class<T> entityClass) {

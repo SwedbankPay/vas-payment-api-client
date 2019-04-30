@@ -25,6 +25,15 @@ public class PaymentController {
             () -> ResponseEntity.ok(paymentService.listPaymentsForPaymentInstrument(paymentInstrumentId)));
     }
 
+    @PostMapping("/deposit")
+    public ResponseEntity<GenericPaymentResponse> deposit(@PathVariable(value = "id") Long paymentInstrumentId,
+                                                            @RequestBody GenericPaymentRequest request) {
+        return ControllerExecutorHelper.executeAndLogRequest(log, "deposit", request, () -> {
+            var paymentResponse = paymentService.deposit(paymentInstrumentId, request);
+            return ResponseEntity.ok(paymentResponse);
+        });
+    }
+
     @PostMapping("/authorize")
     public ResponseEntity<GenericPaymentResponse> authorize(@PathVariable(value = "id") Long paymentInstrumentId,
                                                             @RequestBody GenericPaymentRequest request) {

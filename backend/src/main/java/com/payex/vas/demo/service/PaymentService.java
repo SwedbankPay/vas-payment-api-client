@@ -7,9 +7,11 @@ import com.payex.vas.demo.domain.entities.PaymentOperation;
 import com.payex.vas.demo.domain.entities.SimulatedMerchant;
 import com.payex.vas.demo.domain.payex.base.AccountIdentifier;
 import com.payex.vas.demo.domain.payex.base.Merchant;
+import com.payex.vas.demo.domain.payex.request.BalanceRequest;
 import com.payex.vas.demo.domain.payex.request.OperationRequest;
 import com.payex.vas.demo.domain.payex.request.PaymentRequest;
 import com.payex.vas.demo.domain.payex.request.TransactionRequest;
+import com.payex.vas.demo.domain.payex.response.PaymentAccountResponse;
 import com.payex.vas.demo.repository.PaymentInstrumentRepository;
 import com.payex.vas.demo.repository.PaymentOperationRepository;
 import com.payex.vas.demo.repository.SimulatedMerchantRepository;
@@ -35,6 +37,30 @@ public class PaymentService {
     private final SimulatedMerchantRepository simulatedMerchantRepository;
 
     private final VasPaymentApiRepository vasPaymentApiRepository;
+
+
+    public PaymentAccountResponse balance(PaymentInstrument paymentInstrument, String agreementId) {
+
+        var balanceRequest = BalanceRequest.builder()
+            .accountIdentifier(buildAccountIdentifier(paymentInstrument))
+            .build();
+
+        return vasPaymentApiRepository.balance(balanceRequest, agreementId);
+    }
+
+    public GenericPaymentResponse deposit(Long paymentInstrumentId, GenericPaymentRequest request) {
+        var paymentInstrument = findPaymentInstrument(paymentInstrumentId);
+        var merchant = findMerchant(request.getMerchantId());
+
+        var paymentRequest = buildPaymentRequest(request, paymentInstrument, merchant);
+        var paymentResponse = vasPaymentApiRepository.deposit(paymentRequest, paymentInstrument.getExternalAccountId(), merchant.getAgreementId());
+
+        var paymentOperation = PaymentOperationBuilder.build("Deposit", paymentInstrument, merchant.getId(), paymentResponse);
+
+        paymentOperationRepository.save(paymentOperation);
+
+        return GenericPaymentResponseBuilder.convertToGenericPaymentResponse(paymentOperation);
+    }
 
     public GenericPaymentResponse authorize(Long paymentInstrumentId, GenericPaymentRequest request) {
         var paymentInstrument = findPaymentInstrument(paymentInstrumentId);
@@ -167,11 +193,15 @@ public class PaymentService {
             .merchant(Merchant.builder()
                 .merchantName(merchant.getMerchantName())
                 .build())
-            .accountIdentifier(AccountIdentifier.builder()
-                .accountId(paymentInstrument.getExternalAccountId())
-                .accountKey(paymentInstrument.getPan())
-                .cvc(paymentInstrument.getCvc()) //TODO:: ExpiryDate?
-                .build())
+            .accountIdentifier(buildAccountIdentifier(paymentInstrument))
+            .build();
+    }
+
+    private AccountIdentifier buildAccountIdentifier(PaymentInstrument paymentInstrument) {
+        return AccountIdentifier.builder()
+            .accountId(paymentInstrument.getExternalAccountId())
+            .accountKey(paymentInstrument.getPan())
+            .cvc(paymentInstrument.getCvc()) //TODO:: ExpiryDate?
             .build();
     }
 }

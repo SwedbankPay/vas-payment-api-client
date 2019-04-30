@@ -3,6 +3,8 @@ package com.payex.vas.demo.rest.api;
 import com.payex.vas.demo.domain.entities.PaymentInstrument;
 import com.payex.vas.demo.repository.PaymentInstrumentRepository;
 import com.payex.vas.demo.rest.util.ControllerExecutorHelper;
+import com.payex.vas.demo.service.PaymentService;
+import com.payex.vas.demo.util.error.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import java.util.List;
 public class PaymentInstrumentController {
 
     private final PaymentInstrumentRepository paymentInstrumentRepository;
+    private final PaymentService paymentService;
 
     @GetMapping("/payment-instruments")
     public ResponseEntity<List<PaymentInstrument>> listPaymentInstrument() {
@@ -36,8 +39,10 @@ public class PaymentInstrumentController {
 
 
     @PostMapping("/payment-instruments")
-    public ResponseEntity<PaymentInstrument> addPaymentInstrument(@Valid @RequestBody PaymentInstrument paymentInstrument) {
+    public ResponseEntity<PaymentInstrument> addPaymentInstrument(@RequestBody PaymentInstrument paymentInstrument) {
         return ControllerExecutorHelper.executeAndLogRequest(log, "addPaymentInstrument", paymentInstrument, () -> {
+
+            populateExternalAccountIdFromThroughBalance(paymentInstrument);
             PaymentInstrument persisted = paymentInstrumentRepository.save(paymentInstrument);
             return ResponseEntity.created(URI.create(getCurrentRequestUri() + "/" + persisted.getId())).body(persisted);
         });
@@ -55,6 +60,17 @@ public class PaymentInstrumentController {
             paymentInstrumentRepository.deleteById(id);
             return ResponseEntity.ok().build();
         });
+    }
+
+    private void populateExternalAccountIdFromThroughBalance(@RequestBody PaymentInstrument paymentInstrument) {
+        if (paymentInstrument.getExternalAccountId() == null) {
+            try {
+                var balanceResponse = paymentService.balance(paymentInstrument, "SystemtestCC"); //TODO:: Remove this
+                paymentInstrument.setExternalAccountId(balanceResponse.getPaymentAccount().getAccountIdentifier().getAccountId());
+            } catch (Exception ex) {
+                throw new BadRequestException("Failed while invoking balance request against PayEx: " + ex.getMessage());
+            }
+        }
     }
 
     private static String getCurrentRequestUri() {
