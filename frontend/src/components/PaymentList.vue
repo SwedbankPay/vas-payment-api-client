@@ -15,20 +15,12 @@
       <tbody>
       <tr v-for="item in items" :key="item.paymentId">
         <td>{{ item.paymentId }}</td>
-        <td>{{ item.transactionType }}</td>
+        <td v-html="formatTransactionType(item.transactionType)"></td>
         <td>{{ formatNumber(item.amount) }}</td>
-        <td>{{ item.state }}</td>
-        <td>{{ item.created }}</td>
+        <td>{{item.state}}</td>
+        <td>{{ formatDate(item.created) }}</td>
         <td>
-          <div class="action-list anchor-bottom-left">
-            <i class="material-icons">more_vert</i>
-            <div class="action-menu">
-              <a href="#"><i class="material-icons">bookmark</i>Add bookmark</a>
-              <a href="#"><i class="material-icons">business_center</i>Add client</a>
-              <a href="#"><i class="material-icons">add_circle</i>Add document</a>
-              <a href="#"><i class="material-icons">person_add</i>Add user</a>
-            </div>
-          </div>
+          <edit-payment-dialog :payment="item"></edit-payment-dialog>
         </td>
       </tr>
       </tbody>
@@ -38,9 +30,11 @@
 
 <script>
 import { paymentOperationService } from './rest-resource'
-import { maskPan, formatNumber } from '../utils/creditcard-util'
+import { maskPan, formatNumber, formatDate } from '../utils/creditcard-util'
+import EditPaymentDialog from './EditPaymentDialog'
 
 export default {
+  components: { EditPaymentDialog },
   name: 'PaymentList',
   data () {
     return {
@@ -50,8 +44,27 @@ export default {
   created: function () {
     this.fetchItems()
   },
+  mounted () {
+    this.$root.$on('payment-successful', () => {
+      console.log('got new "payment-successful" event')
+      this.fetchItems()
+    })
+  },
   methods: {
+    formatTransactionType (txType) {
+      let txTypeString = String(txType)
+      switch (txTypeString) {
+        case 'Authorize': return '<span class="badge badge-default">' + txTypeString + '</span>'
+        case 'Capture': return '<span class="badge badge-blue">' + txTypeString + '</span>'
+        case 'Purchase': return '<span class="badge badge-blue">' + txTypeString + '</span>'
+        case 'Deposit': return '<span class="badge badge-brand">' + txTypeString + '</span>'
+        case 'Cancel': return '<span class="badge badge-yellow">' + txTypeString + '</span>'
+        case 'Reversal': return '<span class="badge badge-yellow">' + txTypeString + '</span>'
+        default: return '<span class="badge badge-blue">' + txTypeString + '</span>'
+      }
+    },
     fetchItems () {
+      console.log('Fetching payments')
       paymentOperationService.listPayments(this.$route.params.id).then(res => {
         this.items = res.data
       })
@@ -61,6 +74,9 @@ export default {
     },
     formatNumber (number) {
       return formatNumber(number)
+    },
+    formatDate (date) {
+      return formatDate(date)
     }
   }
 }

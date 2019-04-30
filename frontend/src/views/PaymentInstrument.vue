@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <CardItem></CardItem>
-    <PaymentList></PaymentList>
+    <CardItem/>
+    <PaymentList/>
   </div>
 </template>
 

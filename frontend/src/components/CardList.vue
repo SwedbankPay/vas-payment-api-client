@@ -17,20 +17,22 @@
             </div>
           </div>
           <div class="card-body">
-            <p>Card text</p>
-            <small>Small card text</small>
+            <small>External ID: {{item.externalAccountId}}</small>
           </div>
         </router-link>
       </div>
     </div>
+    <AddCardDialog></AddCardDialog>
   </div>
 </template>
 
 <script>
-import { paymentInstrumentService } from '../components/rest-resource'
+import { paymentInstrumentService } from './rest-resource'
 import { maskPan } from '../utils/creditcard-util'
+import AddCardDialog from './AddCardDialog'
 
 export default {
+  components: { AddCardDialog },
   data () {
     return {
       items: []
