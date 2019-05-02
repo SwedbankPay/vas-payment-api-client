@@ -14,4 +14,6 @@ public final class Constants {
         public static final String HMAC = "Hmac";
         public static final String USERNAME = "Username";
     }
+
+    public static final String DEFAULT_AGREEMENT_ID = "Systemtest";
 }

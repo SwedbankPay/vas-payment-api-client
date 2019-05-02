@@ -4,6 +4,7 @@ import com.payex.vas.demo.domain.entities.PaymentInstrument;
 import com.payex.vas.demo.repository.PaymentInstrumentRepository;
 import com.payex.vas.demo.rest.util.ControllerExecutorHelper;
 import com.payex.vas.demo.service.PaymentService;
+import com.payex.vas.demo.util.Constants;
 import com.payex.vas.demo.util.error.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,7 +66,7 @@ public class PaymentInstrumentController {
     private void populateExternalAccountIdFromThroughBalance(@RequestBody PaymentInstrument paymentInstrument) {
         if (paymentInstrument.getExternalAccountId() == null) {
             try {
-                var balanceResponse = paymentService.balance(paymentInstrument, "SystemtestCC"); //TODO:: Remove this
+                var balanceResponse = paymentService.balance(paymentInstrument, Constants.DEFAULT_AGREEMENT_ID);
                 paymentInstrument.setExternalAccountId(balanceResponse.getPaymentAccount().getAccountIdentifier().getAccountId());
             } catch (Exception ex) {
                 throw new BadRequestException("Failed while invoking balance request against PayEx: " + ex.getMessage());

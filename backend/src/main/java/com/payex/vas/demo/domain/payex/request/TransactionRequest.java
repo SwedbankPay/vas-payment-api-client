@@ -12,5 +12,4 @@ public class TransactionRequest {
     private String paymentOrderRef;
     private String paymentTransactionRef;
     private Boolean cancelRemainingAuth;
-//    private List<Product> products; //TODO:: Do we need this?
 }

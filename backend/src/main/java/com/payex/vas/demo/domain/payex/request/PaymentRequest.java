@@ -18,6 +18,4 @@ public class PaymentRequest {
     private Boolean repeat;
     private Merchant merchant;
     private AccountIdentifier accountIdentifier;
-//    @JsonProperty(value = "products")
-//    private List<Product> products; //TODO:: Do we need this?
 }

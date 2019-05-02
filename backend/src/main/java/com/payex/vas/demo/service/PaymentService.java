@@ -95,8 +95,8 @@ public class PaymentService {
         var paymentInstrument = findPaymentInstrument(paymentInstrumentId);
         var merchant = findMerchant(orgPaymentOperation.getMerchantId());
 
-        var paymentRequest = buildTransactionRequest("Capture", orgPaymentOperation);
-        var paymentResponse = vasPaymentApiRepository.capture(paymentRequest,
+        var transactionRequest = buildTransactionRequest("Capture", orgPaymentOperation);
+        var paymentResponse = vasPaymentApiRepository.capture(transactionRequest,
             paymentInstrument.getExternalAccountId(),
             orgPaymentOperation.getExternalPaymentId(),
             merchant.getAgreementId());
@@ -113,8 +113,8 @@ public class PaymentService {
         var paymentInstrument = findPaymentInstrument(paymentInstrumentId);
         var merchant = findMerchant(orgPaymentOperation.getMerchantId());
 
-        var paymentRequest = buildTransactionRequest("Reversal", orgPaymentOperation);
-        var paymentResponse = vasPaymentApiRepository.reversal(paymentRequest,
+        var transactionRequest = buildTransactionRequest("Reversal", orgPaymentOperation);
+        var paymentResponse = vasPaymentApiRepository.reversal(transactionRequest,
             paymentInstrument.getExternalAccountId(),
             orgPaymentOperation.getExternalPaymentId(),
             merchant.getAgreementId());
@@ -131,8 +131,8 @@ public class PaymentService {
         var paymentInstrument = findPaymentInstrument(paymentInstrumentId);
         var merchant = findMerchant(orgPaymentOperation.getMerchantId());
 
-        var paymentRequest = buildOperationRequest(orgPaymentOperation, merchant);
-        var paymentResponse = vasPaymentApiRepository.cancel(paymentRequest,
+        var operationRequest = buildOperationRequest(orgPaymentOperation, merchant);
+        var paymentResponse = vasPaymentApiRepository.cancel(operationRequest,
             paymentInstrument.getExternalAccountId(),
             orgPaymentOperation.getExternalPaymentId(),
             merchant.getAgreementId());
@@ -201,7 +201,7 @@ public class PaymentService {
         return AccountIdentifier.builder()
             .accountId(paymentInstrument.getExternalAccountId())
             .accountKey(paymentInstrument.getPan())
-            .cvc(paymentInstrument.getCvc()) //TODO:: ExpiryDate?
+            .cvc(paymentInstrument.getCvc())
             .build();
     }
 }

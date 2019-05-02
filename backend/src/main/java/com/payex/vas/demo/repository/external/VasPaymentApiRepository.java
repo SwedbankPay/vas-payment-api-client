@@ -2,7 +2,6 @@ package com.payex.vas.demo.repository.external;
 
 import com.google.common.base.Stopwatch;
 import com.payex.vas.demo.config.ApplicationProperties;
-import com.payex.vas.demo.config.security.SecurityUtils;
 import com.payex.vas.demo.domain.payex.request.BalanceRequest;
 import com.payex.vas.demo.domain.payex.request.OperationRequest;
 import com.payex.vas.demo.domain.payex.request.PaymentRequest;
@@ -23,10 +22,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.OffsetDateTime;
-import java.util.UUID;
-
-import static com.payex.vas.demo.util.Constants.ApiHeaders.*;
+import static com.payex.vas.demo.util.Constants.ApiHeaders.AGREEMENT_MERCHANT_ID;
 
 @Slf4j
 @Component
@@ -54,97 +50,87 @@ public class VasPaymentApiRepository {
 
     public PaymentResponse purchase(PaymentRequest request, String externalAccountId, String agreementMerchantId) {
         var url = getUrlWithAccountAsParam(PAYMENT_PURCHASE_URL, externalAccountId);
-        var payload = createPayload(url, request, agreementMerchantId);
+        var payload = createPayload(request, agreementMerchantId);
         return executeForEntity(url, HttpMethod.POST, payload, PaymentResponse.class);
     }
 
     public PaymentResponse authorize(PaymentRequest request, String externalAccountId, String agreementMerchantId) {
         var url = getUrlWithAccountAsParam(PAYMENT_AUTH_URL, externalAccountId);
-        var payload = createPayload(url, request, agreementMerchantId);
+        var payload = createPayload(request, agreementMerchantId);
         return executeForEntity(url, HttpMethod.POST, payload, PaymentResponse.class);
     }
 
     public PaymentAccountResponse balance(BalanceRequest request, String agreementMerchantId) {
         var url = getUrl(BALANCE_URL);
-        var payload = createPayload(url, request, agreementMerchantId);
+        var payload = createPayload(request, agreementMerchantId);
         return executeForEntity(url, HttpMethod.POST, payload, PaymentAccountResponse.class);
     }
 
     public PaymentResponse deposit(PaymentRequest request, String externalAccountId, String agreementMerchantId) {
         var url = getUrlWithAccountAsParam(PAYMENT_DEPOSIT_URL, externalAccountId);
-        var payload = createPayload(url, request, agreementMerchantId);
+        var payload = createPayload(request, agreementMerchantId);
         return executeForEntity(url, HttpMethod.POST, payload, PaymentResponse.class);
     }
 
     public PaymentResponse credit(PaymentRequest request, String externalAccountId, String agreementMerchantId) {
         var url = getUrlWithAccountAsParam(PAYMENT_CREDIT_URL, externalAccountId);
-        var payload = createPayload(url, request, agreementMerchantId);
+        var payload = createPayload(request, agreementMerchantId);
         return executeForEntity(url, HttpMethod.POST, payload, PaymentResponse.class);
     }
 
     public OperationResponse cancel(OperationRequest request, String externalAccountId, String externalOrgPaymentId, String agreementMerchantId) {
         var url = getUrlWithAccountAndPaymentAsParam(PAYMENT_CANCEL_URL, externalAccountId, externalOrgPaymentId);
-        var payload = createPayload(url, request, agreementMerchantId);
+        var payload = createPayload(request, agreementMerchantId);
         return executeForEntity(url, HttpMethod.POST, payload, OperationResponse.class);
     }
 
     public TransactionResponse capture(TransactionRequest request, String externalAccountId, String externalOrgPaymentId, String agreementMerchantId) {
         var url = getUrlWithAccountAndPaymentAsParam(PAYMENT_CAPTURE_URL, externalAccountId, externalOrgPaymentId);
-        var payload = createPayload(url, request, agreementMerchantId);
+        var payload = createPayload(request, agreementMerchantId);
         return executeForEntity(url, HttpMethod.POST, payload, TransactionResponse.class);
     }
 
     public TransactionResponse reversal(TransactionRequest request, String externalAccountId, String externalOrgPaymentId, String agreementMerchantId) {
         var url = getUrlWithAccountAndPaymentAsParam(PAYMENT_REVERSAL_URL, externalAccountId, externalOrgPaymentId);
-        var payload = createPayload(url, request, agreementMerchantId);
+        var payload = createPayload(request, agreementMerchantId);
         return executeForEntity(url, HttpMethod.POST, payload, TransactionResponse.class);
     }
 
     public PaymentResponse getPayment(String externalAccountId, String externalPaymentId, String agreementMerchantId) {
         var url = getUrlWithAccountAndPaymentAsParam(GET_PAYMENT_URL, externalAccountId, externalPaymentId);
-        var payload = createPayload(url, null, agreementMerchantId);
+        var payload = createPayload(null, agreementMerchantId);
         return executeForEntity(url, HttpMethod.GET, payload, PaymentResponse.class);
     }
 
-    //TODO:: Do we need these?
-
     public OperationResponse getOperation(String externalAccountId, String externalPaymentId, String agreementMerchantId) {
         var url = getUrlWithAccountAndPaymentAsParam(GET_OPERATION_URL, externalAccountId, externalPaymentId);
-        var payload = createPayload(url, null, agreementMerchantId);
+        var payload = createPayload(null, agreementMerchantId);
         return executeForEntity(url, HttpMethod.GET, payload, OperationResponse.class);
     }
 
     public TransactionResponse getTransaction(String externalAccountId, String externalPaymentId, String agreementMerchantId) {
         var url = getUrlWithAccountAndPaymentAsParam(GET_TRANSACTION_URL, externalAccountId, externalPaymentId);
-        var payload = createPayload(url, null, agreementMerchantId);
+        var payload = createPayload(null, agreementMerchantId);
         return executeForEntity(url, HttpMethod.GET, payload, TransactionResponse.class);
     }
 
-    private String calculateHmac(String url, Object payload) {
-        return null; //TODO:: implement HMAC
-    }
-
-    private HttpEntity createPayload(String url, Object payload, String agreementMerchantId) {
+    private HttpEntity createPayload(Object payload, String agreementMerchantId) {
         var headers = new HttpHeaders();
         headers.add(AGREEMENT_MERCHANT_ID, agreementMerchantId);
-        headers.add(USERNAME, SecurityUtils.getCurrentUserLogin().orElse("anonymous"));
-        headers.add(TRANSMISSION_TIME, OffsetDateTime.now().toString());
-        headers.add(HMAC, calculateHmac(url, payload));
-        headers.add(SESSION_ID, UUID.randomUUID().toString());
         return new HttpEntity<>(payload, headers);
     }
 
 
     private String getUrlWithAccountAsParam(String postfix, String externalAccountId) {
-        return applicationProperties.getVasPaymentServerApiBaseUrl() + String.format(postfix, externalAccountId);
+        return applicationProperties.getVasPaymentServerApi().getBaseUrl() + String.format(postfix, externalAccountId);
     }
 
     private String getUrlWithAccountAndPaymentAsParam(String postfix, String externalAccountId, String externalPaymentId) {
-        return applicationProperties.getVasPaymentServerApiBaseUrl() + String.format(postfix, externalAccountId, externalPaymentId);
+        return applicationProperties.getVasPaymentServerApi().getBaseUrl() + String.format(postfix, externalAccountId, externalPaymentId);
     }
 
     private String getUrl(String postfix) {
-        return applicationProperties.getVasPaymentServerApiBaseUrl() + postfix;
+        return applicationProperties.getVasPaymentServerApi().getBaseUrl() + postfix;
     }
 
     private <T> T executeForEntity(String url, HttpMethod httpMethod, HttpEntity payload, Class<T> entityClass) {

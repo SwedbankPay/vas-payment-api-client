@@ -9,7 +9,7 @@ import lombok.Data;
 public class OperationRequest {
 
     private String description;
-    private Merchant merchant; //TODO:: Do we need this?
+    private Merchant merchant;
 
     private String paymentOrderRef;
     private String paymentTransactionRef;

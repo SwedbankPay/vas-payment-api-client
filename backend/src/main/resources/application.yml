@@ -6,9 +6,6 @@ server:
 spring:
     application:
         name: vas-payment-api-client
-#        user:
-#          name: test
-#          password: test
 
     jackson:
         serialization.write_dates_as_timestamps: false
@@ -31,7 +28,11 @@ spring:
                     use_jdbc_metadata_defaults: false
 
 application:
-    vas-payment-server-api-base-url: "http://127.0.0.1:19001/api/payments"
+    vas-payment-server-api:
+        base-url: "http://127.0.0.1:19001/api/payments"
+        api-timeout: 20000
+        api-key: "Systemtest"
+        api-secret: "Systemtest"
 
 vas-payment-api:
     oauth2:

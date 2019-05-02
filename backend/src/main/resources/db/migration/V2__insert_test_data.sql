@@ -6,6 +6,8 @@ values ('CREDIT_CARD', 'CC-324458', '7013369000000000000', '123');
 
 -- Merchants
 insert into merchant (merchant_name, agreement_id, currency_iso)
-values ('Vas Payment API test merchant PP', 'SystemtestGC', 'NOK');
+values ('Generic Web merchant', 'Systemtest', 'NOK');
 insert into merchant (merchant_name, agreement_id, currency_iso)
-values ('Vas Payment API test merchant CC', 'SystemtestCC', 'NOK');
+values ('Gift Card test merchant', 'SystemtestGC', 'NOK');
+insert into merchant (merchant_name, agreement_id, currency_iso)
+values ('Credit Card test merchant', 'SystemtestCC', 'NOK');
