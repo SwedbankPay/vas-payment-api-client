@@ -13,6 +13,8 @@
     <properties>
         <spring-security-oauth2-autoconfigure.version>2.1.3.RELEASE</spring-security-oauth2-autoconfigure.version>
         <guava.version>27.1-jre</guava.version>
+        <jib-maven-plugin.version>1.0.2</jib-maven-plugin.version>
+        <argLine>-Djava.security.egd=file:/dev/./urandom -Xmx256m</argLine>
     </properties>
 
     <dependencies>
@@ -101,6 +103,35 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>${jib-maven-plugin.version}</version>
+                <configuration>
+                    <from>
+                        <image>openjdk:11-jre-slim</image>
+                    </from>
+                    <to>
+                        <image>${project.parent.artifactId}:latest</image>
+                    </to>
+                    <container>
+                        <jvmFlags>
+                            <jvmFlag>-Djava.security.egd=file:/dev/./urandom</jvmFlag>
+                            <jvmFlag>-Duser.timezone=UTC</jvmFlag>
+                        </jvmFlags>
+                        <args>
+                            <arg>${argLine}</arg>
+                        </args>
+                        <ports>
+                            <port>8080</port>
+                        </ports>
+                        <environment>
+                            <SPRING_OUTPUT_ANSI_ENABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENABLED>
+                        </environment>
+                        <useCurrentTimestamp>true</useCurrentTimestamp>
+                    </container>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -27,10 +27,3 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
-
-
-# TODO:: 
- - Agreement er hardkodet i balance request i Java app
- - User login 
- - Url'er til java-app må være konfigurerbare
- 

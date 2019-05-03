@@ -1,0 +1,26 @@
+version: '3.5'
+services:
+    db:
+        container_name: payment-client-postgresql
+        image: postgres
+        volumes:
+            - ~/containers/vas-public-payment-api-client/postgresql/:/var/lib/postgresql/data/
+        environment:
+            - POSTGRES_USER=test
+            - POSTGRES_PASSWORD=test
+        ports:
+            - 5432:5432
+
+    app:
+        container_name: vas-public-payment-api-client
+        image: vas-public-payment-api-client
+        restart: unless-stopped
+        environment:
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+            - VAS_PAYMENT_SERVER_API_URL=https://stage-evc.payex.com/payment-api/api/payments
+            - VAS_AUTH_SERVER_URL=https://stage-evc.payex.com/VasIdentityServer/connect/token
+        ports:
+            - 8080:8080
+
+        depends_on:
+          - db
