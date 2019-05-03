@@ -49,7 +49,7 @@
                 </button>
               </div>
               <div class="row">
-                <InitiatePaymentSheet/>
+                <InitiatePaymentSheet :payment-instrument="item"/>
               </div>
             </div>
           </div>

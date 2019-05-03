@@ -43,14 +43,14 @@ export const paymentInstrumentService = {
     return paymentClientRepository({
       method: 'post',
       data: paymentInstrument,
-      url: 'payment-instruments/'
+      url: 'payment-instruments'
     })
   },
   updatePaymentInstrument: function (paymentInstrument) {
     return paymentClientRepository({
       method: 'put',
       data: paymentInstrument,
-      url: 'payment-instruments/'
+      url: 'payment-instruments'
     })
   }
 }
@@ -74,6 +74,13 @@ export const paymentOperationService = {
     return paymentClientRepository({
       method: 'post',
       url: `payment-instruments/${paymentInstrumentId}/deposit`,
+      data: paymentRequest
+    })
+  },
+  credit: function (paymentInstrumentId, paymentRequest) {
+    return paymentClientRepository({
+      method: 'post',
+      url: `payment-instruments/${paymentInstrumentId}/credit`,
       data: paymentRequest
     })
   },

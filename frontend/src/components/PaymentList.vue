@@ -1,11 +1,12 @@
 <template>
   <section class="panel panel-brand">
-    <table class="table table-hover">
+    <table class="table table-hover table-striped">
       <thead>
       <tr>
         <td>ID</td>
         <td>Payment type</td>
         <td>Amount</td>
+        <td>Description</td>
         <td>State</td>
         <td>Created</td>
         <td>Actions</td>
@@ -16,7 +17,8 @@
       <tr v-for="item in items" :key="item.paymentId">
         <td>{{ item.paymentId }}</td>
         <td v-html="formatTransactionType(item.transactionType)"></td>
-        <td>{{ formatNumber(item.amount) }}</td>
+        <td>{{ formatNumber(item.amount) }} {{getExternalResponseAsJson(item).currency}}</td>
+        <td>{{getExternalResponseAsJson(item).description}}</td>
         <td>{{item.state}}</td>
         <td>{{ formatDate(item.created) }}</td>
         <td>
@@ -77,6 +79,9 @@ export default {
     },
     formatDate (date) {
       return formatDate(date)
+    },
+    getExternalResponseAsJson (payment) {
+      return JSON.parse(payment.externalResponse)
     }
   }
 }

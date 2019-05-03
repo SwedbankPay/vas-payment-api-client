@@ -64,13 +64,16 @@ export default {
   },
   computed: {
     hideCancel () {
-      return this.payment.transactionType !== 'Authorize'
+      return this.payment.state !== 'OK' || this.payment.transactionType !== 'Authorize'
     },
     hideCapture () {
-      return this.payment.transactionType !== 'Authorize'
+      return this.payment.state !== 'OK' || this.payment.transactionType !== 'Authorize'
     },
     hideReversal () {
-      return this.payment.transactionType === 'Authorize' || this.payment.transactionType === 'Reversal'
+      return this.payment.state !== 'OK' ||
+        (this.payment.transactionType === 'Reversal' ||
+          this.payment.transactionType === 'Cancel' ||
+          this.payment.transactionType === 'Authorize')
     }
   },
   methods: {
@@ -103,6 +106,7 @@ export default {
     },
     handleOkPayment (result) {
       this.$root.$emit('payment-successful', result)
+      px.dialog.close(`edit-payment-dialog${this.payment.paymentId}`)
     }
   }
 }

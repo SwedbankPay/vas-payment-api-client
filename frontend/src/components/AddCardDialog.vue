@@ -17,7 +17,7 @@
               <option disabled value="">Please select one</option>
               <option>Prepaid card</option>
               <option>Credit card</option>
-              <option>Value code</option>
+              <option disabled>Value code</option>
             </select>
           </div>
         </div>
@@ -78,8 +78,7 @@ export default {
       paymentInstrumentService.addPaymentInstrument(this.paymentInstrument).then(res => {
         px.toast({ html: 'Successfully added new card!' })
         px.dialog.close('add-card-dialog')
-        // this.$router.push({ name: 'CardList' })
-        super.fetchItems()
+        this.$root.$emit('add-card-successful', res.data)
       }).catch((error) => {
         toastError(error)
       })

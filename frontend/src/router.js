@@ -2,6 +2,7 @@ import VueRouter from 'vue-router'
 import Home from './views/Home.vue'
 
 import PaymentInstrument from './views/PaymentInstrument.vue'
+import About from './views/About'
 
 export default new VueRouter({
   mode: 'history',
@@ -23,6 +24,11 @@ export default new VueRouter({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: About
     }
   ]
 })

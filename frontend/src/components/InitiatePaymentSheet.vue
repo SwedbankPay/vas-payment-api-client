@@ -25,9 +25,10 @@
               <span class="input-group-addon"><i class="material-icons">label</i></span>
               <select id="operation" class="form-control" v-model="selectedPaymentOperation">
                 <option disabled value="">Please select one</option>
-                <option>Deposit</option>
                 <option>Authorize</option>
                 <option>Purchase</option>
+                <option v-if="this.paymentInstrument.type === 'Credit card'">Credit</option>
+                <option v-if="this.paymentInstrument.type === 'Prepaid card'">Deposit</option>
               </select>
             </div>
           </div>
@@ -67,6 +68,14 @@ import { toastError } from '../utils/creditcard-util'
 
 export default {
   name: 'InitiatePaymentSheet',
+  props: {
+    paymentInstrument: {
+      type: Object,
+      default: function () {
+        return {}
+      }
+    }
+  },
   data () {
     return {
       merchantList: [],
@@ -88,7 +97,7 @@ export default {
       })
     },
     invokePaymentOperation () {
-      console.log('invokePaymentOperation invoked!')
+      console.log('invokePaymentOperation invoked with: ' + this.selectedPaymentOperation)
       if (this.selectedPaymentOperation === 'Authorize') {
         paymentOperationService.authorize(this.$route.params.id, this.paymentRequest).then(res => {
           this.handleOkPayment(res.data)
@@ -103,6 +112,12 @@ export default {
         })
       } else if (this.selectedPaymentOperation === 'Deposit') {
         paymentOperationService.deposit(this.$route.params.id, this.paymentRequest).then(res => {
+          this.handleOkPayment(res.data)
+        }).catch((error) => {
+          this.errorHandler(error)
+        })
+      } else if (this.selectedPaymentOperation === 'Credit') {
+        paymentOperationService.credit(this.$route.params.id, this.paymentRequest).then(res => {
           this.handleOkPayment(res.data)
         }).catch((error) => {
           this.errorHandler(error)

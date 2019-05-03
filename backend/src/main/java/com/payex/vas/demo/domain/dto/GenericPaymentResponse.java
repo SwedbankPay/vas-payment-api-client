@@ -20,4 +20,5 @@ public class GenericPaymentResponse {
     private String paymentOrderRef;
     private String paymentTransactionRef;
     private OffsetDateTime created;
+    private String externalResponse;
 }

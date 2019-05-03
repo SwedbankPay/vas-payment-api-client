@@ -34,6 +34,15 @@ public class PaymentController {
         });
     }
 
+    @PostMapping("/credit")
+    public ResponseEntity<GenericPaymentResponse> credit(@PathVariable(value = "id") Long paymentInstrumentId,
+                                                            @RequestBody GenericPaymentRequest request) {
+        return ControllerExecutorHelper.executeAndLogRequest(log, "credit", request, () -> {
+            var paymentResponse = paymentService.credit(paymentInstrumentId, request);
+            return ResponseEntity.ok(paymentResponse);
+        });
+    }
+
     @PostMapping("/authorize")
     public ResponseEntity<GenericPaymentResponse> authorize(@PathVariable(value = "id") Long paymentInstrumentId,
                                                             @RequestBody GenericPaymentRequest request) {

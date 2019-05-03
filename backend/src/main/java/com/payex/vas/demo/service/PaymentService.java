@@ -62,6 +62,20 @@ public class PaymentService {
         return GenericPaymentResponseBuilder.convertToGenericPaymentResponse(paymentOperation);
     }
 
+    public GenericPaymentResponse credit(Long paymentInstrumentId, GenericPaymentRequest request) {
+        var paymentInstrument = findPaymentInstrument(paymentInstrumentId);
+        var merchant = findMerchant(request.getMerchantId());
+
+        var paymentRequest = buildPaymentRequest(request, paymentInstrument, merchant);
+        var paymentResponse = vasPaymentApiRepository.credit(paymentRequest, paymentInstrument.getExternalAccountId(), merchant.getAgreementId());
+
+        var paymentOperation = PaymentOperationBuilder.build("Credit", paymentInstrument, merchant.getId(), paymentResponse);
+
+        paymentOperationRepository.save(paymentOperation);
+
+        return GenericPaymentResponseBuilder.convertToGenericPaymentResponse(paymentOperation);
+    }
+
     public GenericPaymentResponse authorize(Long paymentInstrumentId, GenericPaymentRequest request) {
         var paymentInstrument = findPaymentInstrument(paymentInstrumentId);
         var merchant = findMerchant(request.getMerchantId());
@@ -123,6 +137,8 @@ public class PaymentService {
 
         paymentOperationRepository.save(paymentOperation);
 
+        updateStateOnOriginalPaymentOperation(orgPaymentOperation, "REVERSED");
+
         return GenericPaymentResponseBuilder.convertToGenericPaymentResponse(paymentOperation);
     }
 
@@ -141,7 +157,14 @@ public class PaymentService {
 
         paymentOperationRepository.save(paymentOperation);
 
+        updateStateOnOriginalPaymentOperation(orgPaymentOperation, "CANCELED");
+
         return GenericPaymentResponseBuilder.convertToGenericPaymentResponse(paymentOperation);
+    }
+
+    private void updateStateOnOriginalPaymentOperation(PaymentOperation orgPaymentOperation, String state) {
+        orgPaymentOperation.setState(state);
+        paymentOperationRepository.save(orgPaymentOperation);
     }
 
     public List<GenericPaymentResponse> listPaymentsForPaymentInstrument(Long paymentInstrumentId) {
@@ -166,7 +189,7 @@ public class PaymentService {
     private TransactionRequest buildTransactionRequest(String operation, PaymentOperation orgRequest) {
         return TransactionRequest.builder()
             .amount(orgRequest.getAmount())
-            .description(operation + " of: " + orgRequest.getExternalPaymentId())
+            .description(String.format("%s of %s with id: '%d'", operation, orgRequest.getTransactionType(), orgRequest.getId()))
             .paymentOrderRef(orgRequest.getPaymentOrderRef())
             .paymentTransactionRef(UUID.randomUUID().toString())
             .build();
@@ -174,7 +197,7 @@ public class PaymentService {
 
     private OperationRequest buildOperationRequest(PaymentOperation orgRequest, SimulatedMerchant merchant) {
         return OperationRequest.builder()
-            .description("Cancel of: " + orgRequest.getExternalPaymentId())
+            .description(String.format("Cancel of %s with id: '%d'", orgRequest.getTransactionType(), orgRequest.getId()))
             .paymentOrderRef(orgRequest.getPaymentOrderRef())
             .paymentTransactionRef(UUID.randomUUID().toString())
             .merchant(Merchant.builder()

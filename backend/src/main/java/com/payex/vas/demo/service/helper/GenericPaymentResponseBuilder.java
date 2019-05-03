@@ -18,6 +18,7 @@ public class GenericPaymentResponseBuilder {
             .transactionType(paymentOperation.getTransactionType())
             .state(paymentOperation.getState())
             .created(paymentOperation.getCreated())
+            .externalResponse(paymentOperation.getJsonResponse())
             .build();
     }
 }
