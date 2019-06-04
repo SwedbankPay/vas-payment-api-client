@@ -2,6 +2,9 @@ HELP.md
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 
+.java-version
+.DS_Store
+
 ### STS ###
 .apt_generated
 .classpath
@@ -30,6 +33,8 @@ HELP.md
 
 backend/src/main/resources/public/
 backend/target
+backend/.DS_Store
+frontend/.DS_Store
 frontend/dist/
 frontend/node/
 frontend/node_modules/

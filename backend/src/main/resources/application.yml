@@ -29,7 +29,7 @@ spring:
 
 application:
     vas-payment-server-api:
-        base-url: "${VAS_PAYMENT_SERVER_API_URL:http://127.0.0.1:19001/api/payments}"
+        base-url: "${VAS_PAYMENT_SERVER_API_URL:https://stage-evc.payex.com/payment-api/api/payments}"
         api-timeout: 20000
         api-key: "Systemtest"
         api-secret: "Systemtest"
@@ -40,5 +40,5 @@ vas-payment-api:
             grantType: client_credentials
             clientId: systemtest
             clientSecret: systemtest
-            accessTokenUri: "${VAS_AUTH_SERVER_URL:http://noutv002web.utvnet.net/VasIdentityServer/connect/token}"
+            accessTokenUri: "${VAS_AUTH_SERVER_URL:https://stage-evc.payex.com/VasIdentityServer/connect/token}"
             scope: publicapi
