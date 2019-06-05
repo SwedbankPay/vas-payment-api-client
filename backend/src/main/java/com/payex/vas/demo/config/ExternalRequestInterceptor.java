@@ -34,10 +34,8 @@ public class ExternalRequestInterceptor implements ClientHttpRequestInterceptor 
     public ClientHttpResponse intercept(@NonNull HttpRequest request, @NonNull byte[] body, @NonNull ClientHttpRequestExecution execution) throws IOException {
 
         var stopwatch = Stopwatch.createStarted();
-        var req = traceRequest(request, body);
-
         appendHeaders(request, body);
-
+        var req = traceRequest(request, body);
         var response = execution.execute(request, body);
         var resp = traceResponse(response, stopwatch);
         log.debug(req + resp + System.lineSeparator());
@@ -91,7 +89,8 @@ public class ExternalRequestInterceptor implements ClientHttpRequestInterceptor 
         var sb = new StringBuilder();
         sb.append("[");
         sb.append(System.lineSeparator());
-        httpHeaders.forEach((key, value) -> sb.append("                 ")
+        httpHeaders.forEach((key, value) -> sb
+            .append("                 ")
             .append(key)
             .append(" : ")
             .append(value)

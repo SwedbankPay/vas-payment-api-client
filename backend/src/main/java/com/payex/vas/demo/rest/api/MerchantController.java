@@ -16,40 +16,48 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/merchants")
 @RequiredArgsConstructor
 public class MerchantController {
 
     private final SimulatedMerchantRepository simulatedMerchantRepository;
 
-    @GetMapping("/merchants")
+    @GetMapping
     public ResponseEntity<List<SimulatedMerchant>> listMerchants() {
-        return ControllerExecutorHelper.executeAndLogRequest(log, "listMerchants",
-            () -> ResponseEntity.ok(simulatedMerchantRepository.findAll()));
-    }
-
-    @GetMapping("/merchants/{id}")
-    public ResponseEntity<SimulatedMerchant> getMerchant(@PathVariable Long id) {
-        return ControllerExecutorHelper.executeAndLogRequest(log, "getMerchant",
-            () -> ResponseEntity.of(simulatedMerchantRepository.findById(id)));
-    }
-
-
-    @PostMapping("/merchants")
-    public ResponseEntity<SimulatedMerchant> addMerchant(@Valid @RequestBody SimulatedMerchant simulatedMerchant) {
-        return ControllerExecutorHelper.executeAndLogRequest(log, "addMerchant", simulatedMerchant, () -> {
-            SimulatedMerchant persisted = simulatedMerchantRepository.save(simulatedMerchant);
-            return ResponseEntity.created(URI.create(getCurrentRequestUri() + "/" + persisted.getId())).body(persisted);
+        return ControllerExecutorHelper.executeAndLogRequest(log, "listMerchants", () -> {
+            var merchantList = simulatedMerchantRepository.findAll();
+            return ResponseEntity.ok(merchantList);
         });
     }
 
-    @PutMapping("/merchants")
-    public ResponseEntity<SimulatedMerchant> updateMerchant(@Valid @RequestBody SimulatedMerchant simulatedMerchant) {
-        return ControllerExecutorHelper.executeAndLogRequest(log, "updateMerchant", simulatedMerchant,
-            () -> ResponseEntity.ok(simulatedMerchantRepository.save(simulatedMerchant)));
+    @GetMapping("/{id}")
+    public ResponseEntity<SimulatedMerchant> getMerchant(@PathVariable Long id) {
+        return ControllerExecutorHelper.executeAndLogRequest(log, "getMerchant", () -> {
+            var merchant = simulatedMerchantRepository.findById(id);
+            return ResponseEntity.of(merchant);
+        });
     }
 
-    @DeleteMapping("/merchants/{id}")
+
+    @PostMapping
+    public ResponseEntity<SimulatedMerchant> addMerchant(@Valid @RequestBody SimulatedMerchant simulatedMerchant) {
+        return ControllerExecutorHelper.executeAndLogRequest(log, "addMerchant", simulatedMerchant, () -> {
+            var persisted = simulatedMerchantRepository.save(simulatedMerchant);
+            return ResponseEntity
+                .created(URI.create(getCurrentRequestUri() + "/" + persisted.getId()))
+                .body(persisted);
+        });
+    }
+
+    @PutMapping
+    public ResponseEntity<SimulatedMerchant> updateMerchant(@Valid @RequestBody SimulatedMerchant simulatedMerchant) {
+        return ControllerExecutorHelper.executeAndLogRequest(log, "updateMerchant", simulatedMerchant, () -> {
+            var persisted = simulatedMerchantRepository.save(simulatedMerchant);
+            return ResponseEntity.ok(persisted);
+        });
+    }
+
+    @DeleteMapping("/{id}")
     public ResponseEntity deleteMerchant(@PathVariable Long id) {
         return ControllerExecutorHelper.executeAndLogRequest(log, "deleteMerchant", () -> {
             simulatedMerchantRepository.deleteById(id);

@@ -21,13 +21,15 @@ public class PaymentController {
 
     @GetMapping("/payments")
     public ResponseEntity<List<GenericPaymentResponse>> listPaymentsForPaymentInstrument(@PathVariable(value = "id") Long paymentInstrumentId) {
-        return ControllerExecutorHelper.executeAndLogRequest(log, "listPaymentsForPaymentInstrument",
-            () -> ResponseEntity.ok(paymentService.listPaymentsForPaymentInstrument(paymentInstrumentId)));
+        return ControllerExecutorHelper.executeAndLogRequest(log, "listPaymentsForPaymentInstrument", () -> {
+            var paymentResponseList = paymentService.listPaymentsForPaymentInstrument(paymentInstrumentId);
+            return ResponseEntity.ok(paymentResponseList);
+        });
     }
 
     @PostMapping("/deposit")
     public ResponseEntity<GenericPaymentResponse> deposit(@PathVariable(value = "id") Long paymentInstrumentId,
-                                                            @RequestBody GenericPaymentRequest request) {
+                                                          @RequestBody GenericPaymentRequest request) {
         return ControllerExecutorHelper.executeAndLogRequest(log, "deposit", request, () -> {
             var paymentResponse = paymentService.deposit(paymentInstrumentId, request);
             return ResponseEntity.ok(paymentResponse);
@@ -36,7 +38,7 @@ public class PaymentController {
 
     @PostMapping("/credit")
     public ResponseEntity<GenericPaymentResponse> credit(@PathVariable(value = "id") Long paymentInstrumentId,
-                                                            @RequestBody GenericPaymentRequest request) {
+                                                         @RequestBody GenericPaymentRequest request) {
         return ControllerExecutorHelper.executeAndLogRequest(log, "credit", request, () -> {
             var paymentResponse = paymentService.credit(paymentInstrumentId, request);
             return ResponseEntity.ok(paymentResponse);

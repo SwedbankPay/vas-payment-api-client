@@ -16,7 +16,10 @@ import com.payex.vas.demo.util.error.InternalServerErrorException;
 import com.payex.vas.demo.util.error.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -134,11 +137,11 @@ public class VasPaymentApiRepository {
     }
 
     private <T> T executeForEntity(String url, HttpMethod httpMethod, HttpEntity payload, Class<T> entityClass) {
-        Stopwatch stopwatch = Stopwatch.createStarted();
+        var stopwatch = Stopwatch.createStarted();
         try {
             log.debug("About to make a {} REST call to {}", httpMethod, url);
 
-            ResponseEntity<T> response = restTemplate.exchange(url, httpMethod, payload, entityClass);
+            var response = restTemplate.exchange(url, httpMethod, payload, entityClass);
             return response.getBody();
         } catch (HttpStatusCodeException ex) {
             return handleHttpStatusCodeException(url, ex);
@@ -152,17 +155,17 @@ public class VasPaymentApiRepository {
 
     private <T> T handleHttpStatusCodeException(String url, HttpStatusCodeException ex) {
         if (ex.getStatusCode().is4xxClientError()) { //Don't log stacktrace
-            String responseBody = ex.getResponseBodyAsString();
+            var responseBody = ex.getResponseBodyAsString();
             log.warn("Failed while invoking '{}'. Got status: '{} - {}', with body: {}",
                 url,
                 ex.getStatusCode().value(),
                 ex.getStatusCode().getReasonPhrase(),
                 responseBody);
-            String backendMsg = JsonUtil.getValueFromJsonString("message", responseBody);
+            var backendMsg = JsonUtil.getValueFromJsonString("message", responseBody);
             if (StringUtils.isEmpty(backendMsg))
                 backendMsg = JsonUtil.getValueFromJsonString("title", responseBody);
 
-            String exceptionMsg = !StringUtils.isEmpty(backendMsg) ? backendMsg : responseBody;
+            var exceptionMsg = !StringUtils.isEmpty(backendMsg) ? backendMsg : responseBody;
             if (ex.getStatusCode() == HttpStatus.NOT_FOUND)
                 throw new NotFoundException(exceptionMsg);
             else

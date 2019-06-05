@@ -32,8 +32,8 @@ public class HmacSignatureBuilder {
         Objects.requireNonNull(apiKey, "apiKey");
         Objects.requireNonNull(payload, "payload");
         try {
-            final Mac digest = Mac.getInstance(algorithm);
-            SecretKeySpec secretKey = new SecretKeySpec(apiSecret, algorithm);
+            final var digest = Mac.getInstance(algorithm);
+            var secretKey = new SecretKeySpec(apiSecret, algorithm);
             digest.init(secretKey);
             digest.update(method.getBytes(StandardCharsets.UTF_8));
             digest.update(DELIMITER);
@@ -47,7 +47,7 @@ public class HmacSignatureBuilder {
             digest.update(DELIMITER);
             digest.update(payload);
             digest.update(DELIMITER);
-            final byte[] signatureBytes = digest.doFinal();
+            final var signatureBytes = digest.doFinal();
             digest.reset();
             return signatureBytes;
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {

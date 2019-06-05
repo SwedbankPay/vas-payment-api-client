@@ -28,18 +28,18 @@ public class PaymentOperationBuilder {
 
     private static PaymentOperation build(String operation, PaymentInstrument paymentInstrument, Long merchantId, ResponseBase response, String externalPaymentId) {
 
-        var paymentOp = new PaymentOperation();
-        paymentOp.setAmount(response.getAmount());
-        paymentOp.setExternalPaymentId(externalPaymentId);
-        paymentOp.setMerchantId(merchantId);
-        paymentOp.setPaymentInstrumentId(paymentInstrument.getId());
-        paymentOp.setExternalAccountId(paymentInstrument.getExternalAccountId());
-        paymentOp.setPaymentOrderRef(response.getPaymentOrderRef());
-        paymentOp.setPaymentTransactionRef(response.getPaymentTransactionRef());
-        paymentOp.setState(response.getState());
-        paymentOp.setTransactionType(operation);
-        paymentOp.setJsonResponse(JsonUtil.mapToString(response));
-        paymentOp.setCreated(OffsetDateTime.now());
-        return paymentOp;
+        var paymentOperation = new PaymentOperation();
+        paymentOperation.setAmount(response.getAmount());
+        paymentOperation.setExternalPaymentId(externalPaymentId);
+        paymentOperation.setMerchantId(merchantId);
+        paymentOperation.setPaymentInstrumentId(paymentInstrument.getId());
+        paymentOperation.setExternalAccountId(paymentInstrument.getExternalAccountId());
+        paymentOperation.setPaymentOrderRef(response.getPaymentOrderRef());
+        paymentOperation.setPaymentTransactionRef(response.getPaymentTransactionRef());
+        paymentOperation.setState(response.getState());
+        paymentOperation.setTransactionType(operation);
+        paymentOperation.setJsonResponse(JsonUtil.mapToString(response));
+        paymentOperation.setCreated(OffsetDateTime.now());
+        return paymentOperation;
     }
 }

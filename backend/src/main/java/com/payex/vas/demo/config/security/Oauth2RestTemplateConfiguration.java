@@ -29,15 +29,6 @@ public class Oauth2RestTemplateConfiguration {
     private final ApplicationProperties applicationProperties;
     private final ObjectMapper objectMapper;
 
-
-    @Bean("restFactory")
-    public ClientHttpRequestFactory httpRequestFactory() {
-        var requestFactory = new HttpComponentsClientHttpRequestFactory();
-        requestFactory.setReadTimeout(applicationProperties.getVasPaymentServerApi().getApiTimeout());
-        requestFactory.setConnectTimeout(applicationProperties.getVasPaymentServerApi().getApiTimeout());
-        return new BufferingClientHttpRequestFactory(requestFactory);
-    }
-
     @Bean
     @ConfigurationProperties("vas-payment-api.oauth2.client")
     protected ClientCredentialsResourceDetails oAuthDetails() {
@@ -50,6 +41,14 @@ public class Oauth2RestTemplateConfiguration {
         restTemplate.setInterceptors(ImmutableList.of(externalRequestInterceptor()));
         restTemplate.setRequestFactory(httpRequestFactory());
         return restTemplate;
+    }
+
+    @Bean
+    public ClientHttpRequestFactory httpRequestFactory() {
+        var requestFactory = new HttpComponentsClientHttpRequestFactory();
+        requestFactory.setReadTimeout(applicationProperties.getVasPaymentServerApi().getApiTimeout());
+        requestFactory.setConnectTimeout(applicationProperties.getVasPaymentServerApi().getApiTimeout());
+        return new BufferingClientHttpRequestFactory(requestFactory);
     }
 
     @Bean

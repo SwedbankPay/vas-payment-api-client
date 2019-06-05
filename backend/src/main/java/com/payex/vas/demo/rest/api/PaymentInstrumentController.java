@@ -19,43 +19,49 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/payment-instruments")
 @RequiredArgsConstructor
 public class PaymentInstrumentController {
 
     private final PaymentInstrumentRepository paymentInstrumentRepository;
     private final PaymentService paymentService;
 
-    @GetMapping("/payment-instruments")
+    @GetMapping
     public ResponseEntity<List<PaymentInstrument>> listPaymentInstrument() {
-        return ControllerExecutorHelper.executeAndLogRequest(log, "listPaymentInstrument",
-            () -> ResponseEntity.ok(paymentInstrumentRepository.findAll()));
-    }
-
-    @GetMapping("/payment-instruments/{id}")
-    public ResponseEntity<PaymentInstrument> getPaymentInstrument(@PathVariable Long id) {
-        return ControllerExecutorHelper.executeAndLogRequest(log, "getPaymentInstrument",
-            () -> ResponseEntity.of(paymentInstrumentRepository.findById(id)));
-    }
-
-
-    @PostMapping("/payment-instruments")
-    public ResponseEntity<PaymentInstrument> addPaymentInstrument(@RequestBody PaymentInstrument paymentInstrument) {
-        return ControllerExecutorHelper.executeAndLogRequest(log, "addPaymentInstrument", paymentInstrument, () -> {
-
-            populateExternalAccountIdFromThroughBalance(paymentInstrument);
-            PaymentInstrument persisted = paymentInstrumentRepository.save(paymentInstrument);
-            return ResponseEntity.created(URI.create(getCurrentRequestUri() + "/" + persisted.getId())).body(persisted);
+        return ControllerExecutorHelper.executeAndLogRequest(log, "listPaymentInstrument", () -> {
+            var paymentInstrumentList = paymentInstrumentRepository.findAll();
+            return ResponseEntity.ok(paymentInstrumentList);
         });
     }
 
-    @PutMapping("/payment-instruments")
-    public ResponseEntity<PaymentInstrument> updatePaymentInstrument(@Valid @RequestBody PaymentInstrument paymentInstrument) {
-        return ControllerExecutorHelper.executeAndLogRequest(log, "updatePaymentInstrument", paymentInstrument,
-            () -> ResponseEntity.ok(paymentInstrumentRepository.save(paymentInstrument)));
+    @GetMapping("/{id}")
+    public ResponseEntity<PaymentInstrument> getPaymentInstrument(@PathVariable Long id) {
+        return ControllerExecutorHelper.executeAndLogRequest(log, "getPaymentInstrument", () -> {
+            var paymentInstrument = paymentInstrumentRepository.findById(id);
+            return ResponseEntity.of(paymentInstrument);
+        });
+    }
+    
+    @PostMapping
+    public ResponseEntity<PaymentInstrument> addPaymentInstrument(@RequestBody PaymentInstrument paymentInstrument) {
+        return ControllerExecutorHelper.executeAndLogRequest(log, "addPaymentInstrument", paymentInstrument, () -> {
+            populateExternalAccountIdFromBalanceIfEmpty(paymentInstrument);
+            var persisted = paymentInstrumentRepository.save(paymentInstrument);
+            return ResponseEntity
+                .created(URI.create(getCurrentRequestUri() + "/" + persisted.getId()))
+                .body(persisted);
+        });
     }
 
-    @DeleteMapping("/payment-instruments/{id}")
+    @PutMapping
+    public ResponseEntity<PaymentInstrument> updatePaymentInstrument(@Valid @RequestBody PaymentInstrument paymentInstrument) {
+        return ControllerExecutorHelper.executeAndLogRequest(log, "updatePaymentInstrument", paymentInstrument, () -> {
+            var persisted = paymentInstrumentRepository.save(paymentInstrument);
+            return ResponseEntity.ok(persisted);
+        });
+    }
+
+    @DeleteMapping("/{id}")
     public ResponseEntity deletePaymentInstrument(@PathVariable Long id) {
         return ControllerExecutorHelper.executeAndLogRequest(log, "deletePaymentInstrument", () -> {
             paymentInstrumentRepository.deleteById(id);
@@ -63,7 +69,7 @@ public class PaymentInstrumentController {
         });
     }
 
-    private void populateExternalAccountIdFromThroughBalance(@RequestBody PaymentInstrument paymentInstrument) {
+    private void populateExternalAccountIdFromBalanceIfEmpty(PaymentInstrument paymentInstrument) {
         if (paymentInstrument.getExternalAccountId() == null) {
             try {
                 var balanceResponse = paymentService.balance(paymentInstrument, Constants.DEFAULT_AGREEMENT_ID);

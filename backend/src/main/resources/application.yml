@@ -31,14 +31,14 @@ application:
     vas-payment-server-api:
         base-url: "${VAS_PAYMENT_SERVER_API_URL:https://stage-evc.payex.com/payment-api/api/payments}"
         api-timeout: 20000
-        api-key: "Systemtest"
-        api-secret: "Systemtest"
+        api-key: "${API_KEY:Systemtest}" # Used for HMAC (provided by PayEx)
+        api-secret: "${API_SECRET:Systemtest}" # Used for HMAC (provided by PayEx)
 
 vas-payment-api:
     oauth2:
         client:
             grantType: client_credentials
-            clientId: systemtest
-            clientSecret: systemtest
+            clientId: "${CLIENT_ID:systemtest}" # Provided by PayEx
+            clientSecret: "${CLIENT_SECRET:systemtest}" # Provided by PayEx
             accessTokenUri: "${VAS_AUTH_SERVER_URL:https://stage-evc.payex.com/VasIdentityServer/connect/token}"
             scope: publicapi

@@ -21,18 +21,18 @@ public class ControllerExecutorHelper {
     }
 
     public static <S> ResponseEntity<S> executeAndLogRequest(Logger logger, String method, Object payload, Supplier<ResponseEntity<S>> operation) {
-        Stopwatch stopwatch = Stopwatch.createStarted();
-        String status = "";
+        var stopwatch = Stopwatch.createStarted();
+        var status = "";
         try {
-            String payloadStr = payload == null ? null : JsonUtil.mapToString(payload);
-            String client = SecurityUtils.getCurrentUserLogin().orElse(null);
+            var payloadStr = payload == null ? null : JsonUtil.mapToString(payload);
+            var client = SecurityUtils.getCurrentUserLogin().orElse(null);
             logger.info("# invoked {} ({}) by user: '{}', payload: '{}'",
                 method,
                 getCurrentRequest().getRequestURI(),
                 client,
                 payloadStr);
 
-            ResponseEntity<S> responseEntity = operation.get();
+            var responseEntity = operation.get();
             status = getStatusText(responseEntity.getStatusCode());
             return responseEntity;
         } catch (ResponseStatusException ex) {
