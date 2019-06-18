@@ -56,6 +56,7 @@ public class ExternalRequestInterceptor implements ClientHttpRequestInterceptor 
             .method(request.getMethod() == null ? null : request.getMethod().name())
             .resource(request.getURI().getPath())
             .nonce(UUID.randomUUID().toString())
+            .date(request.getHeaders().getFirst(TRANSMISSION_TIME))
             .apiKey(applicationProperties.getVasPaymentServerApi().getApiKey())
             .apiSecret(applicationProperties.getVasPaymentServerApi().getApiSecret().getBytes(StandardCharsets.UTF_8))
             .payload(payload)

@@ -24,6 +24,7 @@ public class HmacSignatureBuilder {
     private String apiKey;
     private byte[] apiSecret;
     private byte[] payload;
+    private String date;
 
     private byte[] buildSignature() {
         Objects.requireNonNull(algorithm, "algorithm");
@@ -44,6 +45,9 @@ public class HmacSignatureBuilder {
             if (nonce != null) {
                 digest.update(nonce.getBytes(StandardCharsets.UTF_8));
             }
+            digest.update(DELIMITER);
+            if (date != null)
+                digest.update(date.getBytes(StandardCharsets.UTF_8));
             digest.update(DELIMITER);
             digest.update(payload);
             digest.update(DELIMITER);
@@ -80,6 +84,7 @@ public class HmacSignatureBuilder {
             ", apiKey='" + apiKey + '\'' +
             ", apiSecret=" + "*secret*" +
             ", payload=" + "*payload*" +
+            ", date='" + date + '\'' +
             '}';
     }
 }

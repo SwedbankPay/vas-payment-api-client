@@ -1,4 +1,4 @@
-# Spring boot + VueJS client for VasPublicPaymentApi
+# Spring Boot + VueJS client for VasPublicPaymentApi
 
 * Java 11
 * VueJS
@@ -26,9 +26,11 @@ vas-payment-api-client
 
 ## Security
 
+### Oauth2
 VasPublicPaymentApi requires an OAuth2 access token for interaction.  
 This application automatically handles token fetching and refreshing by using [Spring Security](https://docs.spring.io/spring-security-oauth2-boot/docs/current/reference/htmlsingle/#boot-features-security-custom-user-info-client).   
 Configuration values are set in [application.yml](./backend/src/main/resources/application.yml): 
+
 ```yaml
 # "XXX" Should be replaced by value provided by PayEx
 # CLIENT_ID/CLIENT_SECRET/VAS_AUTH_SERVER_URL can also be set in docker-compose.yml as environment variables if running with docker
@@ -40,7 +42,8 @@ vas-payment-api:
             clientId: "${CLIENT_ID}:XXX"
             clientSecret: "${CLIENT_SECRET}:XXX"
             accessTokenUri: "${VAS_AUTH_SERVER_URL}:XXX"
-            scope: publicapi
+            scope: publicapi 
+            
 ```
 And the implementation of these are located in [Oauth2RestTemplateConfiguration.java](./backend/src/main/java/com/payex/vas/demo/config/security/Oauth2RestTemplateConfiguration.java):
 ```java
@@ -62,18 +65,82 @@ public class Oauth2RestTemplateConfiguration {
     //...
 }
 ```
+
+### HMAC
+
 The API also requires HMAC authentication to be present in a request.  
 In this client the HMAC value is automatically calculated by [HmacSignatureBuilder.java](./backend/src/main/java/com/payex/vas/demo/config/security/HmacSignatureBuilder.java) and added to all outgoing requests in [ExternalRequestInterceptor.java](./backend/src/main/java/com/payex/vas/demo/config/ExternalRequestInterceptor.java)  
-Example HMAC header value: 
 
+HMAC is implemented using SHA-512 secure hash algorithm. 
+
+Expected `Hmac` header format is:
 ```text
-HmacSHA512 Systemtest:e45807b3-3cd2-4330-923c-51bea2c1a4a0:8M16n2xbqFl2rHvPRRrpIXwIHA+V+PM7vAPzYBqGgXwNLvOeZmnA5pBpFQaIBofoBMhvyI3sN2jjsog52+4+9w==
-``` 
+    HmacSHA512 <user>:<nonce>:<digest> 
+```
+
+where `digest` is a Base64 formatted HMAC SHA512 digest of the following string: 
+```text
+    METHOD\n
+    RESOURCE\n
+    USER\
+    NONCE\n
+    DATE\n
+    PAYLOAD\n
+```
+
+`METHOD` (mandatory) the requested method (in upper case) 
+`RESOURCE` (mandatory) the path to desired resource (without hostname and any query parameters)  
+`NONSE` (mandatory) a unique value for each request ([UUID](https://tools.ietf.org/rfc/rfc4122.txt)) 
+`DATE`(optional) same as `Transmission-Time` if provided as seperate header. Uses [ISO8601 standard](https://en.wikipedia.org/wiki/ISO_8601)
+`PAYLOAD` (optional) body of request 
+
+Example request:
+
+```bash
+curl -X POST \
+   https://stage-evc.payex.com/payment-api/api/payments/payment-account/balance \
+  -d '{
+	  	"accountIdentifier": {
+			"accountKey": "7013360000000000000",
+			"cvc": "123",
+			"expiryDate": "2020-12-31",
+			"instrument": "CC"
+		}
+	}'
+```
+à
+In this example `USER` is user and `SECRET` is secret. 
+
+The plain string to `digest` would then be:
+```text
+	POST
+	/payment-api/api/payments/payment-account/balance
+	user
+	21a0213e-30eb-85ab-b355-a310d31af30e
+	{
+		"accountIdentifier": {
+			"accountKey": "7013360000000000000",
+			"cvc": "123",
+			"expiryDate": "2020-12-31",
+			"instrument": "CC"
+		}
+	}
+```
+The plain `digest` string is then hashed with `HmacSHA512` algorithm and the `SECRET`.
+Finally we Base64 encode the hashed value. This is the final `digest` to be provided in the `Hmac` header.
+
+
+Final `Hmac` header value: 
+```text 
+HmacSHA512 user:21a0213e-30eb-85ab-b355-a310d31af30e:LHdcD+dvXOlPHaR05EMCwdxYy17pSehsQXJsBGPmEFxQCfMo8uUjUweN/MKmqKu9xoqFAZHmRWDE4Cl40cnoUg==
+```
+
 
 ### Security documentation
 * [OAuth2](https://oauth.net/2/)
 * [Client Credentials](https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/)
-
+* [The RESTful CookBook: HMAC](http://restcookbook.com/Basics/loggingin/)
+* [HMAC - Wikipedia](https://en.wikipedia.org/wiki/HMAC)
 
 ## First App run
 
