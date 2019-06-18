@@ -26,7 +26,9 @@ vas-payment-api-client
 
 ## Security
 
-### Oauth2
+<details>
+	<summary>Oauth2:</summary>
+
 VasPublicPaymentApi requires an OAuth2 access token for interaction.  
 This application automatically handles token fetching and refreshing by using [Spring Security](https://docs.spring.io/spring-security-oauth2-boot/docs/current/reference/htmlsingle/#boot-features-security-custom-user-info-client).   
 Configuration values are set in [application.yml](./backend/src/main/resources/application.yml): 
@@ -66,7 +68,10 @@ public class Oauth2RestTemplateConfiguration {
 }
 ```
 
-### HMAC
+</details>
+
+<details>
+	<summary>HMAC:</summary>
 
 The API also requires HMAC authentication to be present in a request.  
 In this client the HMAC value is automatically calculated by [HmacSignatureBuilder.java](./backend/src/main/java/com/payex/vas/demo/config/security/HmacSignatureBuilder.java) and added to all outgoing requests in [ExternalRequestInterceptor.java](./backend/src/main/java/com/payex/vas/demo/config/ExternalRequestInterceptor.java)  
@@ -75,17 +80,16 @@ HMAC is implemented using SHA-512 secure hash algorithm.
 
 Expected `Hmac` header format is:
 ```text
-    HmacSHA512 <user>:<nonce>:<digest> 
+HmacSHA512 <user>:<nonce>:<digest>	
 ```
-
 where `digest` is a Base64 formatted HMAC SHA512 digest of the following string: 
 ```text
-    METHOD\n
-    RESOURCE\n
-    USER\
-    NONCE\n
-    DATE\n
-    PAYLOAD\n
+METHOD\n
+RESOURCE\n
+USER\
+NONCE\n
+DATE\n
+PAYLOAD\n
 ```
 
 `METHOD` (mandatory) the requested method (in upper case) 
@@ -108,33 +112,36 @@ curl -X POST \
 		}
 	}'
 ```
-à
+
 In this example `USER` is user and `SECRET` is secret. 
 
 The plain string to `digest` would then be:
 ```text
-	POST
-	/payment-api/api/payments/payment-account/balance
-	user
-	21a0213e-30eb-85ab-b355-a310d31af30e
-	{
-		"accountIdentifier": {
-			"accountKey": "7013360000000000000",
-			"cvc": "123",
-			"expiryDate": "2020-12-31",
-			"instrument": "CC"
-		}
+POST
+/payment-api/api/payments/payment-account/balance
+user
+21a0213e-30eb-85ab-b355-a310d31af30e
+2019-06-18T09:19:15.208257Z
+{
+	"accountIdentifier": {
+		"accountKey": "7013360000000000000",
+		"cvc": "123",
+		"expiryDate": "2020-12-31",
+		"instrument": "CC"
 	}
+}
 ```
+
 The plain `digest` string is then hashed with `HmacSHA512` algorithm and the `SECRET`.
 Finally we Base64 encode the hashed value. This is the final `digest` to be provided in the `Hmac` header.
 
 
 Final `Hmac` header value: 
 ```text 
-HmacSHA512 user:21a0213e-30eb-85ab-b355-a310d31af30e:LHdcD+dvXOlPHaR05EMCwdxYy17pSehsQXJsBGPmEFxQCfMo8uUjUweN/MKmqKu9xoqFAZHmRWDE4Cl40cnoUg==
+HmacSHA512 user:21a0213e-30eb-85ab-b355-a310d31af30e:oY5Q5Rf1anCz7DRm3GyWR0dvJDnhl/psylfnNCn6FA0NOrQS3L0fvyUsQ1IQ9gQPeLUt9J3IM2zwoSfZpDgRJA==
 ```
 
+</details>
 
 ### Security documentation
 * [OAuth2](https://oauth.net/2/)
