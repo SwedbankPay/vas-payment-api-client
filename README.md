@@ -225,13 +225,16 @@ function guid() {
 
 ## First App run
 
+__NB! The application expects a PostgreSQL server to be running on localhost with a username `test` and password `test` to exist.__  
+__This can automatically be configured if PostgreSQL server is started in docker with environment variables `POSTGRES_USER=test` and `POSTGRES_PASSWORD=test` are set (See [docker-compose.yml](./docker-compose.yml)).__ 
+
 Inside the root directory, do a: 
 
 ```bash
 mvn clean install
 ```
 
-Run our complete Spring Boot App (needs Postgres server running):
+Run the Spring Boot App:
 
 ```bash
 mvn --projects backend spring-boot:run
