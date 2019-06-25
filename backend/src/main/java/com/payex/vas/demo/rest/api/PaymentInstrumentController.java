@@ -4,7 +4,6 @@ import com.payex.vas.demo.domain.entities.PaymentInstrument;
 import com.payex.vas.demo.repository.PaymentInstrumentRepository;
 import com.payex.vas.demo.rest.util.ControllerExecutorHelper;
 import com.payex.vas.demo.service.PaymentService;
-import com.payex.vas.demo.util.Constants;
 import com.payex.vas.demo.util.error.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,11 +40,11 @@ public class PaymentInstrumentController {
             return ResponseEntity.of(paymentInstrument);
         });
     }
-    
+
     @PostMapping
-    public ResponseEntity<PaymentInstrument> addPaymentInstrument(@RequestBody PaymentInstrument paymentInstrument) {
+    public ResponseEntity<PaymentInstrument> addPaymentInstrument(@RequestBody PaymentInstrument paymentInstrument, @RequestParam("agreementId") String agreementId) {
         return ControllerExecutorHelper.executeAndLogRequest(log, "addPaymentInstrument", paymentInstrument, () -> {
-            populateExternalAccountIdFromBalanceIfEmpty(paymentInstrument);
+            populateExternalAccountIdFromBalanceIfEmpty(paymentInstrument, agreementId);
             var persisted = paymentInstrumentRepository.save(paymentInstrument);
             return ResponseEntity
                 .created(URI.create(getCurrentRequestUri() + "/" + persisted.getId()))
@@ -69,10 +68,10 @@ public class PaymentInstrumentController {
         });
     }
 
-    private void populateExternalAccountIdFromBalanceIfEmpty(PaymentInstrument paymentInstrument) {
+    private void populateExternalAccountIdFromBalanceIfEmpty(PaymentInstrument paymentInstrument, String agreementId) {
         if (paymentInstrument.getExternalAccountId() == null) {
             try {
-                var balanceResponse = paymentService.balance(paymentInstrument, Constants.DEFAULT_AGREEMENT_ID);
+                var balanceResponse = paymentService.balance(paymentInstrument, agreementId);
                 paymentInstrument.setExternalAccountId(balanceResponse.getPaymentAccount().getAccountIdentifier().getAccountId());
             } catch (Exception ex) {
                 throw new BadRequestException("Failed while invoking balance request against PayEx: " + ex.getMessage());

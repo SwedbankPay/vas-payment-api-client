@@ -98,6 +98,7 @@ export default {
     },
     invokePaymentOperation () {
       console.log('invokePaymentOperation invoked with: ' + this.selectedPaymentOperation)
+      this.paymentRequest.amount *= 100
       if (this.selectedPaymentOperation === 'Authorize') {
         paymentOperationService.authorize(this.$route.params.id, this.paymentRequest).then(res => {
           this.handleOkPayment(res.data)

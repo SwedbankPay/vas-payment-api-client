@@ -14,7 +14,7 @@
           <div class="input-group">
             <span class="input-group-addon"><i class="material-icons">attach_money</i></span>
             <input type="number" class="form-control" id="input-id-3"
-                   v-model="this.payment.amount"
+                   :value="this.payment.amount / 100"
                    placeholder="Rounded to nearest $" value disabled>
             <span class="input-group-addon">.00</span>
           </div>

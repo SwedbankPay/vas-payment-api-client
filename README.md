@@ -172,7 +172,8 @@ function generateHMAC(user, secret, transmissionTime) {
     var method = request.method.toUpperCase();
     var nonce = generateNonce(); //UUID
     var date = transmissionTime;
-    var uri_path = request.url.trim().replace(new RegExp('^https?://[^/]+/'), '/'); // strip hostname
+    
+    var uri_path = replaceRequestEnv(request.url.trim()).trim().replace(new RegExp('^https?://[^/]+/'), '/'); // strip hostname
     uri_path = uri_path.split("?")[0]; //Remove query paramters
     var payload = _.isEmpty(request.data) ? "" : request.data;
     var macData = method + '\n'
@@ -191,7 +192,7 @@ function generateHMAC(user, secret, transmissionTime) {
 }
 
 function replaceRequestEnv(input) { //manually set environments to they are populated before hashing
-    return input.replace(/{{(\w*)}}/g, function (str, key) {
+    return input.replace(/{{([^)]+)}}/g, function (str, key) {
         var value = pm.environment.get(key);
         return value === null ? pm.varables.get(key) : value;
     });
