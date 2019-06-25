@@ -12,7 +12,7 @@
           <div class="form-group"><label for="merchant">Merchant</label>
             <div class="input-group">
               <span class="input-group-addon"><i class="material-icons">store_mall_directory</i></span>
-              <select id="merchant" class="form-control" v-model="paymentRequest.merchantId">
+              <select id="merchant" class="form-control" v-model="paymentRequest.merchantId" required>
                 <option disabled value="">Please select one</option>
                 <option v-for="merchant in merchantList" :key="merchant.id" v-bind:value="merchant.id">
                   {{merchant.merchantName}}
@@ -23,7 +23,7 @@
           <div class="form-group"><label for="operation">Operation</label>
             <div class="input-group">
               <span class="input-group-addon"><i class="material-icons">label</i></span>
-              <select id="operation" class="form-control" v-model="selectedPaymentOperation">
+              <select id="operation" class="form-control" v-model="selectedPaymentOperation" required>
                 <option disabled value="">Please select one</option>
                 <option>Authorize</option>
                 <option>Purchase</option>
@@ -37,7 +37,7 @@
             <div class="input-group">
               <span class="input-group-addon"><i class="material-icons">attach_money</i></span>
               <input type="number" class="form-control" id="input-id-3"
-                     v-model="paymentRequest.amount"
+                     v-model="inputAmount"
                      placeholder="Rounded to nearest $" value>
               <span class="input-group-addon">.00</span>
             </div>
@@ -49,7 +49,8 @@
           </div>
           <div class="form-group">
           </div>
-          <button class="btn btn-primary" type="submit">Send</button>
+          <button class="btn btn-primary" type="submit"
+                  :disabled="!!isSaving">Send</button>
         </form>
       </section>
     </div>
@@ -81,10 +82,12 @@ export default {
       merchantList: [],
       paymentRequest: {
         merchantId: '',
-        amount: 1337,
+        amount: 0,
         description: ''
       },
-      selectedPaymentOperation: ''
+      selectedPaymentOperation: '',
+      inputAmount: 100,
+      isSaving: false
     }
   },
   mounted () {
@@ -97,8 +100,10 @@ export default {
       })
     },
     invokePaymentOperation () {
+      this.isSaving = true;
       console.log('invokePaymentOperation invoked with: ' + this.selectedPaymentOperation)
-      this.paymentRequest.amount *= 100
+      this.paymentRequest.amount = this.inputAmount * 100
+
       if (this.selectedPaymentOperation === 'Authorize') {
         paymentOperationService.authorize(this.$route.params.id, this.paymentRequest).then(res => {
           this.handleOkPayment(res.data)
@@ -126,9 +131,11 @@ export default {
       }
     },
     errorHandler (error) {
+      this.isSaving = false;
       toastError(error)
     },
     handleOkPayment (result) {
+      this.isSaving = false;
       px.sheet.close('payment-operation-sheet')
       this.$root.$emit('payment-successful', result)
     }

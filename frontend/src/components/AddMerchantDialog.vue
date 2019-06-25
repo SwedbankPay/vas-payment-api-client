@@ -11,19 +11,19 @@
       <div class="dialog-body">
 
         <div class="form-group">
-          <label for="pan">Merchant name</label>
+          <label for="merchant_name">Merchant name</label>
           <div class="input-group">
             <span class="input-group-addon"><i class="material-icons">store_mall_directory</i></span>
-            <input type="text" class="form-control" id="pan"
+            <input type="text" class="form-control" id="merchant_name"
                    v-model="merchant.merchantName"
                    placeholder="Merchant name" value>
           </div>
         </div>
         <div class="form-group">
-          <label for="cvc">Agreement ID</label>
+          <label for="agreement_id">Agreement ID</label>
           <div class="input-group">
             <span class="input-group-addon"><i class="material-icons">lock</i></span>
-            <input type="text" class="form-control" id="cvc"
+            <input type="text" class="form-control" id="agreement_id"
                    v-model="merchant.agreementId"
                    placeholder="Agreement ID" value>
           </div>
