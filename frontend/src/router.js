@@ -3,6 +3,7 @@ import Home from './views/Home.vue'
 
 import PaymentInstrument from './views/PaymentInstrument.vue'
 import About from './views/About'
+import Merchants from './views/Merchants'
 
 export default new VueRouter({
   mode: 'history',
@@ -18,6 +19,12 @@ export default new VueRouter({
       name: 'PaymentInstrument',
       path: '/cards/:id',
       component: PaymentInstrument,
+      props: true
+    },
+    {
+      name: 'Merchants',
+      path: '/merchants',
+      component: Merchants,
       props: true
     },
     {

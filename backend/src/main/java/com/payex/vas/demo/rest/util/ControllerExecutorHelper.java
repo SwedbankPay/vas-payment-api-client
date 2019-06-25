@@ -7,6 +7,7 @@ import com.payex.vas.demo.util.error.InternalServerErrorException;
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.server.ResponseStatusException;
@@ -28,7 +29,7 @@ public class ControllerExecutorHelper {
             var client = SecurityUtils.getCurrentUserLogin().orElse(null);
             logger.info("# invoked {} ({}) by user: '{}', payload: '{}'",
                 method,
-                getCurrentRequest().getRequestURI(),
+                getCurrentRequestUri(),
                 client,
                 payloadStr);
 
@@ -50,7 +51,12 @@ public class ControllerExecutorHelper {
         return "(status: '" + httpStatus.value() + " - " + httpStatus.getReasonPhrase() + "')";
     }
 
-    private static HttpServletRequest getCurrentRequest() {
-        return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+    private static String getCurrentRequestUri() {
+        var request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        var uri = request.getRequestURI();
+        if (!StringUtils.isEmpty(request.getQueryString()))
+            uri = uri + "?" + request.getQueryString();
+
+        return uri;
     }
 }

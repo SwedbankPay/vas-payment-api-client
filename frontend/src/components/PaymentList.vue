@@ -17,7 +17,7 @@
       <tr v-for="item in items" :key="item.paymentId">
         <td>{{ item.paymentId }}</td>
         <td v-html="formatTransactionType(item.transactionType)"></td>
-        <td>{{ formatNumber(item.amount) }} {{getExternalResponseAsJson(item).currency}}</td>
+        <td>{{ formatNumber(item.amount / 100) }} {{getExternalResponseAsJson(item).currency}}</td>
         <td>{{getExternalResponseAsJson(item).description}}</td>
         <td>{{item.state}}</td>
         <td>{{ formatDate(item.created) }}</td>

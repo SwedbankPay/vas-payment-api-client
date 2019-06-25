@@ -16,6 +16,26 @@ export const merchantService = {
       method: 'get',
       url: 'merchants/'
     })
+  },
+  addMerchant: function (merchant) {
+    return paymentClientRepository({
+      method: 'post',
+      data: merchant,
+      url: 'merchants'
+    })
+  },
+  updateMerchant: function (merchant) {
+    return paymentClientRepository({
+      method: 'put',
+      data: merchant,
+      url: 'merchants'
+    })
+  },
+  deleteMerchant: function (merchantId) {
+    return paymentClientRepository({
+      method: 'delete',
+      url: `merchants/${merchantId}`
+    })
   }
 }
 
@@ -43,7 +63,10 @@ export const paymentInstrumentService = {
     return paymentClientRepository({
       method: 'post',
       data: paymentInstrument,
-      url: 'payment-instruments'
+      url: 'payment-instruments',
+      params: {
+        agreementId: paymentInstrument.agreementId
+      }
     })
   },
   updatePaymentInstrument: function (paymentInstrument) {
