@@ -52,8 +52,8 @@ public class ControllerExecutorHelper {
     }
 
     private static String getCurrentRequestUri() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        String uri = request.getRequestURI();
+        var request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        var uri = request.getRequestURI();
         if (!StringUtils.isEmpty(request.getQueryString()))
             uri = uri + "?" + request.getQueryString();
 
