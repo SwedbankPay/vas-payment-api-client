@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <CardList/>
+    <p> Selected api is: {{selectedApi}}</p>
   </div>
 </template>
 
@@ -12,6 +13,7 @@ export default {
   name: 'home',
   components: {
     CardList
-  }
+  },
+  props: ["selectedApi"]
 }
 </script>

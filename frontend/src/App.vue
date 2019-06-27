@@ -1,14 +1,40 @@
 <template>
   <div id="app">
+    <div class="api">
+      <SelectAPI @change-api="changeApi"/>
+    </div>
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/cards">Cards</router-link> |
       <router-link to="/merchants">Merchants</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view/>
+    <router-view :selectedApi="selectedApi"/>
   </div>
 </template>
+
+<script>
+import SelectAPI from '@/components/SelectAPI.vue'
+
+export default {
+  name: 'App',
+  components: {
+    SelectAPI
+  },
+  data () {
+    return {
+      selectedApi: 'public-payment'
+    }
+  },
+  methods: {
+    changeApi: function (api) {
+      this.selectedApi = api
+    }
+  }
+}
+
+</script>
+
 
 <style>
 #app {
@@ -29,5 +55,9 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.api {
+  float: right;
 }
 </style>
