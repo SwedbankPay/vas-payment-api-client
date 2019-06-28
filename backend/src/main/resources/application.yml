@@ -34,6 +34,13 @@ application:
         api-key: "${API_KEY:Systemtest}" # Used for HMAC (provided by PayEx)
         api-secret: "${API_SECRET:Systemtest}" # Used for HMAC (provided by PayEx)
 
+    vas-multipay-server-api:
+        base-url: "${VAS_MULTIPAY_SERVER_API_URL:https://stage-evc.payex.com/multipay/api/payment}"
+        api-timeout: 20000
+        api-key: "${API_KEY:Systemtest}"
+        api-secret: "${API-SECRET:Systemtest}"
+
+
 vas-payment-api:
     oauth2:
         client:

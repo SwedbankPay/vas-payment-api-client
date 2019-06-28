@@ -14,11 +14,21 @@ import org.springframework.context.annotation.Configuration;
 public class ApplicationProperties {
 
     private final VasPaymentServerApi vasPaymentServerApi = new VasPaymentServerApi();
+    private final VasMultiPayServerApi vasMultiPayServerApi = new VasMultiPayServerApi();
 
     @Getter
     @Setter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class VasPaymentServerApi {
+        private int apiTimeout;
+        private String baseUrl;
+        private String apiKey;
+        private String apiSecret;
+    }
+
+    @Getter
+    @Setter@NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class VasMultiPayServerApi {
         private int apiTimeout;
         private String baseUrl;
         private String apiKey;
