@@ -77,25 +77,42 @@
             />
           </div>
           <div v-if="customerType === 'Corporate'" class="form-group">
-            <label for="firstName">Company Name</label>
+            <label for="companyName">Company Name</label>
             <div class="input-group">
               <input
                 type="text"
                 class="form-control"
-                id="firstName"
+                id="companyName"
                 v-model="corporateCustomer.companyName"
                 placeholder="First name"
               />
             </div>
-            <label for="privateEmail">Email</label>
+            <label for="contactName">Contact Name</label>
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                id="contactName"
+                v-model="privateCustomer.contactFirstName"
+                placeholder="First name"
+              />
+              <input
+                type="text"
+                class="form-control"
+                id="lastName"
+                v-model="privateCustomer.contactLastName"
+                placeholder="Last name"
+              />
+            </div>
+            <label for="corporateEmail">Contact Email</label>
             <input
               type="text"
               class="form-control"
-              id="privateEmail"
-              v-model="privateCustomer.contactEmail"
+              id="corporateEmail"
+              v-model="corporateCustomer.contactEmail"
               placeholder="hello@world.com"
             />
-            <label for="privatePhone">Phone number</label>
+            <label for="corporatePhone">Contact Phone number</label>
             <div class="input-group">
               <span class="input-group-addon">
                 #
@@ -103,24 +120,24 @@
               <input
                   type="text"
                   class="small"
-                  v-model="privateCustomer.contactPhoneCountryCode"
+                  v-model="corporateCustomer.contactPhoneCountryCode"
                   placeholder="47"
                 />
               <input
                 type="text"
                 class="form-control"
-                id="privatePhone"
-                v-model="privateCustomer.contactPhone"
+                id="corporatePhone"
+                v-model="corporateCustomer.contactPhone"
                 placeholder="987654321"
               />
             </div>
-            <label for="privateSsn">SSN</label>
+            <label for="corporateSsn">Vat Registration Number</label>
             <input
               type="text"
               class="form-control"
-              id="privateSsn"
-              v-model="privateCustomer.ssn"
-              placeholder="ssn"
+              id="corporateVat"
+              v-model="corporateCustomer.vatRegistrationNumber"
+              placeholder=""
             />
           </div>
         </div>
@@ -130,7 +147,6 @@
       class="btn btn-primary"
       type="button"
       data-dialog-open="add-customer-dialog"
-      v-on:click="listMerchants"
     >
       <i class="material-icons">add</i>
       <span>Add new customer</span>
