@@ -23,6 +23,7 @@
             </div>
           </div>
           <div v-if="customerType === 'Private'" class="form-group">
+            <h6>Personal Information</h6>
             <label for="firstName">Name</label>
             <div class="input-group">
               <input
@@ -77,6 +78,7 @@
             />
           </div>
           <div v-if="customerType === 'Corporate'" class="form-group">
+            <h6>Company Information</h6>
             <label for="companyName">Company Name</label>
             <div class="input-group">
               <input
@@ -84,7 +86,7 @@
                 class="form-control"
                 id="companyName"
                 v-model="corporateCustomer.companyName"
-                placeholder="First name"
+                placeholder="Company name"
               />
             </div>
             <label for="contactName">Contact Name</label>
@@ -140,6 +142,64 @@
               placeholder=""
             />
           </div>
+          <div>
+            <h6>Address Information</h6>
+            <label for="streetAddress">Street Address</label>
+            <input
+              type="text"
+              class="form-control"
+              id="streetAddress"
+              v-model="address.streetAddress"
+              placeholder="Drammensveien 1"
+            />
+            <div class="row">
+              <label for="postalCode" class="col">Postal Code</label>
+              <label for="city" class="col">City</label>
+              <label for="countryCode" class="col">Country</label>
+            </div>
+            <div class="input-group">
+              
+              <input
+                type="text"
+                class="form-control"
+                id="postalCode"
+                v-model="address.postalCode"
+                placeholder="0271"
+              />
+              
+              <input
+                type="text"
+                class="form-control"
+                id="city"
+                v-model="address.city"
+                placeholder="Oslo"
+              />
+              
+              <input
+                type="text"
+                class="form-control"
+                id="city"
+                v-model="address.countryCode"
+                placeholder="NO"
+              />
+            </div>
+          </div>
+          <div class="checkbox">
+            <input
+            type="checkbox"
+            id="billing"
+            v-model="copyBillingAddress"
+            >
+            <label for="billing"> Bill to same address?</label>
+          </div>
+        </div>
+        <div class="footer">
+          <button
+              class="btn btn-secondary"
+              type="button"
+              data-dialog-close="add-customer-dialog"
+            >Cancel</button>
+            <button class="btn btn-primary" type="button" v-on:click="addCustomer">Save</button>
         </div>
       </section>
     </div>
@@ -158,8 +218,9 @@
 export default {
   name: 'AddCustomerInfo',
   props: [],
-  data() {
+  data () {
     return {
+      copyBillingAddress: false,
       customerType: '',
       privateCustomer: {
         contactEmail: '',
@@ -168,7 +229,7 @@ export default {
         customerFirstName: '',
         customerLastName: '',
         customerLanguagecode: 'NO',
-        ssn: ''
+        ssn: '',
       },
 
       corporateCustomer: {
@@ -179,7 +240,7 @@ export default {
         contactPhone: '',
         contactPhoneCountryCode: '',
         languageCode: '',
-        vatRegistrationNumber: ''
+        vatRegistrationNumber: '',
       },
       address: {
         billingCity: '',
@@ -194,12 +255,29 @@ export default {
         postalCode: '',
         streetAddress: ''
       }
-    };
+    }
   },
-  mounted() {
-    px.dialog.init();
+  mounted () {
+    px.dialog.init()
+  },
+  methods: {
+    addCustomer: function (){
+      return null;
+    }
+  },
+  watch: {
+    copyBillingAddress () {
+      if (this.copyBillingAddress === true){
+        this.address.billingCity = this.address.city
+        this.address.billingStreetAddress = this.address.streetAddress
+        this.address.billingStreetAddressee = 'what is this?'
+        this.address.billingCoAddress = this.address.coAddress
+        this.address.billingPostalCode = this.address.postalCode
+        this.address.billingCountryCode = this.address.countryCode
+      }
+    }
   }
-};
+}
 </script>
 
 <style>
