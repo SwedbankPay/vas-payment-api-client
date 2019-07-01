@@ -3,9 +3,15 @@
     <div class="api">
       <SelectAPI @change-api="changeApi"/>
     </div>
-    <div id="nav">
+    <div v-show="selectedApi === 'payment-api'" id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/cards">Cards</router-link> |
+      <router-link to="/merchants">Merchants</router-link> |
+      <router-link to="/about">About</router-link>
+    </div>
+    <div id="nav" v-show="selectedApi === 'multipay'">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/cards">Multipay</router-link> |
       <router-link to="/merchants">Merchants</router-link> |
       <router-link to="/about">About</router-link>
     </div>
