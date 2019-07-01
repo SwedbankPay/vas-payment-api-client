@@ -23,7 +23,7 @@ export default {
   },
   data () {
     return {
-      selectedApi: 'public-payment'
+      selectedApi: 'payment-api'
     }
   },
   methods: {
