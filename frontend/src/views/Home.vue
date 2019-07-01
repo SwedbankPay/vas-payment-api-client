@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <CardList/>
-    <AddCustomerInfo/>
     <p> Selected api is: {{selectedApi}}</p>
   </div>
 </template>

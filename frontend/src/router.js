@@ -1,5 +1,6 @@
 import VueRouter from 'vue-router'
 import Home from './views/Home.vue'
+import MultipayHome from './views/MultipayHome.vue'
 
 import PaymentInstrument from './views/PaymentInstrument.vue'
 import About from './views/About'
@@ -36,6 +37,12 @@ export default new VueRouter({
       path: '/about',
       name: 'about',
       component: About
-    }
+    },
+    {
+      name: 'requestform',
+      path: '/requestForm',
+      component: MultipayHome,
+      props: true
+    },
   ]
 })

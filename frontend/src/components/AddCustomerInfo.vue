@@ -131,7 +131,7 @@
                 placeholder="987654321"
               />
             </div>
-            <label for="corporateSsn">Vat Registration Number</label>
+            <label for="corporateVat">Vat Registration Number</label>
             <input
               type="text"
               class="form-control"
