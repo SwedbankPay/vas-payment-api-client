@@ -26,6 +26,9 @@
             <h6>Personal Information</h6>
             <label for="firstName">Name</label>
             <div class="input-group">
+              <span class="input-group-addon">
+                <i class="material-icons">account_box</i>
+              </span>
               <input
                 type="text"
                 class="form-control"
@@ -42,6 +45,10 @@
               />
             </div>
             <label for="privateEmail">Email</label>
+            <div class="input-group">
+            <span class="input-group-addon">
+                <i class="material-icons">email</i>
+              </span>
             <input
               type="text"
               class="form-control"
@@ -49,10 +56,11 @@
               v-model="privateCustomer.contactEmail"
               placeholder="hello@world.com"
             />
+            </div>
             <label for="privatePhone">Phone number</label>
             <div class="input-group">
               <span class="input-group-addon">
-                #
+                <i class="material-icons">phone</i>
               </span>
               <input
                   type="text"
@@ -69,18 +77,26 @@
               />
             </div>
             <label for="privateSsn">SSN</label>
-            <input
-              type="text"
-              class="form-control"
-              id="privateSsn"
-              v-model="privateCustomer.ssn"
-              placeholder="ssn"
-            />
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="material-icons">fingerprint</i>
+              </span>
+              <input
+                type="text"
+                class="form-control"
+                id="privateSsn"
+                v-model="privateCustomer.ssn"
+                placeholder="ssn"
+              />
+            </div>
           </div>
           <div v-if="customerType === 'Corporate'" class="form-group">
             <h6>Company Information</h6>
             <label for="companyName">Company Name</label>
             <div class="input-group">
+              <span class="input-group-addon">
+                <i class="material-icons">work</i>
+              </span>
               <input
                 type="text"
                 class="form-control"
@@ -91,6 +107,9 @@
             </div>
             <label for="contactName">Contact Name</label>
             <div class="input-group">
+              <span class="input-group-addon">
+                <i class="material-icons">account_box</i>
+              </span>
               <input
                 type="text"
                 class="form-control"
@@ -107,17 +126,23 @@
               />
             </div>
             <label for="corporateEmail">Contact Email</label>
-            <input
-              type="text"
-              class="form-control"
-              id="corporateEmail"
-              v-model="corporateCustomer.contactEmail"
-              placeholder="hello@world.com"
-            />
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="material-icons">email</i>
+              </span>
+              <input
+                type="text"
+                class="form-control"
+                id="corporateEmail"
+                v-model="corporateCustomer.contactEmail"
+                placeholder="hello@world.com"
+              />
+            </div>
+            
             <label for="corporatePhone">Contact Phone number</label>
             <div class="input-group">
               <span class="input-group-addon">
-                #
+                <i class="material-icons">phone</i>
               </span>
               <input
                   type="text"
@@ -134,24 +159,34 @@
               />
             </div>
             <label for="corporateSsn">Vat Registration Number</label>
-            <input
-              type="text"
-              class="form-control"
-              id="corporateVat"
-              v-model="corporateCustomer.vatRegistrationNumber"
-              placeholder=""
-            />
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="material-icons">shopping_basket</i>
+              </span>
+              <input
+                type="text"
+                class="form-control"
+                id="corporateVat"
+                v-model="corporateCustomer.vatRegistrationNumber"
+                placeholder=""
+              />
+            </div>
           </div>
           <div>
             <h6>Address Information</h6>
             <label for="streetAddress">Street Address</label>
-            <input
-              type="text"
-              class="form-control"
-              id="streetAddress"
-              v-model="address.streetAddress"
-              placeholder="Drammensveien 1"
-            />
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="material-icons">place</i>
+              </span>
+              <input
+                type="text"
+                class="form-control"
+                id="streetAddress"
+                v-model="address.streetAddress"
+                placeholder="Drammensveien 1"
+              />
+            </div>
             <div class="row">
               <label for="postalCode" class="col">Postal Code</label>
               <label for="city" class="col">City</label>
@@ -165,20 +200,18 @@
                 id="postalCode"
                 v-model="address.postalCode"
                 placeholder="0271"
-              />
-              
+              />              
               <input
                 type="text"
                 class="form-control"
                 id="city"
                 v-model="address.city"
                 placeholder="Oslo"
-              />
-              
+              />              
               <input
                 type="text"
                 class="form-control"
-                id="city"
+                id="countryCode"
                 v-model="address.countryCode"
                 placeholder="NO"
               />
@@ -192,15 +225,66 @@
             >
             <label for="billing"> Bill to same address?</label>
           </div>
+           <div>
+            <h6>Billing Address Information</h6>
+            <label for="billingStreetAddress">Street Address</label>
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="material-icons">place</i>
+              </span>
+              <input
+                type="text"
+                class="form-control"
+                id="billingStreetAddress"
+                v-model="address.billingStreetAddress"
+                placeholder="Drammensveien 1"
+              />
+            </div>
+            <div class="row">
+              <label for="billingPostalCode" class="col">Postal Code</label>
+              <label for="billingCity" class="col">City</label>
+              <label for="billingCountryCode" class="col">Country</label>
+            </div>
+            <div class="input-group">
+              
+              <input
+                type="text"
+                class="form-control"
+                id="billingPostalCode"
+                v-model="address.billingPostalCode"
+                placeholder="0271"
+              />
+              <input
+                type="text"
+                class="form-control"
+                id="billingCity"
+                v-model="address.billingCity"
+                placeholder="Oslo"
+              />
+              
+              <input
+                type="text"
+                class="form-control"
+                id="billingCountryCode"
+                v-model="address.billingCountryCode"
+                placeholder="NO"
+              />
+            </div>
+          </div>
         </div>
-        <div class="footer">
+        <footer>
           <button
-              class="btn btn-secondary"
+              class="btn btn-secondary col"
               type="button"
+              style="display: table-cell"
               data-dialog-close="add-customer-dialog"
-            >Cancel</button>
-            <button class="btn btn-primary" type="button" v-on:click="addCustomer">Save</button>
-        </div>
+            ><i class="material-icons">close</i></button>
+            <button
+             class="btn btn-primary col" 
+             style="display: table-cell" 
+             type="button" v-on:click="addCustomer"
+             ><i class="material-icons">check</i></button>
+        </footer>
       </section>
     </div>
     <button
@@ -230,6 +314,7 @@ export default {
         customerLastName: '',
         customerLanguagecode: 'NO',
         ssn: '',
+        address: {},
       },
 
       corporateCustomer: {
@@ -241,6 +326,7 @@ export default {
         contactPhoneCountryCode: '',
         languageCode: '',
         vatRegistrationNumber: '',
+        address: {},
       },
       address: {
         billingCity: '',
@@ -261,13 +347,17 @@ export default {
     px.dialog.init()
   },
   methods: {
-    addCustomer: function (){
-      return null;
+    addCustomer: function () {
+      let customer = this.customerType === 'Corporate' ? this.corporateCustomer : this.privateCustomer
+      customer.address = this.address
+
+      px.dialog.close('add-customer-dialog')
+      this.$root.$emit('add-customer-successful', customer)
     }
   },
   watch: {
     copyBillingAddress () {
-      if (this.copyBillingAddress === true){
+      if (this.copyBillingAddress === true) {
         this.address.billingCity = this.address.city
         this.address.billingStreetAddress = this.address.streetAddress
         this.address.billingStreetAddressee = 'what is this?'
