@@ -46,34 +46,46 @@
             </div>
             <label for="privateEmail">Email</label>
             <div class="input-group">
-            <span class="input-group-addon">
+              <span class="input-group-addon">
                 <i class="material-icons">email</i>
               </span>
-            <input
-              type="text"
-              class="form-control"
-              id="privateEmail"
-              v-model="privateCustomer.contactEmail"
-              placeholder="hello@world.com"
-            />
+              <input
+                type="text"
+                class="form-control"
+                id="privateEmail"
+                v-model="privateCustomer.contactEmail"
+                placeholder="hello@world.com"
+              />
             </div>
-            <label for="privatePhone">Phone number</label>
+            <div class="row">
+              <div class="col"></div>
+              <label class="col" for="privatePhone" style="text-align:right">Phone number</label>
+              <label class="col" for="customerLang" style="text-align:right">Language</label>
+            </div>
             <div class="input-group">
               <span class="input-group-addon">
                 <i class="material-icons">phone</i>
               </span>
               <input
-                  type="text"
-                  class="small"
-                  v-model="privateCustomer.contactPhoneCountryCode"
-                  placeholder="47"
-                />
+                type="text"
+                class="form-control col-md-2"
+                v-model="privateCustomer.contactPhoneCountryCode"
+                placeholder="47"
+                style="text-align:right"
+              />
               <input
                 type="text"
                 class="form-control"
                 id="privatePhone"
                 v-model="privateCustomer.contactPhone"
                 placeholder="987654321"
+              />
+              <input
+                type="text"
+                class="form-control col-md-2"
+                id="customerLang"
+                v-model="privateCustomer.customerLanguageCode"
+                placeholder="EN"
               />
             </div>
             <label for="privateSsn">SSN</label>
@@ -138,24 +150,34 @@
                 placeholder="hello@world.com"
               />
             </div>
-            
-            <label for="corporatePhone">Contact Phone number</label>
+            <div class="row">
+              <div class="col"></div>
+              <label class="col" for="corporatePhone" style="text-align:right">Contact Phone</label>
+              <label class="col" for="corporateLang"  style="text-align:right">Language</label>
+            </div>
             <div class="input-group">
               <span class="input-group-addon">
                 <i class="material-icons">phone</i>
               </span>
               <input
-                  type="text"
-                  class="small"
-                  v-model="corporateCustomer.contactPhoneCountryCode"
-                  placeholder="47"
-                />
+                type="text"
+                class="form-control col-md-2"
+                v-model="corporateCustomer.contactPhoneCountryCode"
+                placeholder="47"
+              />
               <input
                 type="text"
                 class="form-control"
                 id="corporatePhone"
                 v-model="corporateCustomer.contactPhone"
                 placeholder="987654321"
+              />
+              <input
+                type="text"
+                class="form-control col-md-2"
+                id="corporateLang"
+                v-model="corporateCustomer.languageCode"
+                placeholder="EN"
               />
             </div>
             <label for="corporateSsn">Vat Registration Number</label>
@@ -168,7 +190,7 @@
                 class="form-control"
                 id="corporateVat"
                 v-model="corporateCustomer.vatRegistrationNumber"
-                placeholder=""
+                placeholder
               />
             </div>
           </div>
@@ -193,21 +215,20 @@
               <label for="countryCode" class="col">Country</label>
             </div>
             <div class="input-group">
-              
               <input
                 type="text"
                 class="form-control"
                 id="postalCode"
                 v-model="address.postalCode"
                 placeholder="0271"
-              />              
+              />
               <input
                 type="text"
                 class="form-control"
                 id="city"
                 v-model="address.city"
                 placeholder="Oslo"
-              />              
+              />
               <input
                 type="text"
                 class="form-control"
@@ -218,14 +239,10 @@
             </div>
           </div>
           <div class="checkbox">
-            <input
-            type="checkbox"
-            id="billing"
-            v-model="copyBillingAddress"
-            >
-            <label for="billing"> Bill to same address?</label>
+            <input type="checkbox" id="billing" v-model="copyBillingAddress" />
+            <label for="billing">Bill to same address?</label>
           </div>
-           <div>
+          <div>
             <h6>Billing Address Information</h6>
             <label for="billingStreetAddress">Street Address</label>
             <div class="input-group">
@@ -246,7 +263,6 @@
               <label for="billingCountryCode" class="col">Country</label>
             </div>
             <div class="input-group">
-              
               <input
                 type="text"
                 class="form-control"
@@ -261,7 +277,7 @@
                 v-model="address.billingCity"
                 placeholder="Oslo"
               />
-              
+
               <input
                 type="text"
                 class="form-control"
@@ -274,24 +290,25 @@
         </div>
         <footer>
           <button
-              class="btn btn-secondary col"
-              type="button"
-              style="display: table-cell"
-              data-dialog-close="add-customer-dialog"
-            ><i class="material-icons">close</i></button>
-            <button
-             class="btn btn-primary col" 
-             style="display: table-cell" 
-             type="button" v-on:click="addCustomer"
-             ><i class="material-icons">check</i></button>
+            class="btn btn-secondary col"
+            type="button"
+            style="display: table-cell"
+            data-dialog-close="add-customer-dialog"
+          >
+            <i class="material-icons">close</i>
+          </button>
+          <button
+            class="btn btn-primary col"
+            style="display: table-cell"
+            type="button"
+            v-on:click="addCustomer"
+          >
+            <i class="material-icons">check</i>
+          </button>
         </footer>
       </section>
     </div>
-    <button
-      class="btn btn-primary"
-      type="button"
-      data-dialog-open="add-customer-dialog"
-    >
+    <button class="btn btn-primary" type="button" data-dialog-open="add-customer-dialog">
       <i class="material-icons">add</i>
       <span>Add new customer</span>
     </button>
@@ -314,7 +331,7 @@ export default {
         customerLastName: '',
         customerLanguagecode: 'NO',
         ssn: '',
-        address: {},
+        address: {}
       },
 
       corporateCustomer: {
@@ -326,7 +343,7 @@ export default {
         contactPhoneCountryCode: '',
         languageCode: '',
         vatRegistrationNumber: '',
-        address: {},
+        address: {}
       },
       address: {
         billingCity: '',
@@ -348,7 +365,10 @@ export default {
   },
   methods: {
     addCustomer: function () {
-      let customer = this.customerType === 'Corporate' ? this.corporateCustomer : this.privateCustomer
+      let customer =
+        this.customerType === 'Corporate'
+          ? this.corporateCustomer
+          : this.privateCustomer
       customer.address = this.address
 
       px.dialog.close('add-customer-dialog')
@@ -371,7 +391,6 @@ export default {
 </script>
 
 <style>
-
 .small {
   width: 10%;
   text-align: right;
