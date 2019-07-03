@@ -19,6 +19,13 @@ public class SimulatedMerchant {
     private String merchantName;
 
     /**
+     * Optional fields for multiPay
+     */
+    private String sellerName;
+    private String sellerId;
+    private String terminalId;
+
+    /**
      * Provided by PayEx
      */
     @NotBlank
