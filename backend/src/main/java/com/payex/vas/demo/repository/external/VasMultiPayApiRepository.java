@@ -47,9 +47,16 @@ public class VasMultiPayApiRepository {
 
     private static final String BALANCE_URL = "/balance";
 
+    private static final String CREATE_ORDER_URL = "/order";
+
     private final ApplicationProperties applicationProperties;
     private final RestTemplate restTemplate;
 
+    public PaymentResponse createOrder(PaymentRequest request, String agreementMerchantId){
+        var url = getUrl(CREATE_ORDER_URL);
+        var payload = createPayload(request, agreementMerchantId);
+        return executeForEntity(url, HttpMethod.POST, payload, PaymentResponse.class);
+    }
 
     public PaymentResponse purchase(PaymentRequest request, String externalAccountId, String agreementMerchantId) { // externalAccountId probably not necessary
         var url = getUrl(MULTIPAY_PURCHASE_URL);

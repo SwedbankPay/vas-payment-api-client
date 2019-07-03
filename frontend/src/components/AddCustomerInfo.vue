@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div class="dialog" id="add-customer-dialog">
+    <div class="sheet" id="add-customer-sheet">
       <section>
         <header>
           <h5>Add customer info</h5>
-          <a href="#" class="dialog-close">
+          <a href="#" class="sheet-close">
             <i class="material-icons">close</i>
           </a>
         </header>
-        <div class="dialog-body">
+        <div class="sheet-body">
           <div class="form-group">
             <label for="operation">Customer type</label>
             <div class="input-group">
@@ -17,12 +17,12 @@
               </span>
               <select id="operation" class="form-control" v-model="customerType">
                 <option disabled value>Please select one</option>
-                <option>Private</option>
-                <option>Corporate</option>
+                <option value="private">Private</option>
+                <option value="corporate">Corporate</option>
               </select>
             </div>
           </div>
-          <div v-if="customerType === 'Private'" class="form-group">
+          <div v-if="customerType === 'private'" class="form-group">
             <h6>Personal Information</h6>
             <label for="firstName">Name</label>
             <div class="input-group">
@@ -102,7 +102,7 @@
               />
             </div>
           </div>
-          <div v-if="customerType === 'Corporate'" class="form-group">
+          <div v-if="customerType === 'corporate'" class="form-group">
             <h6>Company Information</h6>
             <label for="companyName">Company Name</label>
             <div class="input-group">
@@ -244,6 +244,19 @@
           </div>
           <div>
             <h6>Billing Address Information</h6>
+            <label for="billingAddressee">Billing Addressee</label>
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="material-icons">account_box</i>
+              </span>
+              <input
+                type="text"
+                class="form-control"
+                id="billingStreetAddress"
+                v-model="address.billingStreetAddressee"
+                placeholder="John Doe"
+              />
+            </div>
             <label for="billingStreetAddress">Street Address</label>
             <div class="input-group">
               <span class="input-group-addon">
@@ -293,7 +306,7 @@
             class="btn btn-secondary col"
             type="button"
             style="display: table-cell"
-            data-dialog-close="add-customer-dialog"
+            data-sheet-close="add-customer-sheet"
           >
             <i class="material-icons">close</i>
           </button>
@@ -308,9 +321,9 @@
         </footer>
       </section>
     </div>
-    <button class="btn btn-primary" type="button" data-dialog-open="add-customer-dialog">
+    <button class="btn btn-primary" type="button" data-sheet-open="add-customer-sheet">
       <i class="material-icons">add</i>
-      <span>Add new customer</span>
+      <span>{{message}}</span>
     </button>
   </div>
 </template>
@@ -318,11 +331,13 @@
 <script>
 export default {
   name: 'AddCustomerInfo',
-  props: [],
+  props: {
+    message: String
+  },
   data () {
     return {
       copyBillingAddress: false,
-      customerType: '',
+      customerType: 'private',
       privateCustomer: {
         contactEmail: '',
         contactPhone: '',
@@ -361,18 +376,18 @@ export default {
     }
   },
   mounted () {
-    px.dialog.init()
+    px.sheet.init()
   },
   methods: {
     addCustomer: function () {
       let customer =
-        this.customerType === 'Corporate'
+        this.customerType === 'corporate'
           ? this.corporateCustomer
           : this.privateCustomer
       customer.address = this.address
 
-      px.dialog.close('add-customer-dialog')
-      this.$root.$emit('add-customer-successful', customer)
+      px.sheet.close('add-customer-sheet')
+      this.$emit('add-customer-successful', customer, this.customerType)
     }
   },
   watch: {
@@ -380,10 +395,12 @@ export default {
       if (this.copyBillingAddress === true) {
         this.address.billingCity = this.address.city
         this.address.billingStreetAddress = this.address.streetAddress
-        this.address.billingStreetAddressee = 'what is this?'
         this.address.billingCoAddress = this.address.coAddress
         this.address.billingPostalCode = this.address.postalCode
         this.address.billingCountryCode = this.address.countryCode
+        this.address.billingStreetAddressee = this.customerType === 'corporate'
+          ? this.corporateCustomer.companyName
+          : this.privateCustomer.customerFirstName + ' ' + this.privateCustomer.customerLastName
       }
     }
   }

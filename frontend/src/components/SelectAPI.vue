@@ -16,7 +16,7 @@ export default {
   name: 'selectAPI',
   data () {
     return {
-      api: 'public-payment'
+      api: sessionStorage.getItem('api') ? sessionStorage.getItem('api') : 'payment-api'
     }
   },
   watch: {

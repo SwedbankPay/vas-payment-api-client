@@ -3,15 +3,15 @@
     <div class="api">
       <SelectAPI @change-api="changeApi"/>
     </div>
-    <div v-show="selectedApi === 'payment-api'" id="nav">
+    <div v-if="selectedApi === 'payment-api'" id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/cards">Cards</router-link> |
       <router-link to="/merchants">Merchants</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <div id="nav" v-show="selectedApi === 'multipay'">
+    <div id="nav" v-if="selectedApi === 'multipay'">
       <router-link to="/">Home</router-link> |
-      <router-link to="/cards">Multipay</router-link> |
+      <router-link to="/order">Order</router-link> |
       <router-link to="/merchants">Merchants</router-link> |
       <router-link to="/about">About</router-link>
     </div>
@@ -29,12 +29,13 @@ export default {
   },
   data () {
     return {
-      selectedApi: 'payment-api'
+      selectedApi: sessionStorage.getItem('api') ? sessionStorage.getItem() : 'payment-api'
     }
   },
   methods: {
     changeApi: function (api) {
       this.selectedApi = api
+      sessionStorage.setItem('api', api)
     }
   }
 }

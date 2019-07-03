@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import PaymentInstrument from './views/PaymentInstrument.vue'
 import About from './views/About'
 import Merchants from './views/Merchants'
+import CreateOrder from './views/CreateOrder'
 
 export default new VueRouter({
   mode: 'history',
@@ -36,6 +37,11 @@ export default new VueRouter({
       path: '/about',
       name: 'about',
       component: About
+    },
+    {
+      path: '/order',
+      name: 'Order',
+      component: CreateOrder
     }
   ]
 })
