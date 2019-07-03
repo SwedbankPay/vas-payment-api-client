@@ -13,4 +13,8 @@ public class Merchant {
 
     private String merchantName;
     private String terminalId;
+
+    // For multipay merchants
+    private String sellerId;
+    private String sellerName;
 }
