@@ -4,6 +4,7 @@ import Card from './views/Card.vue'
 
 import PaymentInstrument from './views/PaymentInstrument.vue'
 import About from './views/About'
+import AboutMultipay from './views/AboutMultipay'
 import Merchants from './views/Merchants'
 import CreateOrder from './views/CreateOrder'
 
@@ -38,6 +39,11 @@ export default new VueRouter({
       path: '/about',
       name: 'about',
       component: About
+    },
+    {
+      path: '/aboutmultipay',
+      name: 'aboutmultipay',
+      component: AboutMultipay
     },
     {
       path: '/order',
