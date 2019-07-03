@@ -10,7 +10,7 @@
       <router-link to="/about">About</router-link>
     </div>
     <div id="nav" v-if="selectedApi === 'multipay'">
-      <router-link to="/">Home</router-link> |
+      <router-link to="/requestForm">Home</router-link> |
       <router-link to="/order">Order</router-link> |
       <router-link to="/merchants">Merchants</router-link> |
       <router-link to="/about">About</router-link>
