@@ -215,6 +215,9 @@
               <label for="countryCode" class="col">Country</label>
             </div>
             <div class="input-group">
+              <span class="input-group-addon">
+                <i class="material-icons">location_city</i>
+              </span>
               <input
                 type="text"
                 class="form-control"
@@ -276,6 +279,9 @@
               <label for="billingCountryCode" class="col">Country</label>
             </div>
             <div class="input-group">
+              <span class="input-group-addon">
+                <i class="material-icons">location_city</i>
+              </span>
               <input
                 type="text"
                 class="form-control"
@@ -322,7 +328,7 @@
       </section>
     </div>
     <button class="btn btn-primary" type="button" data-sheet-open="add-customer-sheet">
-      <i class="material-icons">add</i>
+      <i class="material-icons">person_add</i>
       <span>{{message}}</span>
     </button>
   </div>
