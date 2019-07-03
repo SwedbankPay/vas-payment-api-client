@@ -10,7 +10,7 @@
       <router-link to="/about">About</router-link>
     </div>
     <div id="nav" v-if="selectedApi === 'multipay'">
-      <router-link to="/requestForm">Home</router-link> |
+      <router-link to="/">Home</router-link> |
       <router-link to="/order">Order</router-link> |
       <router-link to="/merchants">Merchants</router-link> |
       <router-link to="/about">About</router-link>
@@ -29,13 +29,14 @@ export default {
   },
   data () {
     return {
-      selectedApi: sessionStorage.getItem('api') ? sessionStorage.getItem() : 'payment-api'
+      selectedApi: sessionStorage.getItem('api') ? sessionStorage.getItem('api') : 'payment-api'
     }
   },
   methods: {
     changeApi: function (api) {
       this.selectedApi = api
       sessionStorage.setItem('api', api)
+      this.$router.push('/')
     }
   }
 }
