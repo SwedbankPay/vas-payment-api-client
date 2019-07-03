@@ -32,6 +32,9 @@ CREATE TABLE merchant
     merchant_name varchar(255) not null,
     agreement_id  varchar(255) not null,
     currency_iso  varchar(3)   not null,
+    seller_name   varchar(255),
+    seller_id     varchar(255),
+    terminal_id   varchar(255),
     PRIMARY KEY (id)
 );
 

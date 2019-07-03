@@ -21,7 +21,7 @@
           </div>
       </div>
     </div>
-    <AddMerchantDialog></AddMerchantDialog>
+    <AddMerchantDialog :selectedApi="selectedApi"></AddMerchantDialog>
   </div>
 </template>
 
@@ -33,6 +33,7 @@ import EditMerchantDialog from './EditMerchantDialog'
 export default {
   name: 'MerchantList',
   components: { EditMerchantDialog, AddMerchantDialog },
+  props: { selectedApi: String },
   data () {
     return {
       items: []

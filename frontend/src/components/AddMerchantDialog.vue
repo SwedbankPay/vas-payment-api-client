@@ -28,6 +28,41 @@
                    placeholder="Agreement ID" value>
           </div>
         </div>
+        <div v-if="selectedApi === 'multipay'" class="form-group">
+          <label for="seller-name">Seller name</label>
+          <div class="input-group">
+            <span class="input-group-addon"><i class="material-icons">shop</i></span>
+            <input
+              type="text"
+              class="form-control"
+              id="seller-name"
+              v-model="merchant.sellerName"
+              placeholder="optional"
+            >
+          </div>
+          <label for="seller-id">Seller ID</label>
+          <div class="input-group">
+            <span class="input-group-addon"><i class="material-icons">store</i></span>
+            <input
+              type="text"
+              class="form-control"
+              id="seller-id"
+              v-model="merchant.sellerId"
+              placeholder="optional"
+            >
+          </div>
+          <label for="terminal-id">Terminal ID</label>
+          <div class="input-group">
+            <span class="input-group-addon"><i class="material-icons">keyboard</i></span>
+            <input
+              type="text"
+              class="form-control"
+              id="terminal-id"
+              v-model="merchant.terminalId"
+              placeholder="optional"
+            >
+          </div>
+        </div>
         <div class="form-group"><label for="operation">Currency</label>
           <div class="input-group">
             <span class="input-group-addon"><i class="material-icons">attach_money</i></span>
@@ -61,12 +96,16 @@ import { toastError } from '../utils/creditcard-util'
 
 export default {
   name: 'AddMerchantDialog',
+  props: { selectedApi: String },
   data () {
     return {
       merchant: {
         merchantName: '',
         agreementId: '',
-        currencyIso: ''
+        currencyIso: '',
+        sellerName: '',
+        sellerId: '',
+        terminalId: ''
       }
     }
   },
