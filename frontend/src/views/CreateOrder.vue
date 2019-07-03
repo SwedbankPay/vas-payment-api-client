@@ -1,6 +1,8 @@
 <template>
   <div class="container">
     <h4>Create new Order</h4>
+    <div class="row">
+      <main class="mainContainer">
     <div v-if="customer && customerType === 'private'">
       <label for="name">Customer name</label>
       <div class="form-control" id="name">{{customer.customerFirstName + ' ' + customer.customerLastName}}</div>
@@ -13,15 +15,16 @@
     <label for="description">Order Description</label>
     <div class="input-group">
       <span class="input-group-addon"><i class="material-icons">description</i></span>
-      <input
+      <textarea
         class="form-control"
         id="description"
         v-model="paymentRequest.description"
         placeholder="Order description"
-        >
+        rows="3"
+      ></textarea>
     </div>
     <label for="amount">Amount</label>
-    <div class="input-group">
+    <div class="input-group amountSize">
       <span class="input-group-addon"><i class="material-icons">attach_money</i></span>
       <input
         class="form-control order-input"
@@ -38,7 +41,7 @@
       <div class="input-group">
         <span class="input-group-addon"><i class="material-icons">store_mall_directory</i></span>
         <select id="merchant" class="form-control" v-model="paymentRequest.merchant">
-          <option disabled value>Please select one</option>
+          <option disabled :value="{}">Please select one</option>
           <option v-for="merchant in merchantList" :key="merchant.agreementId" v-bind:value="merchant">
             {{merchant.merchantName}}
           </option>
@@ -79,9 +82,9 @@
         />
       </div>
       <div class="row">
-        <label for="shippingPostalCode" class="col-md-2">Postal Code</label>
+        <label for="shippingPostalCode" class="col-md-3">Postal Code</label>
         <label for="shippingCity" class="col">City</label>
-        <label for="shippingCountryCode" class="col-md-2">Country</label>
+        <label for="shippingCountryCode" class="col-md-3">Country</label>
       </div>
       <div class="input-group">
         <input
@@ -114,6 +117,8 @@
       v-on:click="createOrder"
       style="margin-top: 3rem"
       >Create order</button>
+    </main>
+    </div>
   </div>
 </template>
 
@@ -205,6 +210,10 @@ export default {
 </script>
 
 <style>
+
+  .mainContainer{
+    margin: 0 auto;
+  }
 .order-input {
   text-align: right;
 }
