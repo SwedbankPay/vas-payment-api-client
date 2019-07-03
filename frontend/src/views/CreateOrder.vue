@@ -87,6 +87,9 @@
         <label for="shippingCountryCode" class="col-md-3">Country</label>
       </div>
       <div class="input-group">
+        <span class="input-group-addon">
+          <i class="material-icons">location_city</i>
+        </span>
         <input
           type="text"
           class="form-control col-md-2"
