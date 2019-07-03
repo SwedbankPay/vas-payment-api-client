@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.payex.vas.demo</groupId>
     <artifactId>vas-public-payment-api-client</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <name>vas-public-payment-api-client</name>
     <description>Demo project for VAS Public Payment API</description>
     <packaging>pom</packaging>
