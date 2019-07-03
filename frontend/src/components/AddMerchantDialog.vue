@@ -37,7 +37,7 @@
               class="form-control"
               id="seller-name"
               v-model="merchant.sellerName"
-              placeholder="optional"
+              placeholder="Optional"
             >
           </div>
           <label for="seller-id">Seller ID</label>
@@ -48,7 +48,7 @@
               class="form-control"
               id="seller-id"
               v-model="merchant.sellerId"
-              placeholder="optional"
+              placeholder="Optional"
             >
           </div>
           <label for="terminal-id">Terminal ID</label>
@@ -59,7 +59,7 @@
               class="form-control"
               id="terminal-id"
               v-model="merchant.terminalId"
-              placeholder="optional"
+              placeholder="Optional"
             >
           </div>
         </div>
