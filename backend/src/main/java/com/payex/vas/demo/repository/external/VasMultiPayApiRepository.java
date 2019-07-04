@@ -41,13 +41,13 @@ public class VasMultiPayApiRepository {
 
     private static final String BALANCE_URL = "/balance";
 
-    private static final String CREATE_ORDER_URL = "/order";
+    private static final String CREATE_ORDER_URL = "/create";
 
     private final ApplicationProperties applicationProperties;
     private final RestTemplate restTemplate;
 
     public OrderResponse createOrder(OrderRequest request, String agreementMerchantId){
-        var url = getUrl(CREATE_ORDER_URL);
+        var url = getOrderUrl(CREATE_ORDER_URL);
         var payload = createPayload(request, agreementMerchantId);
         return executeForEntity(url, HttpMethod.POST, payload, OrderResponse.class);
     }
@@ -135,6 +135,10 @@ public class VasMultiPayApiRepository {
 
     private String getUrl(String postfix) {
         return applicationProperties.getVasMultiPayServerApi().getBaseUrl() + postfix;
+    }
+
+    private String getOrderUrl(String postfix){
+        return applicationProperties.getVasMultiPayServerApi().getBaseOrderUrl() + postfix;
     }
 
     private <T> T executeForEntity(String url, HttpMethod httpMethod, HttpEntity payload, Class<T> entityClass) {

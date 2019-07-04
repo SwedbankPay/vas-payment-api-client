@@ -93,7 +93,7 @@
             type="text"
             class="form-control"
             id="shippingStreetAddressee"
-            v-model="paymentRequest.shippingInformation.shippingStreetAddressee"
+            v-model="paymentRequest.shippingInformation.shippingAddressee"
             placeholder="John Doe"
           />
           <div class="col-md-1"></div>
@@ -219,10 +219,7 @@ export default {
     createOrder() {
       this.paymentRequest.paymentContractId = uuidV4();
       this.paymentRequest.paymentOrderRef = uuidV4();
-      this.paymentRequest.paymentTransmissionDateTime = new Date().toLocaleString(
-        'en-US',
-        { hour12: false }
-      );
+      this.paymentRequest.paymentTransmissionDateTime = new Date()
 
       //send to backend
       multipayService
@@ -248,7 +245,7 @@ export default {
     copyShippingInfo() {
       this.paymentRequest.shippingInformation.shippingAddressee = this.paymentRequest[
         this.customerType + 'CustomerIdentifier'
-      ].address.billingAddressee;
+      ].address.billingStreetAddressee;
       this.paymentRequest.shippingInformation.shippingCity = this.paymentRequest[
         this.customerType + 'CustomerIdentifier'
       ].address.billingCity;

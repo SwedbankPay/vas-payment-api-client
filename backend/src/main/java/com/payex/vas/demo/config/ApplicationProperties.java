@@ -31,6 +31,7 @@ public class ApplicationProperties {
     public static class VasMultiPayServerApi {
         private int apiTimeout;
         private String baseUrl;
+        private String baseOrderUrl;
         private String apiKey;
         private String apiSecret;
     }

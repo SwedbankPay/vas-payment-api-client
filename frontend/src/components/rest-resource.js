@@ -14,6 +14,9 @@ export const multipayService = {
   createOrder: function (request) {
     return paymentClientRepository({
       method: 'post',
+      headers: {
+        agreementId: request.merchant.agreementId
+      },
       data: request,
       url: 'multipay/order'
     })
