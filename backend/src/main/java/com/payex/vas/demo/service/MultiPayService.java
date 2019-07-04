@@ -7,10 +7,8 @@ import com.payex.vas.demo.domain.entities.PaymentOperation;
 import com.payex.vas.demo.domain.entities.SimulatedMerchant;
 import com.payex.vas.demo.domain.payex.base.AccountIdentifier;
 import com.payex.vas.demo.domain.payex.base.Merchant;
-import com.payex.vas.demo.domain.payex.request.BalanceRequest;
-import com.payex.vas.demo.domain.payex.request.OperationRequest;
-import com.payex.vas.demo.domain.payex.request.PaymentRequest;
-import com.payex.vas.demo.domain.payex.request.TransactionRequest;
+import com.payex.vas.demo.domain.payex.request.*;
+import com.payex.vas.demo.domain.payex.response.OrderResponse;
 import com.payex.vas.demo.domain.payex.response.PaymentAccountResponse;
 import com.payex.vas.demo.repository.PaymentInstrumentRepository;
 import com.payex.vas.demo.repository.PaymentOperationRepository;
@@ -38,6 +36,9 @@ public class MultiPayService {
 
     private final VasMultiPayApiRepository vasMultiPayApiRepository;
 
+    public OrderResponse createOrder(OrderRequest request, String agreementMerchantId) {
+        return vasMultiPayApiRepository.createOrder(request, agreementMerchantId);
+    }
 
     public PaymentAccountResponse balance(PaymentInstrument paymentInstrument, String agreementId) {
 

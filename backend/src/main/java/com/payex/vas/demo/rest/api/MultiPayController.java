@@ -2,10 +2,13 @@ package com.payex.vas.demo.rest.api;
 
 import com.payex.vas.demo.domain.dto.GenericPaymentRequest;
 import com.payex.vas.demo.domain.dto.GenericPaymentResponse;
+import com.payex.vas.demo.domain.payex.request.OrderRequest;
+import com.payex.vas.demo.domain.payex.response.OrderResponse;
 import com.payex.vas.demo.rest.util.ControllerExecutorHelper;
 import com.payex.vas.demo.service.MultiPayService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +21,14 @@ import java.util.List;
 public class MultiPayController {
 
     private final MultiPayService multiPayService;
+
+    @PostMapping("/order")
+    public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest request, @RequestHeader String agreementId) {
+        return ControllerExecutorHelper.executeAndLogRequest(log, "post", request, () -> {
+            var orderResponse = multiPayService.createOrder(request, agreementId);
+            return ResponseEntity.ok(orderResponse);
+        });
+    }
 
     @GetMapping("/payments")
     public ResponseEntity<List<GenericPaymentResponse>> listPaymentsForPaymentInstrument(@PathVariable(value = "id") Long paymentInstrumentId) {

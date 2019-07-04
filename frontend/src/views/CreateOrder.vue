@@ -41,14 +41,18 @@
         >
         <span class="input-group-addon"><i class="material-icons">attach_money</i></span>
         <select id="operation" class="form-control col-md-2" v-model="paymentRequest.currency">
-          <option disabled value="">Please select one</option>
+          <option disabled value="">Select one</option>
           <option>NOK</option>
           <option>SEK</option>
           <option>DKK</option>
           <option>EUR</option>
         </select>
     </div>
-    <div class="form-group"><label for="merchant">Merchant</label>
+    <div class="form-group">
+      <div class="row">
+        <label class="col" for="merchant">Merchant</label>
+        <label class="col" for="invoice_type">Payment method</label>
+      </div>
       <div class="input-group">
         <span class="input-group-addon"><i class="material-icons">store_mall_directory</i></span>
         <select id="merchant" class="form-control" v-model="paymentRequest.merchant">
@@ -56,6 +60,12 @@
           <option v-for="merchant in merchantList" :key="merchant.agreementId" v-bind:value="merchant">
             {{merchant.merchantName}}
           </option>
+        </select>
+        <select id="invoice-type" class="form-control" v-model="paymentRequest.paymentMethods">
+          <option disabled value="">Select one</option>
+          <option value="ALL">All</option>
+          <option value="INVOICE">Invoice</option>
+          <option value="ONLINE">Online</option>
         </select>
       </div>
     </div>
@@ -138,7 +148,8 @@
 
 <script>
 import AddCustomerInfo from '@/components/AddCustomerInfo.vue'
-import { merchantService } from '@/components/rest-resource.js'
+import { merchantService, multipayService } from '@/components/rest-resource.js'
+import {toastError } from '@/utils/creditcard-util'
 const uuidV4 = require('uuid/v4')
 
 export default {
@@ -167,7 +178,7 @@ export default {
         products: [],
         repeat: false,
         shippingInformation: {},
-        stan: ''
+        stan: '',
       },
       customerType: '',
       customer: null,
@@ -176,7 +187,6 @@ export default {
       initAmountCents: 0,
       copyShippingInfo: false,
       merchantList: [],
-      agreementId: ''
     }
   },
   mounted () {
@@ -202,6 +212,12 @@ export default {
       this.paymentRequest.paymentTransmissionDateTime = new Date().toLocaleString('en-US', { hour12: false })
 
       //send to backend
+      multipayService.createOrder(this.paymentRequest).then(res => {
+        px.toast({ html: 'Successfully created new order!' })
+        this.$root.$emit('order-create-event', res.data)
+      }).catch((error) => {
+        toastError(error)
+      })
     }
   },
   watch: {

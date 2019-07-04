@@ -2,14 +2,8 @@ package com.payex.vas.demo.repository.external;
 
 import com.google.common.base.Stopwatch;
 import com.payex.vas.demo.config.ApplicationProperties;
-import com.payex.vas.demo.domain.payex.request.BalanceRequest;
-import com.payex.vas.demo.domain.payex.request.OperationRequest;
-import com.payex.vas.demo.domain.payex.request.PaymentRequest;
-import com.payex.vas.demo.domain.payex.request.TransactionRequest;
-import com.payex.vas.demo.domain.payex.response.OperationResponse;
-import com.payex.vas.demo.domain.payex.response.PaymentAccountResponse;
-import com.payex.vas.demo.domain.payex.response.PaymentResponse;
-import com.payex.vas.demo.domain.payex.response.TransactionResponse;
+import com.payex.vas.demo.domain.payex.request.*;
+import com.payex.vas.demo.domain.payex.response.*;
 import com.payex.vas.demo.util.JsonUtil;
 import com.payex.vas.demo.util.error.BadRequestException;
 import com.payex.vas.demo.util.error.InternalServerErrorException;
@@ -52,10 +46,10 @@ public class VasMultiPayApiRepository {
     private final ApplicationProperties applicationProperties;
     private final RestTemplate restTemplate;
 
-    public PaymentResponse createOrder(PaymentRequest request, String agreementMerchantId){
+    public OrderResponse createOrder(OrderRequest request, String agreementMerchantId){
         var url = getUrl(CREATE_ORDER_URL);
         var payload = createPayload(request, agreementMerchantId);
-        return executeForEntity(url, HttpMethod.POST, payload, PaymentResponse.class);
+        return executeForEntity(url, HttpMethod.POST, payload, OrderResponse.class);
     }
 
     public PaymentResponse purchase(PaymentRequest request, String externalAccountId, String agreementMerchantId) { // externalAccountId probably not necessary

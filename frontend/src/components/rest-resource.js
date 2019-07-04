@@ -10,6 +10,16 @@ const paymentClientRepository = axios.create({
   }
 })
 
+export const multipayService = {
+  createOrder: function (request) {
+    return paymentClientRepository({
+      method: 'post',
+      data: request,
+      url: 'multipay/order'
+    })
+  }
+}
+
 export const merchantService = {
   listMerchants: function () {
     return paymentClientRepository({
