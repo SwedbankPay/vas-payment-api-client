@@ -17,7 +17,7 @@
           </div>
           <div class="card-body">
             <small>{{item.agreementId}}</small>
-            <edit-merchant-dialog :merchant="item"></edit-merchant-dialog>
+            <edit-merchant-dialog :merchant="item" :selectedApi="selectedApi"></edit-merchant-dialog>
           </div>
       </div>
     </div>

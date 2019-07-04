@@ -1,16 +1,16 @@
 <template>
   <form>
     <div class="radio">
-      <input 
+      <input
         type="radio"
         id="multi-pay-radio"
         value="multipay"
-        v-model="api" 
+        v-model="api"
         >
       <label for="multi-pay-radio">MultiPay API</label>
     </div>
     <div class="radio">
-      <input 
+      <input
         type="radio"
         id="public-pay-radio"
         value="payment-api"

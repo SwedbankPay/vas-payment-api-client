@@ -24,9 +24,12 @@
             rows="3"
           ></textarea>
         </div>
-        <label for="amount">Amount</label>
+        <div class="row">
+      <label class="col" for="amount">Amount</label>
+      <label class="col-md-2" for="operation">Currency</label>
+    </div>
         <div class="input-group amountSize">
-          <span class="input-group-addon"><i class="material-icons">attach_money</i></span>
+          <span class="input-group-addon"><i class="material-icons">monetization_on</i></span>
           <input
             class="form-control order-input"
             id="amount"
@@ -37,6 +40,14 @@
             class="form-control col-md-1 order-input"
             v-model="initAmountCents"
           >
+        <span class="input-group-addon"><i class="material-icons">attach_money</i></span>
+        <select id="operation" class="form-control col-md-2" v-model="paymentRequest.currency">
+          <option disabled value="">Please select one</option>
+          <option>NOK</option>
+          <option>SEK</option>
+          <option>DKK</option>
+          <option>EUR</option>
+        </select>
         </div>
         <div class="form-group"><label for="merchant">Merchant</label>
           <div class="input-group">
@@ -143,7 +154,7 @@
           additionalData: '',
           amount: 0,
           corporateCustomerIdentifier: {},
-          privateCustomerIdentifier: {},
+          currency: '',privateCustomerIdentifier: {},
           description: '',
           merchant: {},
           paymentContractId: '',
