@@ -20,6 +20,24 @@ export const multipayService = {
       data: request,
       url: 'multipay/order'
     })
+  },
+  getOrder: function (agreementId, id) {
+    return paymentClientRepository({
+      method: 'get',
+      headers: {
+        agreementId: agreementId
+      },
+      url: `multipay/order/${id}`
+    })
+  },
+  cancelOrder: function (agreementId, id) {
+    return paymentClientRepository({
+      method: 'post',
+      headers: {
+        agreementId: agreementId
+      },
+      url: `multipay/order/${id}/cancel`
+    })
   }
 }
 

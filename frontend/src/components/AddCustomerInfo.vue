@@ -126,14 +126,14 @@
                 type="text"
                 class="form-control"
                 id="contactName"
-                v-model="privateCustomer.contactFirstName"
+                v-model="corporateCustomer.contactFirstName"
                 placeholder="First name"
               />
               <input
                 type="text"
                 class="form-control"
                 id="lastName"
-                v-model="privateCustomer.contactLastName"
+                v-model="corporateCustomer.contactLastName"
                 placeholder="Last name"
               />
             </div>

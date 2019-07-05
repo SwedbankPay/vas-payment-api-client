@@ -64,7 +64,7 @@
               <option disabled :value="{}">Please select one</option>
               <option
                 v-for="merchant in merchantList"
-                :key="merchant.agreementId"
+                :key="merchant.id"
                 v-bind:value="merchant"
               >{{merchant.merchantName}}</option>
             </select>
