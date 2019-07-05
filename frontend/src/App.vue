@@ -22,6 +22,8 @@
             |
             <router-link to="/merchants">Merchants</router-link>
             |
+            <router-link to="/products">Products</router-link>
+            |
             <router-link to="/aboutmultipay">About</router-link>
           </div>
           <router-view :selectedApi="selectedApi"/>

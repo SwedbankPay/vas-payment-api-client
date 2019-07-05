@@ -10,7 +10,7 @@ import lombok.*;
 @ToString(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class CorporateCustomerIdentifier extends AccountIdentifier {
+public class CorporateCustomerIdentifier extends MultiPayAccountIdentifier {
 
     @ApiModelProperty(
         name = "companyName",
