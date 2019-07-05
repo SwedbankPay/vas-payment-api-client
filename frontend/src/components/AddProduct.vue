@@ -109,6 +109,9 @@
 </template>
 
 <script>
+  import {toastError} from "../utils/creditcard-util";
+  import { multipayProductService } from './rest-resource'
+
   export default {
     name: 'AddProduct',
     props: {
@@ -135,13 +138,15 @@
     },
     methods: {
       addProduct: function () {
-
-
-        px.dialog.close('add-product-dialog')
-        this.$emit('add-product-successful', product)
+        multipayProductService.addProduct((this.product)).then(res => {
+          px.toast({ html: 'Successfully added new product!' })
+          px.dialog.close('add-product-dialog')
+          this.$root.$emit('merchant-update-event', res.data)
+        }).catch((error) => {
+            toastError(error)
+        })
       }
     },
-
   }
 </script>
 
