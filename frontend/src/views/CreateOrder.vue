@@ -29,6 +29,57 @@
             rows="3"
           ></textarea>
         </div>
+        <label for="products">Products</label>
+        <table v-if="paymentRequest.products.length > 0" class="table table-condensed">
+          <thead>
+            <tr>
+              <th scope="col" style="text-align: center">Product Name</th>
+              <th scope="col" style="text-align: center">Quantity</th>
+              <th scope="col" style="text-align: center">Price</th>
+              <th scope="col" style="text-align: center"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="prod in paymentRequest.products" :key="prod.productId">
+              <td>{{prod.name}}</td>
+              <td>
+                <span @click="(prod.quantity > 0) ? prod.quantity -= 1 : ''" :style="{ float: 'left', color: '#2da944' }">
+                  <i class="material-icons">remove_circle</i>
+                </span>
+                {{prod.quantity}}
+                <span  @click="prod.quantity += 1" :style="{ float: 'right', color: '#2da944' }">
+                  <i class="material-icons">add_circle</i>
+                </span>
+              </td>
+              <td>{{(prod.amount * prod.quantity)/100}}</td>
+              <td>
+                <span  style="color: #2da944"
+                  @click="paymentRequest.products = paymentRequest.products.filter((product) => product.productId != prod.productId)">
+                  <i class="material-icons">delete</i>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>Total</td>
+              <td></td>
+              <td>{{totalAmount/100}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div v-if="totalAmount > 0" class="checkbox">
+          <input type="checkbox" id="copyAmount" v-model="copyTotalToAmount" />
+          <label for="copyAmount">Copy total to amount?</label>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon">
+            <i class="material-icons">add_shopping_cart</i>
+          </span>
+          <select id="products" class="form-control" v-model="selectedProduct" @change="addProduct(selectedProduct)">
+            <option disabled :value="{}">Products</option>
+            <option v-for="prod in productList" :key="prod.productId" :value="prod"
+            >{{prod.name}}</option>
+          </select>
+        </div>
         <div class="row">
           <label class="col" for="amount">Amount</label>
           <label class="col-md-2" for="operation">Currency</label>
@@ -196,7 +247,20 @@ export default {
       initAmount: 0,
       initAmountCents: 0,
       copyShippingInfo: false,
-      merchantList: []
+      copyTotalToAmount: false,
+      merchantList: [],
+      productList: [{
+        productOrderId: 0,
+        name: "test product",
+        amount: 66666,
+        description: "test product",
+        productId: 1,
+        quantity: 1,
+        unitOfMeasure: 'L',
+        vatAmount: 6666*0.25,
+        vatRate: 25
+      }],
+      selectedProduct: {},
     };
   },
   mounted() {
@@ -205,65 +269,89 @@ export default {
   methods: {
     updateCustomerData(customer, type) {
       if (type === 'corporate') {
-        this.paymentRequest.corporateCustomerIdentifier = customer;
-      } else this.paymentRequest.privateCustomerIdentifier = customer;
-      this.customerType = type;
-      this.customer = customer;
-      this.message = 'Edit customer info';
+        this.paymentRequest.corporateCustomerIdentifier = customer
+      } else this.paymentRequest.privateCustomerIdentifier = customer
+      this.customerType = type
+      this.customer = customer
+      this.message = 'Edit customer info'
     },
     listMerchants() {
       merchantService.listMerchants().then(res => {
-        this.merchantList = res.data;
+        this.merchantList = res.data
       });
     },
     createOrder() {
-      this.paymentRequest.paymentContractId = uuidV4();
-      this.paymentRequest.paymentOrderRef = uuidV4();
+      this.paymentRequest.paymentContractId = uuidV4()
+      this.paymentRequest.paymentOrderRef = uuidV4()
       this.paymentRequest.paymentTransmissionDateTime = new Date()
 
       //send to backend
       multipayService
         .createOrder(this.paymentRequest)
         .then(res => {
-          px.toast({ html: 'Successfully created new order!' });
-          this.$root.$emit('order-create-event', res.data);
+          px.toast({ html: 'Successfully created new order!' })
+          this.$root.$emit('order-create-event', res.data)
         })
         .catch(error => {
-          toastError(error);
-        });
+          toastError(error)
+        })
+    },
+    addProduct (prod) {
+      if (this.paymentRequest.products.includes(prod))
+        this.paymentRequest.products.find((product) => product.productId === prod.productId).quantity += 1
+      else {
+        prod.quantity = 1
+        this.paymentRequest.products.push(prod)
+      }
+        
+      //this.initAmount = parseInt(this.initAmount) + parseInt(prod.amount / 100)
+      //this.initAmountCents = parseInt(this.initAmountCents) + (prod.amount % 100)
+      this.selectedProduct = {}
     }
   },
   watch: {
-    initAmount() {
+    initAmount () {
       this.paymentRequest.amount =
         parseInt(this.initAmount) * 100 + parseInt(this.initAmountCents);
     },
-    initAmountCents() {
+    initAmountCents () {
       this.paymentRequest.amount =
         parseInt(this.initAmount) * 100 + parseInt(this.initAmountCents);
     },
-    copyShippingInfo() {
-      this.paymentRequest.shippingInformation.shippingAddressee = this.paymentRequest[
-        this.customerType + 'CustomerIdentifier'
-      ].address.billingStreetAddressee;
-      this.paymentRequest.shippingInformation.shippingCity = this.paymentRequest[
-        this.customerType + 'CustomerIdentifier'
-      ].address.billingCity;
-      this.paymentRequest.shippingInformation.shippingCoAddress = this.paymentRequest[
-        this.customerType + 'CustomerIdentifier'
-      ].address.billingCoAddress;
-      this.paymentRequest.shippingInformation.shippingCountryCode = this.paymentRequest[
-        this.customerType + 'CustomerIdentifier'
-      ].address.billingCountryCode;
-      this.paymentRequest.shippingInformation.shippingPostalCode = this.paymentRequest[
-        this.customerType + 'CustomerIdentifier'
-      ].address.billingPostalCode;
-      this.paymentRequest.shippingInformation.shippingStreetAddress = this.paymentRequest[
-        this.customerType + 'CustomerIdentifier'
-      ].address.billingStreetAddress;
+    copyShippingInfo () {
+      if (copyShippingInfo === true) {
+        this.paymentRequest.shippingInformation.shippingAddressee = this.paymentRequest[this.customerType + 'CustomerIdentifier'].address.billingStreetAddressee
+        this.paymentRequest.shippingInformation.shippingCity = this.paymentRequest[this.customerType + 'CustomerIdentifier'].address.billingCity
+        this.paymentRequest.shippingInformation.shippingCoAddress = this.paymentRequest[this.customerType + 'CustomerIdentifier'].address.billingCoAddress
+        this.paymentRequest.shippingInformation.shippingCountryCode = this.paymentRequest[this.customerType + 'CustomerIdentifier'].address.billingCountryCode
+        this.paymentRequest.shippingInformation.shippingPostalCode = this.paymentRequest[this.customerType + 'CustomerIdentifier'].address.billingPostalCode
+        this.paymentRequest.shippingInformation.shippingStreetAddress = this.paymentRequest[this.customerType + 'CustomerIdentifier'].address.billingStreetAddress
+      } else {
+        this.paymentRequest.shippingInformation.shippingAddressee = ''
+        this.paymentRequest.shippingInformation.shippingCity = ''
+        this.paymentRequest.shippingInformation.shippingCoAddress = ''
+        this.paymentRequest.shippingInformation.shippingCountryCode = ''
+        this.paymentRequest.shippingInformation.shippingPostalCode = ''
+        this.paymentRequest.shippingInformation.shippingStreetAddress = ''
+      }
+    },
+    copyTotalToAmount () {
+      if (this.copyTotalToAmount === true) {
+        this.initAmount = this.totalAmount / 100
+        this.initAmountCents = this.totalAmount % 100
+      }
+    }
+  },
+  computed: {
+    totalAmount () {
+      let total = 0
+      for (let prod of this.paymentRequest.products){
+        total += prod.amount * prod.quantity
+      }
+      return total
     }
   }
-};
+}
 </script>
 
 <style>
