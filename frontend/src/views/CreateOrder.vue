@@ -15,7 +15,6 @@
           :message="message"
           style="margin-bottom: 2rem"
         />
-        <AddProduct :productMessage="productMessage" style="margin-bottom: 2rem" />
         <label for="description">Order Description</label>
         <div class="input-group">
           <span class="input-group-addon">

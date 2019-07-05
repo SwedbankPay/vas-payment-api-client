@@ -10,6 +10,7 @@
         </header>
         <div class="dialog-body">
           <div class="form-group">
+            <!-- Should maybe be set automatically by DB and backend 
             <label for="productId">Product Id</label>
             <div class="input-group">
               <span class="input-group-addon">
@@ -35,7 +36,7 @@
                 v-model="product.productOrderId"
                 placeholder="0"
               />
-            </div>
+            </div> -->
             <label for="productName">Product Name</label>
             <div class="input-group">
               <span class="input-group-addon">
@@ -141,7 +142,7 @@
         multipayProductService.addProduct((this.product)).then(res => {
           px.toast({ html: 'Successfully added new product!' })
           px.dialog.close('add-product-dialog')
-          this.$root.$emit('merchant-update-event', res.data)
+          this.$root.$emit('product-update-event', res.data)
         }).catch((error) => {
             toastError(error)
         })
