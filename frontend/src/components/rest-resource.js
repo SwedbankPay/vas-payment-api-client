@@ -70,6 +70,35 @@ export const merchantService = {
   }
 }
 
+export const multipayProductService = {
+  listProducts: function () {
+    return paymentClientRepository({
+      method: 'get',
+      url: 'products/'
+    })
+  },
+  addProduct: function (product) {
+    return paymentClientRepository({
+      method: 'post',
+      data: product,
+      url: 'products'
+    })
+  },
+  updateProduct: function (product) {
+    return paymentClientRepository({
+      method: 'put',
+      data: product,
+      url: 'products'
+    })
+  },
+  deleteProduct: function (productId) {
+    return paymentClientRepository({
+      method: 'delete',
+      url: `products/${productId}`
+    })
+  }
+}
+
 export const paymentInstrumentService = {
 
   listPaymentInstruments: function () {

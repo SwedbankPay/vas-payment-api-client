@@ -7,6 +7,7 @@ import About from './views/About'
 import AboutMultipay from './views/AboutMultipay'
 import Merchants from './views/Merchants'
 import CreateOrder from './views/CreateOrder'
+import AddProduct from './components/AddProduct'
 
 export default new VueRouter({
   mode: 'history',
@@ -49,6 +50,11 @@ export default new VueRouter({
       path: '/order',
       name: 'Order',
       component: CreateOrder
+    },
+    {
+      path: '/products',
+      name: 'Product',
+      component: AddProduct
     }
   ]
 })

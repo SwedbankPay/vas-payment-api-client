@@ -36,7 +36,7 @@ application:
 
     vas-multipay-server-api:
         base-url: "${VAS_MULTIPAY_SERVER_API_URL:https://stage-evc.payex.com/multipay/api/multipay/payment}"
-        base-order-url: "${VAS_MULTIPAY_SERVER_ORDER_API_URL:https://stage-evc.payex.com/multipay/api/orders}"
+        base-order-url: "${VAS_MULTIPAY_SERVER_ORDER_API_URL:http://localhost:19003/api/orders}"
         api-timeout: 20000
         api-key: "${API_KEY:Systemtest}"
         api-secret: "${API-SECRET:Systemtest}"
@@ -48,5 +48,6 @@ vas-payment-api:
             grantType: client_credentials
             clientId: "${CLIENT_ID:systemtest}" # Provided by PayEx
             clientSecret: "${CLIENT_SECRET:systemtest}" # Provided by PayEx
-            accessTokenUri: "${VAS_AUTH_SERVER_URL:https://stage-evc.payex.com/VasIdentityServer/connect/token}"
+            accessTokenUri: "${VAS_AUTH_SERVER_URL:http://noutv002web.utvnet.net/VasIdentityServer/connect/token}"
             scope: publicapi
+

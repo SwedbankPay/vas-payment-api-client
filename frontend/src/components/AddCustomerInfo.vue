@@ -132,7 +132,6 @@
               <input
                 type="text"
                 class="form-control"
-                id="lastName"
                 v-model="corporateCustomer.contactLastName"
                 placeholder="Last name"
               />
@@ -180,7 +179,7 @@
                 placeholder="EN"
               />
             </div>
-            <label for="corporateSsn">Vat Registration Number</label>
+            <label for="corporateVat">Vat Registration Number</label>
             <div class="input-group">
               <span class="input-group-addon">
                 <i class="material-icons">shopping_basket</i>
@@ -247,7 +246,7 @@
           </div>
           <div>
             <h6>Billing Address Information</h6>
-            <label for="billingAddressee">Billing Addressee</label>
+            <label for="billingStreetAddressee">Billing Addressee</label>
             <div class="input-group">
               <span class="input-group-addon">
                 <i class="material-icons">account_box</i>
@@ -255,7 +254,7 @@
               <input
                 type="text"
                 class="form-control"
-                id="billingStreetAddress"
+                id="billingStreetAddressee"
                 v-model="address.billingStreetAddressee"
                 placeholder="John Doe"
               />
