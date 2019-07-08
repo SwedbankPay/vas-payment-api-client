@@ -26,7 +26,7 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<List<MultipayProduct>> listProducts() {
-        return ControllerExecutorHelper.executeAndLogRequest(log, "listMerchants", () -> {
+        return ControllerExecutorHelper.executeAndLogRequest(log, "listProducts", () -> {
             var productList = productRepository.findAll();
             return ResponseEntity.ok(productList);
         });

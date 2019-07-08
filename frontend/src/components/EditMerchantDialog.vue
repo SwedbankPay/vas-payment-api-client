@@ -75,7 +75,6 @@
             </select>
           </div>
         </div>
-
       </div>
       <footer>
         <button class="btn btn-danger" type="button" v-on:click="deleteMerchant">Delete</button>
