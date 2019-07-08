@@ -10,7 +10,7 @@
         </header>
         <div class="dialog-body">
           <div class="form-group">
-            <!-- Should maybe be set automatically by DB and backend 
+            <!-- Should maybe be set automatically by DB and backend
             <label for="productId">Product Id</label>
             <div class="input-group">
               <span class="input-group-addon">
@@ -117,44 +117,44 @@
 </template>
 
 <script>
-  import {toastError} from "../utils/creditcard-util";
-  import { multipayProductService } from './rest-resource'
+import { toastError } from '../utils/creditcard-util'
+import { multipayProductService } from './rest-resource'
 
-  export default {
-    name: 'AddProduct',
-    props: {
-      productMessage: String
-    },
-    data() {
-      return {
-        product: {
-          amount: 0,
-          description: '',
-          name: '',
-          productId: 0,
-          productOrderId: 0,
-          quantity: 0.0,
-          unitOfMeasure: '',
-          vatAmount: 123,
-          vatRate: 25
-        },
+export default {
+  name: 'AddProduct',
+  props: {
+    productMessage: String
+  },
+  data () {
+    return {
+      product: {
+        amount: 0,
+        description: '',
+        name: '',
+        productId: 0,
+        productOrderId: 0,
+        quantity: 0.0,
+        unitOfMeasure: '',
+        vatAmount: 123,
+        vatRate: 25
       }
-    },
-    mounted() {
-      px.dialog.init()
-    },
-    methods: {
-      addProduct: function () {
-        multipayProductService.addProduct((this.product)).then(res => {
-          px.toast({ html: 'Successfully added new product!' })
-          px.dialog.close('add-product-dialog')
-          this.$root.$emit('product-update-event', res.data)
-        }).catch((error) => {
-            toastError(error)
-        })
-      }
-    },
+    }
+  },
+  mounted () {
+    px.dialog.init()
+  },
+  methods: {
+    addProduct: function () {
+      multipayProductService.addProduct((this.product)).then(res => {
+        px.toast({ html: 'Successfully added new product!' })
+        px.dialog.close('add-product-dialog')
+        this.$root.$emit('product-update-event', res.data)
+      }).catch((error) => {
+        toastError(error)
+      })
+    }
   }
+}
 </script>
 
 <style>

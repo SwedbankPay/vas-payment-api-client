@@ -12,7 +12,7 @@
               <div class="media-body">
                 <h4 class="text-muted">{{item.name}}</h4>
                 <p>
-                  <small>Price: {{item.amount}}</small>
+                  <small>Price: {{item.amount/100}}</small>
                 </p>
               </div>
             </div>
@@ -29,10 +29,10 @@
 <script>
 import { multipayProductService } from './rest-resource'
 import AddProduct from '@/components/AddProduct'
-import EditProductDialog from "./EditProductDialog";
+import EditProductDialog from './EditProductDialog'
 export default {
   name: 'ProductList',
-  components: {EditProductDialog, AddProduct },
+  components: { EditProductDialog, AddProduct },
   data () {
     return {
       items: []
@@ -50,7 +50,7 @@ export default {
   methods: {
     fetchItems () {
       multipayProductService.listProducts().then(res => { this.items = res.data })
-    },
+    }
   }
 }
 </script>

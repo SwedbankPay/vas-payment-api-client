@@ -1,5 +1,19 @@
 <template>
   <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-md-3 form-group">
+        <div class="input-group">
+          <input
+            class="form-control"
+            type="text"
+            v-model="searchId"
+            placeholder="Order ID"
+            @submit.prevent="fetchItem(searchId)"
+            >
+          <button class="input-group-addon btn" type="submit" @click.prevent="fetchItem(searchId)"><i class="material-icons">search</i></button>
+        </div>
+      </div>
+    </div>
     <div class="cards" v-for="item in items" :key="item.orderId">
       <div class="card card-default">
         <div class="highlight">
@@ -50,6 +64,7 @@ export default {
   },
   data () {
     return {
+      searchId: '',
       items: [
         {
           orderId: 1,
@@ -107,7 +122,8 @@ export default {
       else return order.corporateCustomerIdentifer.companyName
     },
     fetchItem (id) {
-      multipayService.getOrder('systemTest', id).then(res => {
+      console.log('trying to fetch item with id: ' + id)
+      multipayService.getOrder('Systemtest', id).then(res => {
         this.items.push(res.data)
       })
     }

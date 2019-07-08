@@ -269,10 +269,10 @@ export default {
         this.merchantList = res.data
       })
     },
-    listProducts() {
+    listProducts () {
       multipayProductService.listProducts().then(res => {
-        this.productList = res.data;
-      });
+        this.productList = res.data
+      })
     },
     createOrder () {
       this.paymentRequest.paymentContractId = uuidV4()

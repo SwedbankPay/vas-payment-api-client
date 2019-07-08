@@ -77,12 +77,7 @@
 export default {
   name: 'ViewOrderDetailsDialog',
   props: {
-    order: {
-      type: Object,
-      default: function () {
-        return {}
-      }
-    }
+    order: Object
   },
   data () {
     return {

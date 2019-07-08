@@ -106,7 +106,7 @@ export default {
     },
     selectedApi: {
       type: String,
-      default: "payment-api"
+      default: 'payment-api'
     }
   },
   mounted () {

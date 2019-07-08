@@ -30,19 +30,14 @@ import { toastError } from '@/utils/creditcard-util'
 export default {
   name: 'CancelOrderDialog',
   props: {
-    order: {
-      type: Object,
-      default: function () {
-        return {}
-      }
-    }
+    order: Object
   },
   mounted () {
     px.dialog.init()
   },
   methods: {
     cancelOrder () {
-      multipayService.cancelOrder('systemTest', this.order.orderId).then(res => {
+      multipayService.cancelOrder('Systemtest', this.order.orderId).then(res => {
         px.toast({ html: 'Successfully cancelled order with ID: ' + this.order.orderId })
         this.$root.$emit('order-cancel-event', this.order.orderId)
         px.dialog.close(`cancel-order-dialog${this.order.orderId}`)

@@ -3,7 +3,7 @@
     <div class="dialog" :id="`edit-product-dialog${product.productId}`">
       <section>
         <header>
-          <h5>Update {{ product.name}}</h5>
+          <h5>Update {{product.name}}</h5>
           <a href="#" class="dialog-close">
             <i class="material-icons">close</i>
           </a>
@@ -77,44 +77,39 @@
 </template>
 
 <script>
-  import {toastError} from "../utils/creditcard-util";
-  import { multipayProductService } from './rest-resource'
+import { toastError } from '../utils/creditcard-util'
+import { multipayProductService } from './rest-resource'
 
-  export default {
-    name: 'EditProductDialog',
-    props: {
-      productMessage: String,
-      product: {}
+export default {
+  name: 'EditProductDialog',
+  props: {
+    productMessage: String,
+    product: Object
+  },
+  mounted () {
+    px.dialog.init()
+  },
+  methods: {
+    updateProduct () {
+      multipayProductService.updateProduct(this.product).then(res => {
+        px.toast({ html: 'Successfully updated "' + this.product.name + '"' })
+        this.$root.$emit('product-update-event', res)
+        px.dialog.close(`edit-product-dialog${this.product.productId}`)
+      }).catch((error) => {
+        toastError(error)
+      })
     },
-    data() {
-      return {
-
-      }
-    },
-    mounted() {
-      px.dialog.init()
-    },
-    methods: {
-      updateProduct () {
-        merchantService.updateMerchant(this.product).then(res => {
-          px.toast({ html: 'Successfully updated "' + this.product.name + '"' })
-          this.$root.$emit('product-update-event', res)
-          px.dialog.close(`edit-product-dialog${this.product.productId}`)
-        }).catch((error) => {
-          toastError(error)
-        })
-      },
-      deleteProduct () {
-        multipayProductService.deleteProduct(this.product.productId).then(res => {
-          px.toast({ html: 'Successfully deleted "' + this.product.name + '"' })
-          this.$root.$emit('product-update-event', res)
-          px.dialog.close(`edit-product-dialog${this.product.productId}`)
-        }).catch((error) => {
-          toastError(error)
-        })
-      },
-    },
+    deleteProduct () {
+      multipayProductService.deleteProduct(this.product.productId).then(res => {
+        px.toast({ html: 'Successfully deleted "' + this.product.name + '"' })
+        this.$root.$emit('product-update-event', res)
+        px.dialog.close(`edit-product-dialog${this.product.productId}`)
+      }).catch((error) => {
+        toastError(error)
+      })
+    }
   }
+}
 </script>
 
 <style scoped>
