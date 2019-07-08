@@ -203,7 +203,6 @@
 <script>
 import AddCustomerInfo from '@/components/AddCustomerInfo.vue'
 import { multipayProductService } from '@/components/rest-resource'
-import AddCustomerInfo from '@/components/AddCustomerInfo.vue'
 import {
   merchantService,
   multipayService
@@ -275,7 +274,6 @@ export default {
         this.productList = res.data;
       });
     },
-    createOrder() {
     createOrder () {
       this.paymentRequest.paymentContractId = uuidV4()
       this.paymentRequest.paymentOrderRef = uuidV4()
