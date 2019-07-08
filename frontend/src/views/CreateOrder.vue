@@ -201,22 +201,20 @@
 </template>
 
 <script>
-import AddCustomerInfo from '@/components/AddCustomerInfo.vue';
-import AddProduct from '@/components/AddProduct.vue';
+import AddCustomerInfo from '@/components/AddCustomerInfo.vue'
 import {
   merchantService,
   multipayService
-} from '@/components/rest-resource.js';
-import { toastError } from '@/utils/creditcard-util';
-const uuidV4 = require('uuid/v4');
+} from '@/components/rest-resource.js'
+import { toastError } from '@/utils/creditcard-util'
+const uuidV4 = require('uuid/v4')
 
 export default {
   name: 'CreateOrder',
   components: {
-    AddCustomerInfo,
-    AddProduct
+    AddCustomerInfo
   },
-  data() {
+  data () {
     return {
       paymentRequest: {
         additionalData: '',
@@ -250,23 +248,23 @@ export default {
       merchantList: [],
       productList: [{
         productOrderId: 0,
-        name: "test product",
+        name: 'test product',
         amount: 66666,
-        description: "test product",
+        description: 'test product',
         productId: 1,
         quantity: 1,
         unitOfMeasure: 'L',
-        vatAmount: 6666*0.25,
+        vatAmount: 6666 * 0.25,
         vatRate: 25
       }],
-      selectedProduct: {},
-    };
+      selectedProduct: {}
+    }
   },
-  mounted() {
-    this.listMerchants();
+  mounted () {
+    this.listMerchants()
   },
   methods: {
-    updateCustomerData(customer, type) {
+    updateCustomerData (customer, type) {
       if (type === 'corporate') {
         this.paymentRequest.corporateCustomerIdentifier = customer
       } else this.paymentRequest.privateCustomerIdentifier = customer
@@ -274,17 +272,17 @@ export default {
       this.customer = customer
       this.message = 'Edit customer info'
     },
-    listMerchants() {
+    listMerchants () {
       merchantService.listMerchants().then(res => {
         this.merchantList = res.data
-      });
+      })
     },
-    createOrder() {
+    createOrder () {
       this.paymentRequest.paymentContractId = uuidV4()
       this.paymentRequest.paymentOrderRef = uuidV4()
       this.paymentRequest.paymentTransmissionDateTime = new Date()
 
-      //send to backend
+      // send to backend
       multipayService
         .createOrder(this.paymentRequest)
         .then(res => {
@@ -296,29 +294,28 @@ export default {
         })
     },
     addProduct (prod) {
-      if (this.paymentRequest.products.includes(prod))
-        this.paymentRequest.products.find((product) => product.productId === prod.productId).quantity += 1
+      if (this.paymentRequest.products.includes(prod)) this.paymentRequest.products.find((product) => product.productId === prod.productId).quantity += 1
       else {
         prod.quantity = 1
         this.paymentRequest.products.push(prod)
       }
-        
-      //this.initAmount = parseInt(this.initAmount) + parseInt(prod.amount / 100)
-      //this.initAmountCents = parseInt(this.initAmountCents) + (prod.amount % 100)
+
+      // this.initAmount = parseInt(this.initAmount) + parseInt(prod.amount / 100)
+      // this.initAmountCents = parseInt(this.initAmountCents) + (prod.amount % 100)
       this.selectedProduct = {}
     }
   },
   watch: {
     initAmount () {
       this.paymentRequest.amount =
-        parseInt(this.initAmount) * 100 + parseInt(this.initAmountCents);
+        parseInt(this.initAmount) * 100 + parseInt(this.initAmountCents)
     },
     initAmountCents () {
       this.paymentRequest.amount =
-        parseInt(this.initAmount) * 100 + parseInt(this.initAmountCents);
+        parseInt(this.initAmount) * 100 + parseInt(this.initAmountCents)
     },
     copyShippingInfo () {
-      if (copyShippingInfo === true) {
+      if (this.copyShippingInfo === true) {
         this.paymentRequest.shippingInformation.shippingAddressee = this.paymentRequest[this.customerType + 'CustomerIdentifier'].address.billingStreetAddressee
         this.paymentRequest.shippingInformation.shippingCity = this.paymentRequest[this.customerType + 'CustomerIdentifier'].address.billingCity
         this.paymentRequest.shippingInformation.shippingCoAddress = this.paymentRequest[this.customerType + 'CustomerIdentifier'].address.billingCoAddress
@@ -344,7 +341,7 @@ export default {
   computed: {
     totalAmount () {
       let total = 0
-      for (let prod of this.paymentRequest.products){
+      for (let prod of this.paymentRequest.products) {
         total += prod.amount * prod.quantity
       }
       return total

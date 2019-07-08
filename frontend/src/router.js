@@ -1,13 +1,13 @@
 import VueRouter from 'vue-router'
 import Home from './views/Home.vue'
 import Card from './views/Card.vue'
-
 import PaymentInstrument from './views/PaymentInstrument.vue'
 import About from './views/About'
 import AboutMultipay from './views/AboutMultipay'
 import Merchants from './views/Merchants'
-import CreateOrder from './views/CreateOrder'
 import Products from './views/Products'
+import CreateOrder from './views/CreateOrder'
+import ViewOrder from './views/ViewOrder'
 
 export default new VueRouter({
   mode: 'history',
@@ -47,14 +47,19 @@ export default new VueRouter({
       component: AboutMultipay
     },
     {
-      path: '/order',
-      name: 'Order',
-      component: CreateOrder
-    },
-    {
       path: '/products',
       name: 'Product',
       component: Products
+    },
+    {
+      path: '/order/create',
+      name: 'CreateOrder',
+      component: CreateOrder
+    },
+    {
+      path: '/order/view',
+      name: 'ViewOrder',
+      component: ViewOrder
     }
   ]
 })

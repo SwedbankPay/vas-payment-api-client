@@ -40,6 +40,14 @@ public class MultiPayService {
         return vasMultiPayApiRepository.createOrder(request, agreementMerchantId);
     }
 
+    public OrderResponse getOrder(Long orderId, String agreementMerchantId) {
+        return vasMultiPayApiRepository.getOrder(orderId, agreementMerchantId);
+    }
+
+    public OrderResponse cancelOrder(Long orderId, String agreementMerchantId) {
+        return vasMultiPayApiRepository.cancelOrder(orderId, agreementMerchantId);
+    }
+
     public PaymentAccountResponse balance(PaymentInstrument paymentInstrument, String agreementId) {
 
         var balanceRequest = BalanceRequest.builder()

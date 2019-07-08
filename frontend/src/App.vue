@@ -18,7 +18,9 @@
           <div id="nav" v-if="selectedApi === 'multipay'">
             <router-link to="/">Home</router-link>
             |
-            <router-link to="/order">Order</router-link>
+            <router-link to="/order/create">Order</router-link>
+            |
+            <router-link to="/order/view">View Order</router-link>
             |
             <router-link to="/merchants">Merchants</router-link>
             |
@@ -35,26 +37,26 @@
 </template>
 
 <script>
-  import SelectAPI from '@/components/SelectAPI.vue'
+import SelectAPI from '@/components/SelectAPI.vue'
 
-  export default {
-    name: 'App',
-    components: {
-      SelectAPI
-    },
-    data() {
-      return {
-        selectedApi: sessionStorage.getItem('api') ? sessionStorage.getItem('api') : 'payment-api'
-      }
-    },
-    methods: {
-      changeApi: function (api) {
-        this.selectedApi = api
-        sessionStorage.setItem('api', api)
-        this.$router.push('/')
-      }
+export default {
+  name: 'App',
+  components: {
+    SelectAPI
+  },
+  data () {
+    return {
+      selectedApi: sessionStorage.getItem('api') ? sessionStorage.getItem('api') : 'payment-api'
+    }
+  },
+  methods: {
+    changeApi: function (api) {
+      this.selectedApi = api
+      sessionStorage.setItem('api', api)
+      this.$router.push('/')
     }
   }
+}
 
 </script>
 

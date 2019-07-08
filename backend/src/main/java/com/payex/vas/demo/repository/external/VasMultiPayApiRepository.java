@@ -42,6 +42,8 @@ public class VasMultiPayApiRepository {
     private static final String BALANCE_URL = "/balance";
 
     private static final String CREATE_ORDER_URL = "/create";
+    private static final String GET_ORDER_URL = "/%d";
+    private static final String CANCEL_ORDER_URL = "/%d/cancel";
 
     private final ApplicationProperties applicationProperties;
     private final RestTemplate restTemplate;
@@ -50,6 +52,18 @@ public class VasMultiPayApiRepository {
         var url = getOrderUrl(CREATE_ORDER_URL);
         var payload = createPayload(request, agreementMerchantId);
         return executeForEntity(url, HttpMethod.POST, payload, OrderResponse.class);
+    }
+
+    public OrderResponse getOrder(Long orderId, String agreementMerchantId) {
+        var url = getOrderUrlWithParam(GET_ORDER_URL, orderId);
+        var payload = createPayload(null, agreementMerchantId);
+        return executeForEntity(url, HttpMethod.GET, payload, OrderResponse.class);
+    }
+
+    public OrderResponse cancelOrder(Long orderId, String agreementMerchantId) {
+        var url = getOrderUrlWithParam(CANCEL_ORDER_URL, orderId);
+        var payload = createPayload(null, agreementMerchantId);
+        return executeForEntity(url, HttpMethod.GET, payload, OrderResponse.class);
     }
 
     public PaymentResponse purchase(PaymentRequest request, String externalAccountId, String agreementMerchantId) { // externalAccountId probably not necessary
@@ -139,6 +153,10 @@ public class VasMultiPayApiRepository {
 
     private String getOrderUrl(String postfix){
         return applicationProperties.getVasMultiPayServerApi().getBaseOrderUrl() + postfix;
+    }
+
+    private String getOrderUrlWithParam(String postfix, Long orderId) {
+        return applicationProperties.getVasMultiPayServerApi().getBaseOrderUrl() + String.format(postfix, orderId);
     }
 
     private <T> T executeForEntity(String url, HttpMethod httpMethod, HttpEntity payload, Class<T> entityClass) {

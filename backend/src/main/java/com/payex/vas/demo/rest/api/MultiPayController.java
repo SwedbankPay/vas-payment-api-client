@@ -30,6 +30,22 @@ public class MultiPayController {
         });
     }
 
+    @GetMapping("/order/{orderId}")
+    public ResponseEntity<OrderResponse> getOrder(@PathVariable Long orderId, @RequestHeader String agreementId) {
+        return ControllerExecutorHelper.executeAndLogRequest(log, "get", orderId, () -> {
+            var orderResponse = multiPayService.getOrder(orderId, agreementId);
+            return ResponseEntity.ok(orderResponse);
+        });
+    }
+
+    @PostMapping("/order/{orderId}/cancel")
+    public ResponseEntity<OrderResponse> cancelOrder(@PathVariable Long orderId, @RequestHeader String agreementId) {
+        return ControllerExecutorHelper.executeAndLogRequest(log, "get", orderId, () -> {
+            var orderResponse = multiPayService.cancelOrder(orderId, agreementId);
+            return ResponseEntity.ok(orderResponse);
+        });
+    }
+
     @GetMapping("/payments")
     public ResponseEntity<List<GenericPaymentResponse>> listPaymentsForPaymentInstrument(@PathVariable(value = "id") Long paymentInstrumentId) {
         return ControllerExecutorHelper.executeAndLogRequest(log, "listPaymentsForPaymentInstrument", () -> {
