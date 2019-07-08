@@ -1,42 +1,15 @@
 <template>
   <div>
-    <div class="dialog" id="add-product-dialog">
+    <div class="dialog" :id="`edit-product-dialog${product.productId}`">
       <section>
         <header>
-          <h5>Add product info</h5>
+          <h5>Update {{ product.name}}</h5>
           <a href="#" class="dialog-close">
             <i class="material-icons">close</i>
           </a>
         </header>
         <div class="dialog-body">
           <div class="form-group">
-            <!-- Should maybe be set automatically by DB and backend 
-            <label for="productId">Product Id</label>
-            <div class="input-group">
-              <span class="input-group-addon">
-                <i class="m4gic-googl">#</i>
-              </span>
-              <input
-                type="text"
-                class="form-control"
-                id="productId"
-                v-model="product.productId"
-                placeholder="0"
-              />
-            </div>
-            <label for="productOrderId">Product Order Id</label>
-            <div class="input-group">
-              <span class="input-group-addon">
-                <i class="m4gic-googl">#</i>
-              </span>
-              <input
-                type="text"
-                class="form-control"
-                id="productOrderId"
-                v-model="product.productOrderId"
-                placeholder="0"
-              />
-            </div> -->
             <label for="productName">Product Name</label>
             <div class="input-group">
               <span class="input-group-addon">
@@ -65,7 +38,7 @@
           <span class="input-group-addon">
             <i class="material-icons">monetization_on</i>
           </span>
-           <input class="form-control" id="productPrice" placeholder="Price of product" v-model="product.amount" />
+              <input class="form-control" id="productPrice" placeholder="Price of product" v-model="product.amount" />
             </div>
             <label for="QuantityUnit">Quantity/Unit</label>
             <div class="input-group quantity-size">
@@ -90,28 +63,15 @@
           </div>
         </div>
         <footer>
-          <button
-            class="btn btn-secondary col"
-            type="button"
-            style="display: table-cell"
-            data-dialog-close="add-product-dialog"
-          >
-            <i class="material-icons">close</i>
-          </button>
-          <button
-            class="btn btn-primary col"
-            style="display: table-cell"
-            type="button"
-            v-on:click="addProduct"
-          >
-            <i class="material-icons">check</i>
-          </button>
+          <button class="btn btn-danger" type="button" v-on:click="deleteProduct">Delete</button>
+          <button class="btn btn-secondary" type="button" :data-dialog-close="`edit-product-dialog${product.productId}`">Cancel</button>
+          <button class="btn btn-primary" type="button" v-on:click="updateProduct">Save</button>
         </footer>
       </section>
     </div>
-    <button class="btn btn-primary" type="button" data-dialog-open="add-product-dialog">
-      <i class="material-icons">add</i>
-      <span>Add products</span>
+    <button class="btn btn-link" type="button" :data-dialog-open="`edit-product-dialog${product.productId}`">
+      <i class="material-icons ">build</i>
+      <span>Edit</span>
     </button>
   </div>
 </template>
@@ -121,43 +81,43 @@
   import { multipayProductService } from './rest-resource'
 
   export default {
-    name: 'AddProduct',
+    name: 'EditProductDialog',
     props: {
-      productMessage: String
+      productMessage: String,
+      product: {}
     },
     data() {
       return {
-        product: {
-          amount: 0,
-          description: '',
-          name: '',
-          productId: 0,
-          productOrderId: 0,
-          quantity: 0.0,
-          unitOfMeasure: '',
-          vatAmount: 123,
-          vatRate: 25
-        },
+
       }
     },
     mounted() {
       px.dialog.init()
     },
     methods: {
-      addProduct: function () {
-        multipayProductService.addProduct((this.product)).then(res => {
-          px.toast({ html: 'Successfully added new product!' })
-          px.dialog.close('add-product-dialog')
-          this.$root.$emit('product-update-event', res.data)
+      updateProduct () {
+        merchantService.updateMerchant(this.product).then(res => {
+          px.toast({ html: 'Successfully updated "' + this.product.name + '"' })
+          this.$root.$emit('product-update-event', res)
+          px.dialog.close(`edit-product-dialog${this.product.productId}`)
         }).catch((error) => {
-            toastError(error)
+          toastError(error)
         })
-      }
+      },
+      deleteProduct () {
+        multipayProductService.deleteProduct(this.product.productId).then(res => {
+          px.toast({ html: 'Successfully deleted "' + this.product.name + '"' })
+          this.$root.$emit('product-update-event', res)
+          px.dialog.close(`edit-product-dialog${this.product.productId}`)
+        }).catch((error) => {
+          toastError(error)
+        })
+      },
     },
   }
 </script>
 
-<style>
+<style scoped>
   .quantity-size {
     margin: 0 auto;
   }

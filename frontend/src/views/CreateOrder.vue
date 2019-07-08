@@ -53,7 +53,7 @@
               <td>{{(prod.amount * prod.quantity)/100}}</td>
               <td>
                 <span  style="color: #2da944"
-                  @click="paymentRequest.products = paymentRequest.products.filter((product) => product.productId != prod.productId)">
+                  @click="paymentRequest.products = paymentRequest.products.filter((product) => product.productId !== prod.productId)">
                   <i class="material-icons">delete</i>
                 </span>
               </td>
@@ -202,6 +202,8 @@
 
 <script>
 import AddCustomerInfo from '@/components/AddCustomerInfo.vue'
+import { multipayProductService } from '@/components/rest-resource'
+import AddCustomerInfo from '@/components/AddCustomerInfo.vue'
 import {
   merchantService,
   multipayService
@@ -246,22 +248,13 @@ export default {
       copyShippingInfo: false,
       copyTotalToAmount: false,
       merchantList: [],
-      productList: [{
-        productOrderId: 0,
-        name: 'test product',
-        amount: 66666,
-        description: 'test product',
-        productId: 1,
-        quantity: 1,
-        unitOfMeasure: 'L',
-        vatAmount: 6666 * 0.25,
-        vatRate: 25
-      }],
+      productList: {},
       selectedProduct: {}
     }
   },
   mounted () {
     this.listMerchants()
+    this.listProducts()
   },
   methods: {
     updateCustomerData (customer, type) {
@@ -277,6 +270,12 @@ export default {
         this.merchantList = res.data
       })
     },
+    listProducts() {
+      multipayProductService.listProducts().then(res => {
+        this.productList = res.data;
+      });
+    },
+    createOrder() {
     createOrder () {
       this.paymentRequest.paymentContractId = uuidV4()
       this.paymentRequest.paymentOrderRef = uuidV4()

@@ -3,7 +3,9 @@ package com.payex.vas.demo.domain.entities;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -17,7 +19,7 @@ public class MultipayProduct {
     @Column(name = "productId")
     private Long productId;
 
-    @NotBlank
+    @NotNull
     @Column(name = "productOrderId")
     private Long productOrderId;
 
@@ -25,14 +27,14 @@ public class MultipayProduct {
     @Column(name = "name")
     private String name;
 
-    @NotBlank
+    @NotNull
     @Column(name = "amount")
     private BigDecimal amount;
 
     @Column(name = "description")
     private String description;
 
-    @NotBlank
+    @NotNull
     @Column(name = "quantity")
     private BigInteger quantity;
 
@@ -40,11 +42,11 @@ public class MultipayProduct {
     @Column(name = "unitOfMeasure")
     private String unitOfMeasure;
 
-    @NotBlank
+    @NotNull
     @Column(name = "vatAmount")
     private BigInteger vatAmount;
 
-    @NotBlank
+    @NotNull
     @Column(name = "vatRate")
     private BigDecimal vatRate;
 }
