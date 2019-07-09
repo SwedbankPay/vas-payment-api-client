@@ -63,7 +63,7 @@ public class VasMultiPayApiRepository {
     public OrderResponse cancelOrder(Long orderId, String agreementMerchantId) {
         var url = getOrderUrlWithParam(CANCEL_ORDER_URL, orderId);
         var payload = createPayload(null, agreementMerchantId);
-        return executeForEntity(url, HttpMethod.GET, payload, OrderResponse.class);
+        return executeForEntity(url, HttpMethod.POST, payload, OrderResponse.class);
     }
 
     public PaymentResponse purchase(PaymentRequest request, String externalAccountId, String agreementMerchantId) { // externalAccountId probably not necessary

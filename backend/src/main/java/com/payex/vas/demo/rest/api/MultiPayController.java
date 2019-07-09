@@ -40,7 +40,7 @@ public class MultiPayController {
 
     @PostMapping("/order/{orderId}/cancel")
     public ResponseEntity<OrderResponse> cancelOrder(@PathVariable Long orderId, @RequestHeader String agreementId) {
-        return ControllerExecutorHelper.executeAndLogRequest(log, "get", orderId, () -> {
+        return ControllerExecutorHelper.executeAndLogRequest(log, "post", orderId, () -> {
             var orderResponse = multiPayService.cancelOrder(orderId, agreementId);
             return ResponseEntity.ok(orderResponse);
         });
