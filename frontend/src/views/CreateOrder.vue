@@ -42,33 +42,24 @@
             <tr v-for="prod in paymentRequest.products" :key="prod.productId">
               <td>{{prod.name}}</td>
               <td>
-                <span @click="(prod.quantity > 0) ? prod.quantity -= 1 : ''" :style="{ float: 'left', color: '#2da944' }">
+                <button class="no-background" @click.prevent="(prod.quantity > 0) ? decrementProduct(prod) : ''" :style="{ float: 'left' }">
                   <i class="material-icons">remove_circle</i>
-                </span>
+                </button>
                 {{prod.quantity}}
-                <span  @click="prod.quantity += 1" :style="{ float: 'right', color: '#2da944' }">
+                <button class="no-background"  @click="incrementProduct(prod)" :style="{ float: 'right' }">
                   <i class="material-icons">add_circle</i>
-                </span>
+                </button>
               </td>
               <td>{{(prod.amount * prod.quantity)/100}}</td>
               <td>
-                <span  style="color: #2da944"
-                  @click="paymentRequest.products = paymentRequest.products.filter((product) => product.productId !== prod.productId)">
+                <button class="no-background"
+                  @click="removeProduct(prod)">
                   <i class="material-icons">delete</i>
-                </span>
+                </button>
               </td>
-            </tr>
-            <tr>
-              <td>Total</td>
-              <td></td>
-              <td>{{totalAmount/100}}</td>
             </tr>
           </tbody>
         </table>
-        <div v-if="totalAmount > 0" class="checkbox">
-          <input type="checkbox" id="copyAmount" v-model="copyTotalToAmount" />
-          <label for="copyAmount">Copy total to amount?</label>
-        </div>
         <div class="input-group">
           <span class="input-group-addon">
             <i class="material-icons">add_shopping_cart</i>
@@ -87,9 +78,7 @@
           <span class="input-group-addon">
             <i class="material-icons">monetization_on</i>
           </span>
-          <input class="form-control order-input" id="amount" v-model="initAmount" />
-          <span class="input-group-addon">,</span>
-          <input class="form-control col-md-1 order-input" v-model="initAmountCents" />
+          <div class="form-control order-input" id="amount">{{paymentRequest.amount/100}}</div>
           <span class="input-group-addon">
             <i class="material-icons">attach_money</i>
           </span>
@@ -300,6 +289,19 @@ export default {
       // this.initAmount = parseInt(this.initAmount) + parseInt(prod.amount / 100)
       // this.initAmountCents = parseInt(this.initAmountCents) + (prod.amount % 100)
       this.selectedProduct = {}
+      this.paymentRequest.amount += prod.amount
+    },
+    incrementProduct (prod) {
+      prod.quantity += 1
+      this.paymentRequest.amount += prod.amount
+    },
+    decrementProduct (prod) {
+      prod.quantity -= 1
+      this.paymentRequest.amount -= prod.amount
+    },
+    removeProduct (prod) {
+      this.paymentRequest.products = this.paymentRequest.products.filter((product) => product.productId !== prod.productId)
+      this.paymentRequest.amount -= prod.quantity * prod.amount
     }
   },
   watch: {
@@ -327,12 +329,6 @@ export default {
         this.paymentRequest.shippingInformation.shippingPostalCode = ''
         this.paymentRequest.shippingInformation.shippingStreetAddress = ''
       }
-    },
-    copyTotalToAmount () {
-      if (this.copyTotalToAmount === true) {
-        this.initAmount = this.totalAmount / 100
-        this.initAmountCents = this.totalAmount % 100
-      }
     }
   },
   computed: {
@@ -354,5 +350,16 @@ export default {
 
 .order-input {
   text-align: right;
+}
+
+.no-background {
+  border: 0;
+  background-color: #f7f7f7;
+  color: #2da944;
+}
+
+.no-background:hover {
+  cursor: pointer;
+  color: #32dd52;
 }
 </style>
