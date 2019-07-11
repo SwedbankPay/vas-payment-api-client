@@ -52,3 +52,33 @@ CREATE TABLE multipay_products
     PRIMARY KEY (product_id)
 );
 
+CREATE TABLE multipay_order
+(
+    order_id                        BIGSERIAL,
+    currency                        varchar(5) not null,
+    amount                          BIGINT not null,
+    orderref                        varchar(64),
+    description                     varchar(255),
+    payment_transaction_ref         varchar(64),
+    payment_contract_id             varchar (64),
+    payment_expire_date_time        timestamp,
+    payment_transmission_date_time  timestamp,
+    preliminary_invoice_fee         NUMERIC(19,2),
+    preliminary_invoice_fee_tax     NUMERIC(19,2),
+    payment_methods                 varchar(8),
+    merchant_id                     BIGSERIAL,
+    shipping_information_id         BIGSERIAL,
+    private_customer_id             BIGSERIAL,
+    corporate_customer_id           BIGSERIAL,
+    product_id                      BIGSERIAL,
+    PRIMARY KEY (order_id)
+);
+
+CREATE TABLE product_order_ref
+(
+    order_id                        BIGSERIAL,
+    product_order_id                BIGSERIAL,
+    PRIMARY KEY (order_id, product_order_id)
+);
+
+
