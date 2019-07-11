@@ -209,9 +209,9 @@ export default {
       paymentRequest: {
         additionalData: '',
         amount: 0,
-        corporateCustomerIdentifier: {},
+        corporateCustomerIdentifier: null,
         currency: '',
-        privateCustomerIdentifier: {},
+        privateCustomerIdentifier: null,
         description: '',
         merchant: {},
         paymentContractId: '',
