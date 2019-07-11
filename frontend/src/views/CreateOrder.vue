@@ -60,6 +60,9 @@
             </tr>
           </tbody>
         </table>
+        <div v-if="productList.length === 0">
+          <p style="color: red">Please add at least one product before creating an order</p>
+        </div>
         <div class="input-group">
           <span class="input-group-addon">
             <i class="material-icons">add_shopping_cart</i>
@@ -90,6 +93,9 @@
             <option>EUR</option>
           </select>
         </div>
+        <div v-if="merchantList.length === 0">
+          <p style="color: red">Please add at least one merchant before creating an order</p>
+        </div>
         <div class="form-group">
           <div class="row">
             <label class="col" for="merchant">Merchant</label>
@@ -100,7 +106,7 @@
               <i class="material-icons">store_mall_directory</i>
             </span>
             <select id="merchant" class="form-control" v-model="paymentRequest.merchant">
-              <option disabled :value="{}">Please select one</option>
+              <option disabled :value="null">Please select one</option>
               <option
                 v-for="merchant in merchantList"
                 :key="merchant.id"
@@ -184,6 +190,10 @@
           v-on:click="createOrder"
           style="margin-top: 3rem"
         >Create order</button>
+        <ul v-if="errors.length > 0" style="color: red">
+          <li>Found the following errors:</li>
+          <li v-for="(error, index) in errors" :key="index">{{error}}</li>
+        </ul>
       </main>
     </div>
   </div>
@@ -213,7 +223,7 @@ export default {
         currency: '',
         privateCustomerIdentifier: null,
         description: '',
-        merchant: {},
+        merchant: null,
         paymentContractId: '',
         paymentExpireDateTime: '',
         paymentMethods: '', // ALL, INVOICE, ONLINE
@@ -237,7 +247,8 @@ export default {
       copyTotalToAmount: false,
       merchantList: [],
       productList: {},
-      selectedProduct: {}
+      selectedProduct: {},
+      errors: []
     }
   },
   mounted () {
@@ -264,6 +275,8 @@ export default {
       })
     },
     createOrder () {
+      if (!this.validInput()) return
+
       this.paymentRequest.paymentContractId = uuidV4()
       this.paymentRequest.paymentOrderRef = uuidV4()
       this.paymentRequest.paymentTransmissionDateTime = new Date()
@@ -302,6 +315,16 @@ export default {
     removeProduct (prod) {
       this.paymentRequest.products = this.paymentRequest.products.filter((product) => product.productId !== prod.productId)
       this.paymentRequest.amount -= prod.quantity * prod.amount
+    },
+    validInput () {
+      let errors = []
+      if (this.paymentRequest.currency === '') errors.push('Missing "currency"')
+      if (this.paymentRequest.merchant === null) errors.push('Missing "merchant"')
+      if (this.paymentRequest.paymentMethods === '') errors.push('Missing "paymentMethod"')
+      if (this.paymentRequest.privateCustomerIdentifier === null && this.paymentRequest.corporateCustomerIdentifier === null) errors.push('Missing "customerInfo"')
+
+      this.errors = errors
+      return errors.length === 0
     }
   },
   watch: {

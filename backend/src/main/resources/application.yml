@@ -36,7 +36,7 @@ application:
 
     vas-multipay-server-api:
         base-url: "${VAS_MULTIPAY_SERVER_API_URL:https://stage-evc.payex.com/multipay/api/multipay/payment}"
-        base-order-url: "${VAS_MULTIPAY_SERVER_ORDER_API_URL:http://localhost:19003/api/orders}"
+        base-order-url: "${VAS_MULTIPAY_SERVER_ORDER_API_URL:https://stage-evc.payex.com/multipay/api/orders}"
         api-timeout: 20000
         api-key: "${API_KEY:Systemtest}"
         api-secret: "${API-SECRET:Systemtest}"
