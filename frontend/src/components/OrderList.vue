@@ -99,8 +99,10 @@ export default {
           products: [
             {
               name: 'Chocolate',
-              amount: '4000',
-              quantity: 1
+              amount: 4000,
+              quantity: 1,
+              vatAmount: 4000 * 0.25,
+              vatRate: 25
             }
           ],
           repeat: false,
@@ -115,6 +117,7 @@ export default {
       console.log('Got new "order-cancel-event" event')
       this.items = this.items.filter(item => item.orderId !== id) // remove order from list
     })
+    px.sheet.init()
   },
   methods: {
     getName (order) {

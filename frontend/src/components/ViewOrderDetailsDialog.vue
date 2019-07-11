@@ -43,21 +43,29 @@
               </tr>
             </tbody>
           </table>
-          <table class="table table-description">
+          <table class="table table-condensed">
             <thead>
               <tr>
                 <th></th>
                 <th>Products</th>
               </tr>
+              <tr>
+                <th>Product</th>
+                <th>Vat %</th>
+                <th>Quantity</th>
+                <th>Price</th>
+              </tr>
             </thead>
             <tbody>
               <tr v-for="product in order.products" :key="product.productId">
                 <td>{{product.name}}</td>
+                <td>{{product.vatRate}}%</td>
                 <td>{{product.quantity}}</td>
                 <td>{{product.amount/100}} {{order.currency}}</td>
               </tr>
               <tr>
                 <td>Total: </td>
+                <td>{{vatAmount/100}} {{order.currency}}</td>
                 <td></td>
                 <td>{{order.amount/100}} {{order.currency}}</td>
               </tr>
@@ -97,6 +105,15 @@ export default {
       this.customerInfo.email = this.order[prefix + 'CustomerIdentifier'].contactEmail
       this.customerInfo.phone = this.order[prefix + 'CustomerIdentifier'].contactPhoneCountryCode + ' ' + this.order[prefix + 'CustomerIdentifier'].contactPhone
       this.customerInfo.address = this.order[prefix + 'CustomerIdentifier'].address
+    }
+  },
+  computed: {
+    vatAmount () {
+      let vat = 0
+      for (let prod of this.order.products) {
+        vat += prod.vatAmount
+      }
+      return vat
     }
   }
 }
