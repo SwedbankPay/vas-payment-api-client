@@ -11,7 +11,7 @@
             @submit.prevent="fetchItem(searchId)"
             >
           <button class="input-group-addon btn" type="submit" @click.prevent="fetchItem(searchId)"><i class="material-icons">search</i></button>
-          <button class="input-group-addon btn" type="button" @click.prevent="fetchItems()"><i class="material-icons">search</i> Get all</button>
+          <button class="input-group-addon btn" type="button" @click.prevent="fetchItems()" data-tooltip="Client functionality only, gets locally stored orders" data-tooltip-position="right"><i class="material-icons">search</i> Get all</button>
         </div>
       </div>
     </div>
@@ -24,21 +24,15 @@
             </div>
             <div class="media-body">
               <h4 class="text-muted">Order ID: {{item.orderId}}</h4>
-              <p>
-                <small><strong>Created: </strong>{{new Date(item.paymentTransmissionDateTime).toLocaleDateString()}}</small> <br>
-                <small><strong>Customer Name:</strong> <br>{{getName(item)}} <br></small>
-                <small><strong>Amount:</strong> {{item.amount/100}} {{item.currency}}</small>
-              </p>
             </div>
           </div>
         </div>
         <div class="card-body">
-          <small>{{item.description}}</small>
-          <br>
-          <small v-if="item.products.length > 0">Products:</small>
-          <ul>
-            <li v-for="product in item.products" :key="product.id"><small>{{product.name}}</small></li>
-          </ul>
+          <p>
+            <small><strong>Created: </strong>{{new Date(item.paymentTransmissionDateTime).toLocaleDateString()}}</small> <br>
+            <small><strong>Customer Name:</strong> <br>{{getName(item)}} <br></small>
+            <small><strong>Amount:</strong> {{item.amount/100}} {{item.currency}}</small>
+          </p>
           <div class="row">
             <div class="col">
               <view-order-details-dialog :order="item"></view-order-details-dialog>
@@ -67,52 +61,7 @@ export default {
   data () {
     return {
       searchId: '',
-      items: [
-        {
-          orderId: 1,
-          additionalData: '',
-          amount: 4000,
-          corporateCustomerIdentifier: {},
-          currency: 'NOK',
-          privateCustomerIdentifier: {
-            contactEmail: 'test@test.com',
-            contactPhone: '22334455',
-            contactPhoneCountryCode: '47',
-            customerFirstName: 'Ola',
-            customerLastName: 'Nordmann',
-            customerLanguagecode: 'NO',
-            ssn: '01011979123456',
-            address: {
-              billingStreetAddress: '2028 Bancroft Way',
-              billingPostalCode: '94704',
-              billingCity: 'Berkeley'
-            }
-          },
-          description: 'Test order',
-          merchant: {},
-          paymentContractId: '',
-          paymentExpireDateTime: '2019-07-14T11:25:45.845Z',
-          paymentMethods: 'ONLINE', // ALL, INVOICE, ONLINE
-          paymentOrderRef: '',
-          paymentTransactionRef: '',
-          paymentTransmissionDateTime: '2019-07-12T11:25:45.845Z',
-          preliminaryInvoiceFee: 0.0,
-          preliminaryInvoiceTax: 0.0,
-          products: [
-            {
-              name: 'Chocolate',
-              amount: 4000,
-              quantity: 1,
-              unitOfMeasure: 'U',
-              vatAmount: 4000 * 0.25,
-              vatRate: 25
-            }
-          ],
-          repeat: false,
-          shippingInformation: {},
-          stan: ''
-        }
-      ]
+      items: []
     }
   },
   mounted () {
@@ -129,6 +78,7 @@ export default {
     },
     fetchItem (id) {
       console.log('trying to fetch item with id: ' + id)
+      if (id === '') return
       multipayService.getOrder('Systemtest', id).then(res => {
         for (let item of this.items) { // Replace existing order if present
           if (item.orderId === id) {
@@ -142,8 +92,6 @@ export default {
     fetchItems () {
       console.log('fetching all local orders (CLIENT ONLY - NO API CALL)')
       multipayService.listOrders('Systemtest').then(res => {
-
-        console.log(res.data)
         if (res.data.length > 0) {
           this.items = res.data
         }

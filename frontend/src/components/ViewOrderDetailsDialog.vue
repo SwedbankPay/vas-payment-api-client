@@ -112,6 +112,9 @@ export default {
   created () {
     this.populateCustomerInfo()
   },
+  mounted () {
+    px.sheet.init(`view-order-details-dialog${this.order.orderId}`)
+  },
   methods: {
     populateCustomerInfo () {
       this.customerType = this.order.privateCustomerIdentifier ? 'private' : 'corporate'
