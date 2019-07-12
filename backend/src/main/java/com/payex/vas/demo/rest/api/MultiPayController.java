@@ -59,10 +59,12 @@ public class MultiPayController {
     }
 
     @GetMapping("/order/{orderId}")
-    public ResponseEntity<OrderResponse> getOrder(@PathVariable Long orderId, @RequestHeader String agreementId) {
-        return ControllerExecutorHelper.executeAndLogRequest(log, "get", orderId, () -> {
+    public ResponseEntity<OrderRequest> getOrder(@PathVariable Long orderId, @RequestHeader String agreementId) {
+        var order = orderRepository.getOne(orderId);
+        var response = JsonUtil.mapToObject(order.getData(),OrderRequest.class);
+        return ControllerExecutorHelper.executeAndLogRequest(log, "get", response, () -> {
             var orderResponse = multiPayService.getOrder(orderId, agreementId);
-            return ResponseEntity.ok(orderResponse);
+            return ResponseEntity.ok(response);
         });
     }
 
