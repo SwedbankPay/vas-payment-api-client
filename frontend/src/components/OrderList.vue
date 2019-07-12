@@ -11,6 +11,7 @@
             @submit.prevent="fetchItem(searchId)"
             >
           <button class="input-group-addon btn" type="submit" @click.prevent="fetchItem(searchId)"><i class="material-icons">search</i></button>
+          <button class="input-group-addon btn" type="button" @click.prevent="fetchItems()"><i class="material-icons">search</i> Get all</button>
         </div>
       </div>
     </div>
@@ -124,7 +125,7 @@ export default {
   methods: {
     getName (order) {
       if (order.privateCustomerIdentifier) return order.privateCustomerIdentifier.customerFirstName + ' ' + order.privateCustomerIdentifier.customerLastName
-      else return order.corporateCustomerIdentifer.companyName
+      else return order.corporateCustomerIdentifier && order.corporateCustomerIdentifier.companyName
     },
     fetchItem (id) {
       console.log('trying to fetch item with id: ' + id)
@@ -140,8 +141,10 @@ export default {
     },
     fetchItems () {
       console.log('fetching all local orders (CLIENT ONLY - NO API CALL)')
-      multipayService.getOrders('Systemtest').then(res => {
-        if (res.data.size > 0) {
+      multipayService.listOrders('Systemtest').then(res => {
+
+        console.log(res.data)
+        if (res.data.length > 0) {
           this.items = res.data
         }
       })

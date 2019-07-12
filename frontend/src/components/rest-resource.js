@@ -45,7 +45,7 @@ export const multipayService = {
       headers: {
         agreementId: agreementId
       },
-      url: `multipay/order/`
+      url: 'multipay/order/'
     })
   }
 }

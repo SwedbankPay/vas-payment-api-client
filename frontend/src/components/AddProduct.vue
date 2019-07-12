@@ -132,7 +132,7 @@ export default {
         description: '',
         name: '',
         productId: null,
-        productOrderId: null,
+        productOrderId: 0,
         quantity: 0.0,
         unitOfMeasure: '',
         vatAmount: 123,

@@ -31,7 +31,7 @@ public class MultiPayController {
 
 
     //Only used for local database
-    @GetMapping
+    @GetMapping("/order")
     public ResponseEntity<List<OrderRequest>> listOrder() {
         return ControllerExecutorHelper.executeAndLogRequest(log, "listOrder", () -> {
             var orderList = orderRepository.findAll();

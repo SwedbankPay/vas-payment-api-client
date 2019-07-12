@@ -1,6 +1,7 @@
 package com.payex.vas.demo.domain.payex.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.payex.vas.demo.domain.entities.MultipayProduct;
 import com.payex.vas.demo.domain.payex.base.*;
 import com.payex.vas.demo.util.PaymentMethods;
 import io.swagger.annotations.ApiModelProperty;
@@ -113,5 +114,5 @@ public class OrderRequest extends AbstractRequest {
     private CorporateCustomerIdentifier corporateCustomerIdentifier;
 
     @JsonProperty(value = "products")
-    private List<Product> products;
+    private List<MultipayProduct> products;
 }

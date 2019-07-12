@@ -47,7 +47,7 @@ public class Product {
     @ApiModelProperty(notes = "Type of measurement, L=Litre, U=Unit, G=Grams This may refer to the number of packs, number of bottles etc., O=present, this denotes that there is no measurement.",
         name = "unitOfMeasure",
         example = "L",
-        allowableValues = "L,U,G,O",
+        allowableValues = "L,U,g,O",
         required = true)
     private String unitOfMeasure;
 

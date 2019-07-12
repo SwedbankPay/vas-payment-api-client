@@ -41,7 +41,7 @@ CREATE TABLE merchant
 CREATE TABLE multipay_products
 (
     product_id        BIGSERIAL,
-    product_order_id  BIGSERIAL not null,
+    product_order_id  BIGSERIAL,
     name              varchar(64) not null,
     amount            NUMERIC(19,2) not null,
     description       varchar(255),
