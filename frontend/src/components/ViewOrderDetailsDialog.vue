@@ -10,6 +10,26 @@
         </header>
         <div class="sheet-body">
           <table class="table table-description">
+            <tbody>
+              <tr>
+                <td>Order ID:</td>
+                <td>{{order.orderId}}</td>
+              </tr>
+              <tr>
+                <td>Created: </td>
+                <td>{{new Date(order.paymentTransmissionDateTime).toLocaleString()}}</td>
+              </tr>
+              <tr>
+                <td>Expires: </td>
+                <td>{{new Date(order.paymentExpireDateTime).toLocaleString()}}</td>
+              </tr>
+              <tr>
+                <td>Payment Methods: </td>
+                <td>{{order.paymentMethods}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="table table-description">
             <thead>
               <tr>
                 <th></th>
@@ -17,10 +37,6 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Order ID:</td>
-                <td>{{order.orderId}}</td>
-              </tr>
               <tr v-if="customerType==='corporate'">
                 <td>Company Name:</td>
                 <td>{{order.corporateCustomerIdentifier.companyName}}</td>
@@ -60,7 +76,7 @@
               <tr v-for="product in order.products" :key="product.productId">
                 <td>{{product.name}}</td>
                 <td>{{product.vatRate}}%</td>
-                <td>{{product.quantity}}</td>
+                <td>{{product.quantity}} {{'Lg'.includes(product.unitOfMeasure) ? product.unitOfMeasure: ''}}</td>
                 <td>{{product.amount/100}} {{order.currency}}</td>
               </tr>
               <tr>

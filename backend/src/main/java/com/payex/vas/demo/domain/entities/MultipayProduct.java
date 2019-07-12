@@ -18,7 +18,6 @@ public class MultipayProduct {
     @Column(name = "productId")
     private Long productId;
 
-    @NotNull
     @Column(name = "productOrderId")
     private Long productOrderId;
 

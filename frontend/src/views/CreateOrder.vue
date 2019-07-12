@@ -246,7 +246,7 @@ export default {
       copyShippingInfo: false,
       copyTotalToAmount: false,
       merchantList: [],
-      productList: {},
+      productList: [],
       selectedProduct: {},
       errors: []
     }
@@ -295,14 +295,13 @@ export default {
     addProduct (prod) {
       if (this.paymentRequest.products.includes(prod)) this.paymentRequest.products.find((product) => product.productId === prod.productId).quantity += 1
       else {
-        prod.quantity = 1
         this.paymentRequest.products.push(prod)
       }
 
       // this.initAmount = parseInt(this.initAmount) + parseInt(prod.amount / 100)
       // this.initAmountCents = parseInt(this.initAmountCents) + (prod.amount % 100)
       this.selectedProduct = {}
-      this.paymentRequest.amount += prod.amount
+      this.paymentRequest.amount += prod.amount * prod.quantity
     },
     incrementProduct (prod) {
       prod.quantity += 1

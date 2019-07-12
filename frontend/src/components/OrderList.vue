@@ -24,6 +24,7 @@
             <div class="media-body">
               <h4 class="text-muted">Order ID: {{item.orderId}}</h4>
               <p>
+                <small><strong>Created: </strong>{{new Date(item.paymentTransmissionDateTime).toLocaleDateString()}}</small> <br>
                 <small><strong>Customer Name:</strong> <br>{{getName(item)}} <br></small>
                 <small><strong>Amount:</strong> {{item.amount/100}} {{item.currency}}</small>
               </p>
@@ -89,11 +90,11 @@ export default {
           description: 'Test order',
           merchant: {},
           paymentContractId: '',
-          paymentExpireDateTime: '',
-          paymentMethods: '', // ALL, INVOICE, ONLINE
+          paymentExpireDateTime: '2019-07-14T11:25:45.845Z',
+          paymentMethods: 'ONLINE', // ALL, INVOICE, ONLINE
           paymentOrderRef: '',
           paymentTransactionRef: '',
-          paymentTransmissionDateTime: '',
+          paymentTransmissionDateTime: '2019-07-12T11:25:45.845Z',
           preliminaryInvoiceFee: 0.0,
           preliminaryInvoiceTax: 0.0,
           products: [
@@ -101,6 +102,7 @@ export default {
               name: 'Chocolate',
               amount: 4000,
               quantity: 1,
+              unitOfMeasure: 'U',
               vatAmount: 4000 * 0.25,
               vatRate: 25
             }
@@ -127,7 +129,21 @@ export default {
     fetchItem (id) {
       console.log('trying to fetch item with id: ' + id)
       multipayService.getOrder('Systemtest', id).then(res => {
+        for (let item of this.items) { // Replace existing order if present
+          if (item.orderId === id) {
+            item = res.data
+            return
+          }
+        }
         this.items.push(res.data)
+      })
+    },
+    fetchItems () {
+      console.log('fetching all local orders (CLIENT ONLY - NO API CALL)')
+      multipayService.getOrders('Systemtest').then(res => {
+        if (res.data.size > 0) {
+          this.items = res.data
+        }
       })
     }
   }

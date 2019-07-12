@@ -38,6 +38,15 @@ export const multipayService = {
       },
       url: `multipay/order/${id}/cancel`
     })
+  },
+  listOrders: function (agreementId) {
+    return paymentClientRepository({
+      method: 'get',
+      headers: {
+        agreementId: agreementId
+      },
+      url: `multipay/order/`
+    })
   }
 }
 

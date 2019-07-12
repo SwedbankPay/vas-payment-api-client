@@ -83,7 +83,7 @@
                 <option disabled value>Select</option>
                 <option value="L">Litre</option>
                 <option value="U">Unit</option>
-                <option value="G">Grams</option>
+                <option value="g">Grams</option>
                 <option value="O">Present</option>
               </select>
             </div>
@@ -131,8 +131,8 @@ export default {
         amount: 0,
         description: '',
         name: '',
-        productId: 0,
-        productOrderId: 0,
+        productId: null,
+        productOrderId: null,
         quantity: 0.0,
         unitOfMeasure: '',
         vatAmount: 123,
