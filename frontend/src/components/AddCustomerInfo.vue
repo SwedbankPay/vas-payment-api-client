@@ -152,7 +152,7 @@
             <div class="row">
               <div class="col"></div>
               <label class="col" for="corporatePhone" style="text-align:right">Contact Phone</label>
-              <label class="col" for="corporateLang"  style="text-align:right">Language</label>
+              <label class="col" for="corporateLang"  style="text-align:right">Country Code</label>
             </div>
             <div class="input-group">
               <span class="input-group-addon">

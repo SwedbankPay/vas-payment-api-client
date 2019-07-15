@@ -99,7 +99,7 @@
         <div class="form-group">
           <div class="row">
             <label class="col" for="merchant">Merchant</label>
-            <label class="col" for="invoice_type">Payment method</label>
+            <label class="col" for="invoice-type">Payment method</label>
           </div>
           <div class="input-group">
             <span class="input-group-addon">
@@ -252,7 +252,7 @@ export default {
     }
   },
   mounted () {
-    this.listMerchants()
+    this.listMerchants();
     this.listProducts()
   },
   methods: {
@@ -260,8 +260,8 @@ export default {
       if (type === 'corporate') {
         this.paymentRequest.corporateCustomerIdentifier = customer
       } else this.paymentRequest.privateCustomerIdentifier = customer
-      this.customerType = type
-      this.customer = customer
+      this.customerType = type;
+      this.customer = customer;
       this.message = 'Edit customer info'
     },
     listMerchants () {
@@ -275,17 +275,17 @@ export default {
       })
     },
     createOrder () {
-      if (!this.validInput()) return
+      if (!this.validInput()) return;
 
-      this.paymentRequest.paymentContractId = uuidV4()
-      this.paymentRequest.paymentOrderRef = uuidV4()
-      this.paymentRequest.paymentTransmissionDateTime = new Date()
+      this.paymentRequest.paymentContractId = uuidV4();
+      this.paymentRequest.paymentOrderRef = uuidV4();
+      this.paymentRequest.paymentTransmissionDateTime = new Date();
 
       // send to backend
       multipayService
         .createOrder(this.paymentRequest)
         .then(res => {
-          px.toast({ html: 'Successfully created new order!' })
+          px.toast({ html: 'Successfully created new order!' });
           this.$root.$emit('order-create-event', res.data)
         })
         .catch(error => {
@@ -293,22 +293,22 @@ export default {
         })
     },
     addProduct (prod) {
-      if (this.paymentRequest.products.includes(prod)) this.paymentRequest.products.find((product) => product.productId === prod.productId).quantity += 1
+      if (this.paymentRequest.products.includes(prod)) this.paymentRequest.products.find((product) => product.productId === prod.productId).quantity += 1;
       else {
         this.paymentRequest.products.push(prod)
       }
 
       // this.initAmount = parseInt(this.initAmount) + parseInt(prod.amount / 100)
       // this.initAmountCents = parseInt(this.initAmountCents) + (prod.amount % 100)
-      this.selectedProduct = {}
+      this.selectedProduct = {};
       this.paymentRequest.amount += prod.amount * prod.quantity
     },
     incrementProduct (prod) {
-      prod.quantity += 1
+      prod.quantity += 1;
       this.paymentRequest.amount += prod.amount
     },
     decrementProduct (prod) {
-      prod.quantity -= 1
+      prod.quantity -= 1;
       this.paymentRequest.amount -= prod.amount
     },
     removeProduct (prod) {
@@ -316,13 +316,13 @@ export default {
       this.paymentRequest.amount -= prod.quantity * prod.amount
     },
     validInput () {
-      let errors = []
-      if (this.paymentRequest.currency === '') errors.push('Missing "currency"')
-      if (this.paymentRequest.merchant === null) errors.push('Missing "merchant"')
-      if (this.paymentRequest.paymentMethods === '') errors.push('Missing "paymentMethod"')
-      if (this.paymentRequest.privateCustomerIdentifier === null && this.paymentRequest.corporateCustomerIdentifier === null) errors.push('Missing "customerInfo"')
+      let errors = [];
+      if (this.paymentRequest.currency === '') errors.push('Missing "currency"');
+      if (this.paymentRequest.merchant === null) errors.push('Missing "merchant"');
+      if (this.paymentRequest.paymentMethods === '') errors.push('Missing "paymentMethod"');
+      if (this.paymentRequest.privateCustomerIdentifier === null && this.paymentRequest.corporateCustomerIdentifier === null) errors.push('Missing "customerInfo"');
 
-      this.errors = errors
+      this.errors = errors;
       return errors.length === 0
     }
   },
@@ -344,18 +344,18 @@ export default {
         this.paymentRequest.shippingInformation.shippingPostalCode = this.paymentRequest[this.customerType + 'CustomerIdentifier'].address.billingPostalCode
         this.paymentRequest.shippingInformation.shippingStreetAddress = this.paymentRequest[this.customerType + 'CustomerIdentifier'].address.billingStreetAddress
       } else {
-        this.paymentRequest.shippingInformation.shippingAddressee = ''
-        this.paymentRequest.shippingInformation.shippingCity = ''
-        this.paymentRequest.shippingInformation.shippingCoAddress = ''
-        this.paymentRequest.shippingInformation.shippingCountryCode = ''
-        this.paymentRequest.shippingInformation.shippingPostalCode = ''
+        this.paymentRequest.shippingInformation.shippingAddressee = '';
+        this.paymentRequest.shippingInformation.shippingCity = '';
+        this.paymentRequest.shippingInformation.shippingCoAddress = '';
+        this.paymentRequest.shippingInformation.shippingCountryCode = '';
+        this.paymentRequest.shippingInformation.shippingPostalCode = '';
         this.paymentRequest.shippingInformation.shippingStreetAddress = ''
       }
     }
   },
   computed: {
     totalAmount () {
-      let total = 0
+      let total = 0;
       for (let prod of this.paymentRequest.products) {
         total += prod.amount * prod.quantity
       }
