@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor //TODO:: Trenger ikke swagger anoteringer her
 public class MultiPayAccountIdentifier {
 
     @ApiModelProperty(

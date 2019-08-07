@@ -35,8 +35,8 @@ application:
         api-secret: "${API_SECRET:Systemtest}" # Used for HMAC (provided by PayEx)
 
     vas-multipay-server-api:
-        base-url: "${VAS_MULTIPAY_SERVER_API_URL:https://stage-evc.payex.com/multipay/api/multipay/payment}"
-        base-order-url: "${VAS_MULTIPAY_SERVER_ORDER_API_URL:https://stage-evc.payex.com/multipay/api/orders}"
+        base-url: "${VAS_MULTIPAY_SERVER_API_URL:https://stage-evc.payex.com/multipay/api/multipay/payment}" #TODO:: Er url multipay/api/multipay/xxx? virker litt overkill..
+        base-order-url: "${VAS_MULTIPAY_SERVER_ORDER_API_URL:https://stage-evc.payex.com/multipay/api/orders}" #TODO:: Denne trengs vel egntlig ikke, kan slås sammen med URL over?
         api-timeout: 20000
         api-key: "${API_KEY:Systemtest}"
         api-secret: "${API-SECRET:Systemtest}"

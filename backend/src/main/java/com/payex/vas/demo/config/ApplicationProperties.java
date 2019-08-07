@@ -27,11 +27,11 @@ public class ApplicationProperties {
     }
 
     @Getter
-    @Setter@NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @Setter@NoArgsConstructor(access = AccessLevel.PRIVATE) //TODO:: Linjeskift
     public static class VasMultiPayServerApi {
         private int apiTimeout;
         private String baseUrl;
-        private String baseOrderUrl;
+        private String baseOrderUrl; //TODO:: Denne trengs vel egntlig ikke, kan slås sammen med URL over?
         private String apiKey;
         private String apiSecret;
     }

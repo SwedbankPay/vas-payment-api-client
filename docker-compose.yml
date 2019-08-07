@@ -16,9 +16,9 @@ services:
         container_name: vas-public-payment-api-client
         image: vas-public-payment-api-client
         restart: unless-stopped
-        environment:
+        environment: #TODO:: Legg inn VAS_MULTIPAY_SERVER_API_URL
             - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
-            - VAS_PAYMENT_SERVER_API_URL=https://stage-evc.payex.com/payment-api/api/payments
+            - VAS_PAYMENT_SERVER_API_URL=http://vas-public-payment-api:19001/api/payments #TODO:: Denne skal peke mot stage, eksterne kunder kommer ikke til å kjøre denne lokalt
             - VAS_AUTH_SERVER_URL=https://stage-evc.payex.com/VasIdentityServer/connect/token
             - CLIENT_ID=systemtest
             - CLIENT_SECRET=systemtest

@@ -9,7 +9,7 @@ import lombok.*;
 @ToString(callSuper = true)
 @ApiModel(value="PrivateCustomerIdentifier", description = "Either this or CorporateCustomerIdentifier must be present")
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor //TODO:: Trenger ikke swagger anoteringer her
 public class PrivateCustomerIdentifier extends MultiPayAccountIdentifier {
 
 
@@ -33,7 +33,7 @@ public class PrivateCustomerIdentifier extends MultiPayAccountIdentifier {
     private String ssn;
 
 
-    @Builder
+    @Builder //TODO:: Ikke i bruk
     public PrivateCustomerIdentifier(String accountId, Address address, String contactEmail, String contactPhoneCountryCode, String languageCode, String contactPhone, String customerFirstName, String customerLastName, String ssn) {
         super(accountId, address, contactEmail, contactPhoneCountryCode, languageCode, contactPhone);
         this.customerFirstName = customerFirstName;

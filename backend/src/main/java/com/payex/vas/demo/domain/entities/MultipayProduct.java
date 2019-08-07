@@ -10,8 +10,8 @@ import java.math.BigInteger;
 
 @Data
 @Entity
-@Table(name = "multipay_products")
-public class MultipayProduct {
+@Table(name = "multipay_products") //TODO: Kan fjerne Multipay fra navnet, og fjerne s'ene fra products
+public class MultipayProduct { //TODO: Kan fjerne Multipay fra navnet
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +34,7 @@ public class MultipayProduct {
 
     @NotNull
     @Column(name = "quantity")
-    private BigInteger quantity;
+    private BigInteger quantity; //TODO: BigDecimal
 
     @NotBlank
     @Column(name = "unitOfMeasure")
@@ -42,7 +42,7 @@ public class MultipayProduct {
 
     @NotNull
     @Column(name = "vatAmount")
-    private BigInteger vatAmount;
+    private BigInteger vatAmount; //TODO: BigDecimal
 
     @NotNull
     @Column(name = "vatRate")
