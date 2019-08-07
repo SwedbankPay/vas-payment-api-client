@@ -13,7 +13,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true) //TODO:: Trenger ikke swagger anoteringer her
 public class OrderRequest extends AbstractRequest {
 
     @ApiModelProperty(
@@ -75,13 +75,13 @@ public class OrderRequest extends AbstractRequest {
         name = "paymentExpireDateTime",
         notes = "format yyyy-MM-ddTHH:mm:ss default 48 timer"
     )
-    private ZonedDateTime paymentExpireDateTime;
+    private ZonedDateTime paymentExpireDateTime; //TODO:: OffsetDateTime
 
     @ApiModelProperty(
         name = "paymentTransmissionDateTime",
         notes = "When the payment was initiated at terminal/ECR."
     )
-    private ZonedDateTime paymentTransmissionDateTime;
+    private ZonedDateTime paymentTransmissionDateTime; //TODO:: OffsetDateTime
 
     @ApiModelProperty(
         name = "preliminaryInvoiceFee",
@@ -99,7 +99,7 @@ public class OrderRequest extends AbstractRequest {
         name = "paymentMethod",
         notes = "payment method [ALL, INVOICE, ONLINE]"
     )
-    private PaymentMethods paymentMethods;
+    private PaymentMethods paymentMethods; //TODO:: Varibelnavn burde være ental
 
     @JsonProperty(value = "merchant", required = true)
     private Merchant merchant;

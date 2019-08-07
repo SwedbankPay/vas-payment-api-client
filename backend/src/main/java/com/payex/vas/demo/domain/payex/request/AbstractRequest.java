@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.ZonedDateTime;
 
 @Data
-public abstract class AbstractRequest {
+public abstract class AbstractRequest { //TODO:: Denne trengs vel ikke.. Ingen av feltene brukes...
 
     @JsonIgnore
     private String operation;

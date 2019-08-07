@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Address {
+public class Address { //TODO:: Trenger ikke swagger anoteringer her
 
     @ApiModelProperty(
         name = "streetAddress",

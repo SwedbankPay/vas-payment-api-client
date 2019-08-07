@@ -6,7 +6,7 @@ import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonValue;
 
 @Getter
-    public enum PaymentMethods {
+    public enum PaymentMethods { //TODO:: Denne hører hjemme under "com.payex.vas.demo.domain.payex.request" package (om det i det hele tatt trenger å være en enum).. Formatter klassen!
         ALL("ALL"),
         INVOICE("INVOICE"),
         ONLINE("ONLINE");
