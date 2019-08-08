@@ -252,7 +252,7 @@ export default {
     }
   },
   mounted () {
-    this.listMerchants();
+    this.listMerchants();//TODO:: Fjern semikolon, gjelder mange steder i filen her.
     this.listProducts()
   },
   methods: {

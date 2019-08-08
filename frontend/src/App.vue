@@ -6,7 +6,7 @@
     <div class="container">
       <div class="row">
         <main class="col main-content border-left border-right">
-          <div v-if="selectedApi === 'payment-api'" id="nav">
+          <div v-if="selectedApi === 'payment-api'" id="nav"> <!-- TODO:: to komponenter har id nav her nå, ville heller lagt det i en engen diff rundt if-statement -->
             <router-link to="/">Home</router-link>
             |
             <router-link to="/cards">Cards</router-link>
