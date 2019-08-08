@@ -32,33 +32,6 @@ CREATE TABLE merchant
     merchant_name varchar(255) not null,
     agreement_id  varchar(255) not null,
     currency_iso  varchar(3)   not null,
-    seller_name   varchar(255),
-    seller_id     varchar(255),
-    terminal_id   varchar(255),
     PRIMARY KEY (id)
 );
-
-CREATE TABLE multipay_products
-(
-    product_id        BIGSERIAL,
-    product_order_id  BIGSERIAL,
-    name              varchar(64) not null,
-    amount            NUMERIC(19,2) not null,
-    description       varchar(255),
-    quantity          NUMERIC(19,2) not null,
-    unit_of_measure   varchar(5) not null,
-    vat_amount        NUMERIC(19,0) not null,
-    vat_rate          NUMERIC(5,2) not null,
-    PRIMARY KEY (product_id)
-);
-
-CREATE TABLE multipay_order
-(
-    id      BIGSERIAL,
-    data    TEXT,
-    PRIMARY KEY(id)
-);
-
-
-
 
