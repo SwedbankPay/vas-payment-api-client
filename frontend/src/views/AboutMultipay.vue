@@ -9,7 +9,7 @@
 
 <script>
 
-  export default {
+  export default { //TODO:: Eslint klager på indentering her
     name: 'aboutMultipay',
     components: {
     }
