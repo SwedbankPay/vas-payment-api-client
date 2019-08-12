@@ -7,7 +7,7 @@
       <div class="row">
         <main class="col main-content border-left border-right" >
           <div id="nav">
-            <div v-if="selectedApi === 'payment-api'" style="padding:1rem"> 
+            <div v-if="selectedApi === 'payment-api'" style="padding:1rem">
               <router-link to="/">Home</router-link>
               |
               <router-link to="/cards">Cards</router-link>

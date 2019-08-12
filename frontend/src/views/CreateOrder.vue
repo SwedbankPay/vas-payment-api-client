@@ -328,7 +328,7 @@ export default {
     }
   },
   mounted () {
-    this.listMerchants()
+    this.listMerchants();
     this.listProducts()
   },
   methods: {

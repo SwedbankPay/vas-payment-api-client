@@ -9,7 +9,7 @@ import lombok.*;
 @ApiModel(value="CorporateCustomerIdentifier", description = "Either this or PrivateCustomerIdentifier must be present")
 @ToString(callSuper = true)
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor //TODO:: Trenger ikke swagger anoteringer her
 public class CorporateCustomerIdentifier extends MultiPayAccountIdentifier {
 
     private String companyName;

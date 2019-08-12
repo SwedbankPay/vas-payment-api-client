@@ -8,7 +8,6 @@ import com.payex.vas.demo.rest.util.ControllerExecutorHelper;
 import com.payex.vas.demo.service.MultiPayService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +16,6 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@EnableSpringDataWebSupport
 @RequestMapping("/api/multipay/")
 public class MultiPayController {
 

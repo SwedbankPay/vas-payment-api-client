@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
+@AllArgsConstructor //TODO:: Trenger ikke swagger anoteringer her
 public class ShippingInformation {
     private String shippingAddressee;
     private String shippingStreetAddress;
