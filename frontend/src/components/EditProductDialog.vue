@@ -91,6 +91,7 @@ export default {
   },
   methods: {
     updateProduct () {
+      this.product.vatAmount = this.product.amount * this.product.vatRate / 100
       multipayProductService.updateProduct(this.product).then(res => {
         px.toast({ html: 'Successfully updated "' + this.product.name + '"' })
         this.$root.$emit('product-update-event', res)

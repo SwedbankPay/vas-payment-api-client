@@ -25,7 +25,7 @@
               </tr>
               <tr>
                 <td>Payment Methods: </td>
-                <td>{{order.paymentMethods}}</td>
+                <td>{{order.paymentMethod}}</td>
               </tr>
             </tbody>
           </table>
@@ -51,7 +51,7 @@
               </tr>
               <tr>
                 <td>Contact phone:</td>
-                <td>{{customerInfo.phone}}</td>
+                <td>+{{customerInfo.phone}}</td>
               </tr>
               <tr>
                 <td>Billing Address</td>
@@ -77,7 +77,7 @@
                 <td>{{product.name}}</td>
                 <td>{{product.vatRate}}%</td>
                 <td>{{product.quantity}} {{'Lg'.includes(product.unitOfMeasure) ? product.unitOfMeasure: ''}}</td>
-                <td>{{product.amount/100}} {{order.currency}}</td>
+                <td>{{(product.amount * product.quantity)/100}} {{order.currency}}</td>
               </tr>
               <tr>
                 <td>Total: </td>
@@ -130,7 +130,7 @@ export default {
     vatAmount () {
       let vat = 0
       for (let prod of this.order.products) {
-        vat += prod.vatAmount
+        vat += prod.vatAmount * prod.quantity
       }
       return vat
     }

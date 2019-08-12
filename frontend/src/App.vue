@@ -5,30 +5,32 @@
     </div>
     <div class="container">
       <div class="row">
-        <main class="col main-content border-left border-right">
-          <div v-if="selectedApi === 'payment-api'" id="nav"> <!-- TODO:: to komponenter har id nav her nå, ville heller lagt det i en engen diff rundt if-statement -->
-            <router-link to="/">Home</router-link>
-            |
-            <router-link to="/cards">Cards</router-link>
-            |
-            <router-link to="/merchants">Merchants</router-link>
-            |
-            <router-link to="/about">About</router-link>
+        <main class="col main-content border-left border-right" >
+          <div id="nav">
+            <div v-if="selectedApi === 'payment-api'" style="padding:1rem"> 
+              <router-link to="/">Home</router-link>
+              |
+              <router-link to="/cards">Cards</router-link>
+              |
+              <router-link to="/merchants">Merchants</router-link>
+              |
+              <router-link to="/about">About</router-link>
+            </div>
+            <div v-if="selectedApi === 'multipay'" style="padding:1rem">
+              <router-link to="/">Home</router-link>
+              |
+              <router-link to="/order/create">Order</router-link>
+              |
+              <router-link to="/order/view">View Order</router-link>
+              |
+              <router-link to="/merchants">Merchants</router-link>
+              |
+              <router-link to="/products">Products</router-link>
+              |
+              <router-link to="/aboutmultipay">About</router-link>
+            </div>
+            <router-view :selectedApi="selectedApi"/>
           </div>
-          <div id="nav" v-if="selectedApi === 'multipay'">
-            <router-link to="/">Home</router-link>
-            |
-            <router-link to="/order/create">Order</router-link>
-            |
-            <router-link to="/order/view">View Order</router-link>
-            |
-            <router-link to="/merchants">Merchants</router-link>
-            |
-            <router-link to="/products">Products</router-link>
-            |
-            <router-link to="/aboutmultipay">About</router-link>
-          </div>
-          <router-view :selectedApi="selectedApi"/>
         </main>
       </div>
     </div>

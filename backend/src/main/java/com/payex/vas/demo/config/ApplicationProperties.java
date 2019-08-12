@@ -27,7 +27,8 @@ public class ApplicationProperties {
     }
 
     @Getter
-    @Setter@NoArgsConstructor(access = AccessLevel.PRIVATE) //TODO:: Linjeskift
+    @Setter
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class VasMultiPayServerApi {
         private int apiTimeout;
         private String baseUrl;

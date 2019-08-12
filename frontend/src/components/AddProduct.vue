@@ -145,6 +145,7 @@ export default {
   },
   methods: {
     addProduct: function () {
+      this.product.vatAmount = this.product.amount * this.product.vatRate / 100
       multipayProductService.addProduct((this.product)).then(res => {
         px.toast({ html: 'Successfully added new product!' })
         px.dialog.close('add-product-dialog')

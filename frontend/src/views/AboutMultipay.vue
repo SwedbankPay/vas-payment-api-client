@@ -8,10 +8,9 @@
 </template>
 
 <script>
-
-  export default { //TODO:: Eslint klager på indentering her
-    name: 'aboutMultipay',
-    components: {
-    }
+export default {
+  name: 'aboutMultipay',
+  components: {
   }
+}
 </script>

@@ -10,17 +10,23 @@ import com.payex.vas.demo.domain.payex.base.Merchant;
 import com.payex.vas.demo.domain.payex.request.*;
 import com.payex.vas.demo.domain.payex.response.OrderResponse;
 import com.payex.vas.demo.domain.payex.response.PaymentAccountResponse;
+import com.payex.vas.demo.repository.OrderRepository;
 import com.payex.vas.demo.repository.PaymentInstrumentRepository;
 import com.payex.vas.demo.repository.PaymentOperationRepository;
 import com.payex.vas.demo.repository.SimulatedMerchantRepository;
 import com.payex.vas.demo.repository.external.VasMultiPayApiRepository;
 import com.payex.vas.demo.service.helper.GenericPaymentResponseBuilder;
 import com.payex.vas.demo.service.helper.PaymentOperationBuilder;
+import com.payex.vas.demo.util.JsonUtil;
 import com.payex.vas.demo.util.error.BadRequestException;
+import com.payex.vas.demo.util.error.NotFoundException;
+import com.payex.vas.demo.util.helper.OrderConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -33,19 +39,42 @@ public class MultiPayService {
     private final PaymentOperationRepository paymentOperationRepository;
     private final PaymentInstrumentRepository paymentInstrumentRepository;
     private final SimulatedMerchantRepository simulatedMerchantRepository;
+    private final OrderRepository orderRepository;
 
     private final VasMultiPayApiRepository vasMultiPayApiRepository;
 
     public OrderResponse createOrder(OrderRequest request, String agreementMerchantId) {
+        request.setPaymentTransmissionDateTime(OffsetDateTime.now());
+        request.setPaymentExpireDateTime(OffsetDateTime.now().plusDays(2L));
+        var multiPayOrder = OrderConverter.buildOrder(request);
+        orderRepository.save(multiPayOrder);
         return vasMultiPayApiRepository.createOrder(request, agreementMerchantId);
     }
 
-    public OrderResponse getOrder(Long orderId, String agreementMerchantId) {
-        return vasMultiPayApiRepository.getOrder(orderId, agreementMerchantId);
+    public OrderRequest getOrder(Long orderId, String agreementMerchantId) {
+        // return vasMultiPayApiRepository.getOrder(orderId, agreementMerchantId); currently only saving orders locally so we return the request
+        throwExceptionIfOrderNotExist(orderId);
+        var order = orderRepository.getOne(orderId);
+        return OrderConverter.convertToRequest(order);
+
     }
 
     public OrderResponse cancelOrder(Long orderId, String agreementMerchantId) {
-        return vasMultiPayApiRepository.cancelOrder(orderId, agreementMerchantId);
+        var order = vasMultiPayApiRepository.cancelOrder(orderId, agreementMerchantId);
+        orderRepository.deleteById(orderId);
+        return order;
+    }
+
+    public List<OrderRequest> listOrder() { // Returns request because we just dump the request into local DB and use that to populate frontend views.
+        var orderList = orderRepository.findAll();
+        List<OrderRequest> requestList = new ArrayList<>();
+        for (var order: orderList) {
+            var response = JsonUtil.mapToObject(order.getData(), OrderRequest.class);
+            if (response == null) response = new OrderRequest();
+            response.setOrderId(order.getId().toString());
+            requestList.add(response);
+        }
+        return requestList;
     }
 
     public PaymentAccountResponse balance(PaymentInstrument paymentInstrument, String agreementId) {
@@ -90,7 +119,7 @@ public class MultiPayService {
         var merchant = findMerchant(request.getMerchantId());
 
         var paymentRequest = buildPaymentRequest(request, paymentInstrument, merchant);
-        var paymentResponse = vasMultiPayApiRepository.authorize(paymentRequest, paymentInstrument.getExternalAccountId(), merchant.getAgreementId());
+        var paymentResponse = vasMultiPayApiRepository.authorize(paymentRequest,paymentInstrument.getExternalAccountId(), merchant.getAgreementId());
 
         var paymentOperation = PaymentOperationBuilder.build("Authorize", paymentInstrument, merchant.getId(), paymentResponse);
 
@@ -183,6 +212,13 @@ public class MultiPayService {
             .collect(Collectors.toList());
     }
 
+
+    private void throwExceptionIfOrderNotExist(Long oid) {
+        if (oid == null)
+            throw new BadRequestException("Order id was null");
+        if (!orderRepository.existsById(oid))
+            throw new NotFoundException("Order not found for id: " + oid);
+    }
     private SimulatedMerchant findMerchant(Long merchantId) {
         return simulatedMerchantRepository.findById(merchantId).orElseThrow(() -> new BadRequestException("Unable to find Merchant by id: " + merchantId));
     }

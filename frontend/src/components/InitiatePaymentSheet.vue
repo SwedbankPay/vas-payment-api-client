@@ -27,8 +27,8 @@
                 <option disabled value="">Please select one</option>
                 <option>Authorize</option>
                 <option>Purchase</option>
-                <option v-if="this.paymentInstrument.type === 'Credit card'">Credit</option>
-                <option v-if="this.paymentInstrument.type === 'Prepaid card'">Deposit</option>
+                <option v-if="paymentInstrument.type === 'Credit card'">Credit</option>
+                <option v-if="paymentInstrument.type === 'Prepaid card'">Deposit</option>
               </select>
             </div>
           </div>
@@ -100,7 +100,7 @@ export default {
       })
     },
     invokePaymentOperation () {
-      this.isSaving = true;
+      this.isSaving = true
       console.log('invokePaymentOperation invoked with: ' + this.selectedPaymentOperation)
       this.paymentRequest.amount = this.inputAmount * 100
 
@@ -131,11 +131,11 @@ export default {
       }
     },
     errorHandler (error) {
-      this.isSaving = false;
+      this.isSaving = false
       toastError(error)
     },
     handleOkPayment (result) {
-      this.isSaving = false;
+      this.isSaving = false
       px.sheet.close('payment-operation-sheet')
       this.$root.$emit('payment-successful', result)
     }

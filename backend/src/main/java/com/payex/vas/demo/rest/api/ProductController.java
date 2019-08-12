@@ -1,9 +1,7 @@
 package com.payex.vas.demo.rest.api;
 
-import com.payex.vas.demo.domain.entities.MultipayProduct;
-import com.payex.vas.demo.domain.entities.SimulatedMerchant;
+import com.payex.vas.demo.domain.entities.Product;
 import com.payex.vas.demo.repository.ProductRepository;
-import com.payex.vas.demo.repository.SimulatedMerchantRepository;
 import com.payex.vas.demo.rest.util.ControllerExecutorHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +23,7 @@ public class ProductController {
     private final ProductRepository productRepository;
 
     @GetMapping
-    public ResponseEntity<List<MultipayProduct>> listProducts() {
+    public ResponseEntity<List<Product>> listProducts() {
         return ControllerExecutorHelper.executeAndLogRequest(log, "listProducts", () -> {
             var productList = productRepository.findAll();
             return ResponseEntity.ok(productList);
@@ -33,7 +31,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MultipayProduct> getProduct(@PathVariable Long id) {
+    public ResponseEntity<Product> getProduct(@PathVariable Long id) {
         return ControllerExecutorHelper.executeAndLogRequest(log, "getProduct", () -> {
             var product = productRepository.findById(id);
             return ResponseEntity.of(product);
@@ -42,7 +40,7 @@ public class ProductController {
 
 
     @PostMapping
-    public ResponseEntity<MultipayProduct> addProduct(@Valid @RequestBody MultipayProduct multiPayProduct) {
+    public ResponseEntity<Product> addProduct(@Valid @RequestBody Product multiPayProduct) {
         return ControllerExecutorHelper.executeAndLogRequest(log, "addProduct", multiPayProduct, () -> {
             var persisted = productRepository.save(multiPayProduct);
             return ResponseEntity
@@ -52,7 +50,7 @@ public class ProductController {
     }
 
     @PutMapping
-    public ResponseEntity<MultipayProduct> updateProduct(@Valid @RequestBody MultipayProduct multiPayProduct) {
+    public ResponseEntity<Product> updateProduct(@Valid @RequestBody Product multiPayProduct) {
         return ControllerExecutorHelper.executeAndLogRequest(log, "updateProduct", multiPayProduct, () -> {
             var persisted = productRepository.save(multiPayProduct);
             return ResponseEntity.ok(persisted);

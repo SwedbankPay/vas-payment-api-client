@@ -17,11 +17,11 @@
 </template>
 
 <script>
-    import AddCustomerInfo from "./AddCustomerInfo";
-    export default {
-        name: "RequestFrom.vue",
-      components: {AddCustomerInfo}
-    }
+import AddCustomerInfo from './AddCustomerInfo'
+export default {
+  name: 'RequestFrom.vue',
+  components: { AddCustomerInfo }
+}
 </script>
 
 <style scoped>
