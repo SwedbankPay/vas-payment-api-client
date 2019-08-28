@@ -1,5 +1,6 @@
 package com.payex.vas.demo.rest.api;
 
+import com.payex.vas.demo.domain.dto.BalanceResponse;
 import com.payex.vas.demo.domain.dto.GenericPaymentRequest;
 import com.payex.vas.demo.domain.dto.GenericPaymentResponse;
 import com.payex.vas.demo.rest.util.ControllerExecutorHelper;
@@ -24,6 +25,15 @@ public class PaymentController {
         return ControllerExecutorHelper.executeAndLogRequest(log, "listPaymentsForPaymentInstrument", () -> {
             var paymentResponseList = paymentService.listPaymentsForPaymentInstrument(paymentInstrumentId);
             return ResponseEntity.ok(paymentResponseList);
+        });
+    }
+
+    @GetMapping("/balance")
+    public ResponseEntity<BalanceResponse> balance(@PathVariable(value = "id") Long paymentInstrumentId,
+                                                   @RequestParam("agreementId") String agreementId) {
+        return ControllerExecutorHelper.executeAndLogRequest(log, "balance", () -> {
+            var paymentResponse = paymentService.balance(paymentInstrumentId, agreementId);
+            return ResponseEntity.ok(paymentResponse);
         });
     }
 

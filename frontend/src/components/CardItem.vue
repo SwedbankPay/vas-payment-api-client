@@ -33,6 +33,8 @@
             <div class="col text-left">
               <p>External ID: {{item.externalAccountId}}</p>
               <p>CVC: {{item.cvc}}</p>
+              <p>Balance: {{formatNumber(item.balance / 100)}}<br>
+                <small>last synced: {{formatDate(item.lastBalanceSync)}}</small></p>
             </div>
 
             <div class="col">
@@ -43,10 +45,10 @@
                 </button>
               </div>
               <div class="row">
-                <button class="btn btn-link " @click="deleteItem(item.id)">
-                  <i class="material-icons">delete</i>
-                  <span>Delete card</span>
-                </button>
+                <DeleteCardDialog :payment-instrument="item"/>
+              </div>
+              <div class="row">
+                <InvokeBalanceSheet :payment-instrument="item"/>
               </div>
               <div class="row">
                 <InitiatePaymentSheet :payment-instrument="item"/>
@@ -61,12 +63,14 @@
 
 <script>
 import { paymentInstrumentService } from './rest-resource'
-import { formatNumber, toastError } from '../utils/creditcard-util'
+import { formatDate, formatNumber } from '../utils/creditcard-util'
 import InitiatePaymentSheet from './InitiatePaymentSheet'
+import InvokeBalanceSheet from './InvokeBalanceSheet'
+import DeleteCardDialog from './DeleteCardDialog'
 
 export default {
   name: 'CardItem',
-  components: { InitiatePaymentSheet },
+  components: { DeleteCardDialog, InvokeBalanceSheet, InitiatePaymentSheet },
   props: {
     id: {
       type: Number,
@@ -81,18 +85,17 @@ export default {
   created: function () {
     this.getItem()
   },
+  mounted () {
+    this.$root.$on('balance-successful', (res) => {
+      console.log('got new "balance-successful" event')
+      this.item.balance = res.balance
+      this.item.lastBalanceSync = new Date().toISOString()
+    })
+  },
   methods: {
     getItem () {
       paymentInstrumentService.getPaymentInstrument(this.$route.params.id).then(res => {
         this.item = res.data
-      })
-    },
-    deleteItem (id) {
-      paymentInstrumentService.deletePaymentInstrument(id).then(res => {
-        px.toast({ html: 'Successfully deleted card!' })
-        this.$router.push({ name: 'CardList' })
-      }).catch((error) => {
-        toastError(error)
       })
     },
     updateItem (item) {
@@ -102,6 +105,9 @@ export default {
     },
     formatNumber (number) {
       return formatNumber(number)
+    },
+    formatDate (date) {
+      return formatDate(date)
     }
   }
 }

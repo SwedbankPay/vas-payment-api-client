@@ -14,6 +14,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Slf4j
@@ -72,7 +73,9 @@ public class PaymentInstrumentController {
         if (paymentInstrument.getExternalAccountId() == null) {
             try {
                 var balanceResponse = paymentService.balance(paymentInstrument, agreementId);
-                paymentInstrument.setExternalAccountId(balanceResponse.getPaymentAccount().getAccountIdentifier().getAccountId());
+                paymentInstrument.setExternalAccountId(balanceResponse.getAccountId());
+                paymentInstrument.setLastBalanceSync(OffsetDateTime.now());
+                paymentInstrument.setBalance(balanceResponse.getBalance());
             } catch (Exception ex) {
                 throw new BadRequestException("Failed while invoking balance request against PayEx: " + ex.getMessage());
             }

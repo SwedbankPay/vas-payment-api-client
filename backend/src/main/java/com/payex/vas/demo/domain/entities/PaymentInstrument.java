@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.OffsetDateTime;
 
 @Data
 @Entity
@@ -33,5 +34,9 @@ public class PaymentInstrument {
     @NotBlank
     @Size(max = 3)
     private String cvc;
+
+    private Long balance;
+
+    private OffsetDateTime lastBalanceSync;
 
 }
