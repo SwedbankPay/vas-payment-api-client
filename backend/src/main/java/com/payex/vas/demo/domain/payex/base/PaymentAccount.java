@@ -6,9 +6,6 @@ import lombok.Data;
 @Data
 public class PaymentAccount {
 
-    @JsonProperty(value = "accountIdentifier")
-    private AccountIdentifier accountIdentifier;
-
     @JsonProperty("accountSummary")
     private AccountSummary accountSummary;
 

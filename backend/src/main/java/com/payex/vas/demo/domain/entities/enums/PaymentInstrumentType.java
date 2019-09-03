@@ -7,8 +7,10 @@ import lombok.Getter;
 @Getter
 public enum PaymentInstrumentType {
     PREPAID_CARD("Prepaid card"),
+    GIFT_CARD("Gift card"),
     CREDIT_CARD("Credit card"),
-    VALUE_CODE("Value code");
+    VALUE_CODE("Value code"),
+    COUPON("Coupon");
 
     private String value;
 

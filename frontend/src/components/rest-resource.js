@@ -86,6 +86,15 @@ export const paymentOperationService = {
       url: `payment-instruments/${paymentInstrumentId}/payments`
     })
   },
+  balance: function (paymentInstrumentId, agreementId) {
+    return paymentClientRepository({
+      method: 'get',
+      url: `payment-instruments/${paymentInstrumentId}/balance`,
+      params: {
+        agreementId: agreementId
+      }
+    })
+  },
   authorize: function (paymentInstrumentId, paymentRequest) {
     return paymentClientRepository({
       method: 'post',
