@@ -153,7 +153,7 @@ public class PaymentService {
         var paymentInstrument = findPaymentInstrument(paymentInstrumentId);
         var merchant = findMerchant(orgPaymentOperation.getMerchantId());
 
-        var operationRequest = ExternalRequestBuilder.buildOperationRequest(orgPaymentOperation, merchant);
+        var operationRequest = ExternalRequestBuilder.buildCancelRequest(orgPaymentOperation, merchant);
         var paymentResponse = vasPaymentApiRepository.cancel(operationRequest,
             paymentInstrument.getExternalAccountId(),
             orgPaymentOperation.getExternalPaymentId(),

@@ -23,7 +23,7 @@ public class ExternalRequestBuilder {
             .build();
     }
 
-    public static OperationRequest buildOperationRequest(PaymentOperation orgRequest, SimulatedMerchant merchant) {
+    public static OperationRequest buildCancelRequest(PaymentOperation orgRequest, SimulatedMerchant merchant) {
         return OperationRequest.builder()
             .description(String.format("Cancel of %s with id: '%d'", orgRequest.getTransactionType(), orgRequest.getId()))
             .paymentOrderRef(orgRequest.getPaymentOrderRef())
