@@ -4,99 +4,89 @@
       <section>
         <header>
           <h5>Add product info</h5>
-          <a href="#" class="dialog-close">
+          <a class="dialog-close" href="#">
             <i class="material-icons">close</i>
           </a>
         </header>
         <div class="dialog-body">
-          <div class="form-group">
-            <!-- Should maybe be set automatically by DB and backend
-            <label for="productId">Product Id</label>
-            <div class="input-group">
-              <span class="input-group-addon">
-                <i class="m4gic-googl">#</i>
-              </span>
-              <input
-                type="text"
-                class="form-control"
-                id="productId"
-                v-model="product.productId"
-                placeholder="0"
-              />
+          <form novalidate>
+            <div class="form-group">
+              <label for="productName">Product Name</label>
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="material-icons">store</i>
+                </span>
+                <input
+                  class="form-control"
+                  data-validate
+                  id="productName"
+                  placeholder="Cake"
+                  required
+                  type="text"
+                  v-model="product.name"
+                />
+              </div>
             </div>
-            <label for="productOrderId">Product Order Id</label>
-            <div class="input-group">
-              <span class="input-group-addon">
-                <i class="m4gic-googl">#</i>
-              </span>
-              <input
-                type="text"
-                class="form-control"
-                id="productOrderId"
-                v-model="product.productOrderId"
-                placeholder="0"
-              />
-            </div> -->
-            <label for="productName">Product Name</label>
-            <div class="input-group">
-              <span class="input-group-addon">
-                <i class="material-icons">store</i>
-              </span>
-              <input
-                type="text"
-                class="form-control"
-                id="productName"
-                v-model="product.name"
-                placeholder="Cake"
-              />
+            <div class="form-group">
+              <label for="productDescription">Description</label>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="material-icons">description</i></span>
+                <textarea
+                  class="form-control"
+                  id="productDescription"
+                  placeholder="product description"
+                  v-model="product.description"
+                ></textarea>
+              </div>
             </div>
-            <label for="productDescription">Description</label>
-            <div class="input-group">
-              <span class="input-group-addon"><i class="material-icons">description</i></span>
-              <textarea
-                class="form-control"
-                id="productDescription"
-                v-model="product.description"
-                placeholder="product description"
-              ></textarea>
+            <div class="form-group">
+              <label for="productPrice">Amount</label>
+              <div class="input-group quantity-size">
+                <span class="input-group-addon">
+                  <i class="material-icons">monetization_on</i>
+                </span>
+                <input
+                  class="form-control"
+                  data-validate
+                  id="productPrice" placeholder="Price of product in cents" required
+                  v-model="product.amount"/>
+              </div>
             </div>
-            <label for="productPrice">Amount</label>
-            <div class="input-group quantity-size">
-          <span class="input-group-addon">
-            <i class="material-icons">monetization_on</i>
-          </span>
-           <input class="form-control" id="productPrice" placeholder="Price of product" v-model="product.amount" />
+            <div class="form-group">
+              <label for="QuantityUnit">Quantity/Unit</label>
+              <div class="input-group quantity-size">
+                <span class="input-group-addon">
+                  <i class="material-icons">loyalty</i>
+                </span>
+                <input
+                  class="form-control col-md-3"
+                  data-validate
+                  placeholder="0"
+                  required
+                  style="text-align:right"
+                  type="text"
+                  v-model="product.quantity"
+                />
+                <select class="form-control col-md-3" data-validate id="QuantityUnit" required
+                        v-model="product.unitOfMeasure">
+                  <option disabled value>Select</option>
+                  <option value="L">Litre</option>
+                  <option value="U">Unit</option>
+                  <option value="g">Grams</option>
+                  <option value="O">Present</option>
+                </select>
+              </div>
             </div>
-            <label for="QuantityUnit">Quantity/Unit</label>
-            <div class="input-group quantity-size">
-              <span class="input-group-addon">
-                <i class="material-icons">loyalty</i>
-              </span>
-              <input
-                type="text"
-                class="form-control col-md-3"
-                v-model="product.quantity"
-                placeholder="0"
-                style="text-align:right"
-              />
-              <select id="QuantityUnit" class="form-control col-md-3" v-model="product.unitOfMeasure">
-                <option disabled value>Select</option>
-                <option value="L">Litre</option>
-                <option value="U">Unit</option>
-                <option value="g">Grams</option>
-                <option value="O">Present</option>
-              </select>
-            </div>
-          </div>
+          </form>
         </div>
         <footer>
           <button
             class="btn btn-secondary col"
-            type="button"
-            style="display: table-cell"
             data-dialog-close="add-product-dialog"
+            style="display: table-cell"
+            type="button"
           >
-            <i class="material-icons">close</i>
+            Cancel
           </button>
           <button
             class="btn btn-primary col"
@@ -104,12 +94,12 @@
             type="button"
             v-on:click="addProduct"
           >
-            <i class="material-icons">check</i>
+            Save
           </button>
         </footer>
       </section>
     </div>
-    <button class="btn btn-primary" type="button" data-dialog-open="add-product-dialog">
+    <button class="btn btn-primary" data-dialog-open="add-product-dialog" type="button">
       <i class="material-icons">add</i>
       <span>Add products</span>
     </button>
@@ -128,7 +118,7 @@ export default {
   data () {
     return {
       product: {
-        amount: 0,
+        amount: null,
         description: '',
         name: '',
         productId: null,
@@ -141,6 +131,7 @@ export default {
     }
   },
   mounted () {
+    px.validation.init()
     px.dialog.init()
   },
   methods: {

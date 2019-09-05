@@ -15,7 +15,8 @@
     "prettier": "^1.18.2",
     "vue": "^2.6.10",
     "vue-phone-number-input": "^0.2.0",
-    "vue-router": "^3.0.6"
+    "vue-router": "^3.0.6",
+    "uuid": "latest"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.7.0",

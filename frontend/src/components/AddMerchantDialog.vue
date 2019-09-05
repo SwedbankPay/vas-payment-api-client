@@ -9,73 +9,73 @@
         </a>
       </header>
       <div class="dialog-body">
-
-        <div class="form-group">
-          <label for="merchant_name">Merchant name</label>
-          <div class="input-group">
-            <span class="input-group-addon"><i class="material-icons">store_mall_directory</i></span>
-            <input type="text" class="form-control" id="merchant_name"
-                   v-model="merchant.merchantName"
-                   placeholder="Merchant name" value>
+        <form novalidate data-validate>
+          <div class="form-group">
+            <label for="merchant_name">Merchant name</label>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="material-icons">store_mall_directory</i></span>
+              <input required type="text" class="form-control" id="merchant_name"
+                     v-model="merchant.merchantName"
+                     placeholder="Merchant name" value>
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="agreement_id">Agreement ID</label>
-          <div class="input-group">
-            <span class="input-group-addon"><i class="material-icons">lock</i></span>
-            <input type="text" class="form-control" id="agreement_id"
-                   v-model="merchant.agreementId"
-                   placeholder="Agreement ID" value>
+          <div class="form-group">
+            <label for="agreement_id">Agreement ID</label>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="material-icons">lock</i></span>
+              <input required type="text" class="form-control" id="agreement_id"
+                     v-model="merchant.agreementId"
+                     placeholder="Agreement ID" value>
+            </div>
           </div>
-        </div>
-        <div v-if="selectedApi === 'multipay'" class="form-group">
-          <label for="seller-name">Seller name</label>
-          <div class="input-group">
-            <span class="input-group-addon"><i class="material-icons">shop</i></span>
-            <input
-              type="text"
-              class="form-control"
-              id="seller-name"
-              v-model="merchant.sellerName"
-              placeholder="Optional"
-            >
+          <div v-if="selectedApi === 'multipay'" class="form-group">
+            <label for="seller-name">Seller name</label>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="material-icons">shop</i></span>
+              <input
+                type="text"
+                class="form-control"
+                id="seller-name"
+                v-model="merchant.sellerName"
+                placeholder="Optional"
+              >
+            </div>
+            <label for="seller-id">Seller ID</label>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="material-icons">store</i></span>
+              <input
+                type="text"
+                class="form-control"
+                id="seller-id"
+                v-model="merchant.sellerId"
+                placeholder="Optional"
+              >
+            </div>
+            <label for="terminal-id">Terminal ID</label>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="material-icons">keyboard</i></span>
+              <input
+                type="text"
+                class="form-control"
+                id="terminal-id"
+                v-model="merchant.terminalId"
+                placeholder="Optional"
+              >
+            </div>
           </div>
-          <label for="seller-id">Seller ID</label>
-          <div class="input-group">
-            <span class="input-group-addon"><i class="material-icons">store</i></span>
-            <input
-              type="text"
-              class="form-control"
-              id="seller-id"
-              v-model="merchant.sellerId"
-              placeholder="Optional"
-            >
+          <div class="form-group"><label for="operation">Currency</label>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="material-icons">attach_money</i></span>
+              <select required data-validate id="operation" class="form-control" v-model="merchant.currencyIso">
+                <option disabled value="">Please select one</option>
+                <option>NOK</option>
+                <option>SEK</option>
+                <option>DKK</option>
+                <option>EUR</option>
+              </select>
+            </div>
           </div>
-          <label for="terminal-id">Terminal ID</label>
-          <div class="input-group">
-            <span class="input-group-addon"><i class="material-icons">keyboard</i></span>
-            <input
-              type="text"
-              class="form-control"
-              id="terminal-id"
-              v-model="merchant.terminalId"
-              placeholder="Optional"
-            >
-          </div>
-        </div>
-        <div class="form-group"><label for="operation">Currency</label>
-          <div class="input-group">
-            <span class="input-group-addon"><i class="material-icons">attach_money</i></span>
-            <select id="operation" class="form-control" v-model="merchant.currencyIso">
-              <option disabled value="">Please select one</option>
-              <option>NOK</option>
-              <option>SEK</option>
-              <option>DKK</option>
-              <option>EUR</option>
-            </select>
-          </div>
-        </div>
-
+        </form>
       </div>
       <footer>
         <button class="btn btn-secondary" type="button" data-dialog-close="add-merchant-dialog">Cancel</button>
@@ -111,6 +111,7 @@ export default {
   },
   mounted () {
     px.dialog.init()
+    px.validation.init()
   },
   methods: {
     addMerchant () {

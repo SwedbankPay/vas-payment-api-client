@@ -15,7 +15,11 @@
               <span class="input-group-addon">
                 <i class="material-icons">label</i>
               </span>
-              <select id="operation" class="form-control" v-model="customerType">
+              <select
+                id="operation"
+                class="form-control"
+                v-model="customerType"
+              >
                 <option disabled value>Please select one</option>
                 <option value="private">Private</option>
                 <option value="corporate">Corporate</option>
@@ -24,83 +28,126 @@
           </div>
           <div v-if="customerType === 'private'" class="form-group">
             <h6>Personal Information</h6>
-            <label for="firstName">Name</label>
-            <div class="input-group">
-              <span class="input-group-addon">
-                <i class="material-icons">account_box</i>
-              </span>
-              <input
-                type="text"
-                class="form-control"
-                id="firstName"
-                v-model="privateCustomer.customerFirstName"
-                placeholder="First name"
-              />
-              <input
-                type="text"
-                class="form-control"
-                id="lastName"
-                v-model="privateCustomer.customerLastName"
-                placeholder="Last name"
-              />
-            </div>
-            <label for="privateEmail">Email</label>
-            <div class="input-group">
-              <span class="input-group-addon">
-                <i class="material-icons">email</i>
-              </span>
-              <input
-                type="text"
-                class="form-control"
-                id="privateEmail"
-                v-model="privateCustomer.contactEmail"
-                placeholder="hello@world.com"
-              />
-            </div>
-            <div class="row">
-              <div class="col"></div>
-              <label class="col" for="privatePhone" style="text-align:right">Phone number</label>
-              <label class="col" for="customerLang" style="text-align:right">Language</label>
-            </div>
-            <div class="input-group">
-              <span class="input-group-addon">
-                <i class="material-icons">phone</i>
-              </span>
-              <input
-                type="text"
-                class="form-control col-md-2"
-                v-model="privateCustomer.contactPhoneCountryCode"
-                placeholder="47"
-                style="text-align:right"
-              />
-              <input
-                type="text"
-                class="form-control"
-                id="privatePhone"
-                v-model="privateCustomer.contactPhone"
-                placeholder="987654321"
-              />
-              <input
-                type="text"
-                class="form-control col-md-2"
-                id="customerLang"
-                v-model="privateCustomer.customerLanguageCode"
-                placeholder="EN"
-              />
-            </div>
-            <label for="privateSsn">SSN</label>
-            <div class="input-group">
-              <span class="input-group-addon">
-                <i class="material-icons">fingerprint</i>
-              </span>
-              <input
-                type="text"
-                class="form-control"
-                id="privateSsn"
-                v-model="privateCustomer.ssn"
-                placeholder="ssn"
-              />
-            </div>
+            <form novalidate>
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="firstName">First name</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <i class="material-icons">account_box</i>
+                      </span>
+                      <input
+                        required
+                        data-validate
+                        type="text"
+                        class="form-control"
+                        id="firstName"
+                        v-model="privateCustomer.customerFirstName"
+                        placeholder="First name"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="lastName">Last name</label>
+                    <div class="input-group">
+                      <input
+                        required
+                        data-validate
+                        type="text"
+                        class="form-control"
+                        id="lastName"
+                        v-model="privateCustomer.customerLastName"
+                        placeholder="Last name"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="privateEmail">Email</label>
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <i class="material-icons">email</i>
+                  </span>
+                  <input
+                    data-validate
+                    type="email"
+                    class="form-control"
+                    id="privateEmail"
+                    v-model="privateCustomer.contactEmail"
+                    placeholder="hello@world.com"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for=privateCountryCode>Country Code</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <i class="material-icons">phone</i>
+                      </span>
+                      <input
+                        data-validate
+                        type="number"
+                        class="form-control"
+                        id="privateCountryCode"
+                        v-model="privateCustomer.contactPhoneCountryCode"
+                        placeholder="47"
+                        style="text-align:right"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="privatePhone">Phone</label>
+                    <div class="input-group">
+                      <input
+                        data-validate
+                        type="number"
+                        class="form-control"
+                        id="privatePhone"
+                        v-model="privateCustomer.contactPhone"
+                        placeholder="987654321"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="form-group">
+                    <label for="customerLang">Language</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="customerLang"
+                        v-model="privateCustomer.customerLanguageCode"
+                        placeholder="EN"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="privateSsn">SSN</label>
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <i class="material-icons">fingerprint</i>
+                  </span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="privateSsn"
+                    v-model="privateCustomer.ssn"
+                    placeholder="ssn"
+                  />
+                </div>
+              </div>
+            </form>
           </div>
           <div v-if="customerType === 'corporate'" class="form-group">
             <h6>Company Information</h6>
@@ -151,21 +198,25 @@
             </div>
             <div class="row">
               <div class="col"></div>
-              <label class="col" for="corporatePhone" style="text-align:right">Contact Phone</label>
-              <label class="col" for="corporateLang"  style="text-align:right">Country Code</label>
+              <label class="col" for="corporatePhone" style="text-align:right"
+              >Contact Phone</label
+              >
+              <label class="col" for="corporateLang" style="text-align:right"
+              >Country Code</label
+              >
             </div>
             <div class="input-group">
               <span class="input-group-addon">
                 <i class="material-icons">phone</i>
               </span>
               <input
-                type="text"
+                type="number"
                 class="form-control col-md-2"
                 v-model="corporateCustomer.contactPhoneCountryCode"
                 placeholder="47"
               />
               <input
-                type="text"
+                type="number"
                 class="form-control"
                 id="corporatePhone"
                 v-model="corporateCustomer.contactPhone"
@@ -241,7 +292,7 @@
             </div>
           </div>
           <div class="checkbox">
-            <input type="checkbox" id="billing" v-model="copyBillingAddress" />
+            <input type="checkbox" id="billing" v-model="copyBillingAddress"/>
             <label for="billing">Bill to same address?</label>
           </div>
           <div>
@@ -308,27 +359,29 @@
         </div>
         <footer>
           <button
-            class="btn btn-secondary col"
+            class="btn btn-secondary col sheet-button"
             type="button"
-            style="display: table-cell"
             data-sheet-close="add-customer-sheet"
           >
-            <i class="material-icons">close</i>
+            Cancel
           </button>
           <button
-            class="btn btn-primary col"
-            style="display: table-cell"
+            class="btn btn-primary col sheet-button"
             type="button"
             v-on:click="addCustomer"
           >
-            <i class="material-icons">check</i>
+            Add
           </button>
         </footer>
       </section>
     </div>
-    <button class="btn btn-primary" type="button" data-sheet-open="add-customer-sheet">
+    <button
+      class="btn btn-primary"
+      type="button"
+      data-sheet-open="add-customer-sheet"
+    >
       <i class="material-icons">person_add</i>
-      <span>{{message}}</span>
+      <span>{{ message }}</span>
     </button>
   </div>
 </template>
@@ -349,7 +402,7 @@ export default {
         contactPhoneCountryCode: '47',
         customerFirstName: '',
         customerLastName: '',
-        customerLanguagecode: 'NO',
+        customerLanguageCode: 'NO',
         ssn: '',
         address: {}
       },
@@ -386,9 +439,9 @@ export default {
   methods: {
     addCustomer: function () {
       let customer =
-        this.customerType === 'corporate'
-          ? this.corporateCustomer
-          : this.privateCustomer
+          this.customerType === 'corporate'
+            ? this.corporateCustomer
+            : this.privateCustomer
       customer.address = this.address
 
       px.sheet.close('add-customer-sheet')
@@ -403,9 +456,12 @@ export default {
         this.address.billingCoAddress = this.address.coAddress
         this.address.billingPostalCode = this.address.postalCode
         this.address.billingCountryCode = this.address.countryCode
-        this.address.billingStreetAddressee = this.customerType === 'corporate'
-          ? this.corporateCustomer.companyName
-          : this.privateCustomer.customerFirstName + ' ' + this.privateCustomer.customerLastName
+        this.address.billingStreetAddressee =
+            this.customerType === 'corporate'
+              ? this.corporateCustomer.companyName
+              : this.privateCustomer.customerFirstName +
+              ' ' +
+              this.privateCustomer.customerLastName
       }
     }
   }
@@ -413,8 +469,18 @@ export default {
 </script>
 
 <style>
-.small {
-  width: 10%;
-  text-align: right;
-}
+  .sheet-button {
+    display: table-cell;
+    margin-top: 0.3rem;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+  }
 </style>

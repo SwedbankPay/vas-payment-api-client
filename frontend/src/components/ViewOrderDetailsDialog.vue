@@ -32,7 +32,6 @@
           <table class="table table-description">
             <thead>
               <tr>
-                <th></th>
                 <th>Customer Info</th>
               </tr>
             </thead>
@@ -62,13 +61,13 @@
           <table class="table table-condensed">
             <thead>
               <tr>
-                <th></th>
                 <th>Products</th>
               </tr>
               <tr>
                 <th>Product</th>
                 <th>Vat %</th>
-                <th>Quantity</th>
+                <th>Vat</th>
+                <th>#</th>
                 <th>Price</th>
               </tr>
             </thead>
@@ -76,14 +75,16 @@
               <tr v-for="product in order.products" :key="product.productId">
                 <td>{{product.name}}</td>
                 <td>{{product.vatRate}}%</td>
+                <td>{{(product.vatRate/100) * (product.amount * product.quantity)/100}}</td>
                 <td>{{product.quantity}} {{'Lg'.includes(product.unitOfMeasure) ? product.unitOfMeasure: ''}}</td>
                 <td>{{(product.amount * product.quantity)/100}} {{order.currency}}</td>
               </tr>
               <tr>
-                <td>Total: </td>
-                <td>{{vatAmount/100}} {{order.currency}}</td>
-                <td></td>
-                <td>{{order.amount/100}} {{order.currency}}</td>
+                <th>Total: </th>
+                <th></th>
+                <th style="text-align: center;">{{vatAmount/100}}</th>
+                <th></th>
+                <th style="text-align: center;">{{order.amount/100}} {{order.currency}}</th>
               </tr>
             </tbody>
           </table>

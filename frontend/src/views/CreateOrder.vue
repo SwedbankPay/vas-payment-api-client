@@ -276,13 +276,9 @@
 </template>
 
 <script>
-import AddCustomerInfo from '@/components/AddCustomerInfo.vue'
-import { multipayProductService } from '@/components/rest-resource'
-import {
-  merchantService,
-  multipayService
-} from '@/components/rest-resource.js'
-import { toastError } from '@/utils/creditcard-util'
+import AddCustomerInfo from '../components/AddCustomerInfo.vue'
+import { merchantService, multipayService, multipayProductService } from '../components/rest-resource'
+import { toastError } from '../utils/creditcard-util'
 const uuidV4 = require('uuid/v4')
 
 export default {
@@ -328,8 +324,9 @@ export default {
     }
   },
   mounted () {
-    this.listMerchants();
+    this.listMerchants()
     this.listProducts()
+    px.validation.init()
   },
   methods: {
     updateCustomerData (customer, type) {

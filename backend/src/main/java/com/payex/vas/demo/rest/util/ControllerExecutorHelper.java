@@ -23,7 +23,7 @@ public class ControllerExecutorHelper {
     public static <T, S> ResponseEntity<S> executeAndWrapResponse(String method, T request, Function<T, S> operation) {
         return executeAndLogRequest(log, method, () -> ResponseEntity.ok(operation.apply(request)));
     }
-    public static <T, S> ResponseEntity<S> executeAndWrapResponse(String method, Supplier<S> operation) {
+    public static <S> ResponseEntity<S> executeAndWrapResponse(String method, Supplier<S> operation) {
         return executeAndLogRequest(log, method, () -> ResponseEntity.ok(operation.get()));
     }
 

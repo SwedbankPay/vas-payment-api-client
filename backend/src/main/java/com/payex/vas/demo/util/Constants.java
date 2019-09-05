@@ -14,4 +14,8 @@ public final class Constants {
         public static final String HMAC = "Hmac";
         public static final String USERNAME = "Username";
     }
+
+    public static final String CREATE_ORDER_URL = "/create";
+    public static final String GET_ORDER_URL = "/%d";
+    public static final String CANCEL_ORDER_URL = "/%d/cancel";
 }
