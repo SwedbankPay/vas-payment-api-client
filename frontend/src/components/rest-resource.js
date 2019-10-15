@@ -1,14 +1,15 @@
 import axios from 'axios/index'
 
-export const baseUrl = 'http://localhost:8080'
-const apiRoot = baseUrl + '/api/'
+export const baseUrl = 'http://localhost:8080';
+const apiRoot = baseUrl + '/api/';
 
 const paymentClientRepository = axios.create({
   baseURL: apiRoot,
   headers: {
-    'Access-Control-Allow-Origin': baseUrl
+    'Access-Control-Allow-Origin': baseUrl,
+    'Content-Type': 'application/json'
   }
-})
+});
 
 export const merchantService = {
   listMerchants: function () {
@@ -37,7 +38,7 @@ export const merchantService = {
       url: `merchants/${merchantId}`
     })
   }
-}
+};
 
 export const paymentInstrumentService = {
 
@@ -76,7 +77,7 @@ export const paymentInstrumentService = {
       url: 'payment-instruments'
     })
   }
-}
+};
 
 export const paymentOperationService = {
 
@@ -141,4 +142,32 @@ export const paymentOperationService = {
       url: `payment-instruments/${paymentInstrumentId}/payments/${paymentId}/reversal`
     })
   }
-}
+};
+
+export const paymentGiftCardService = {
+
+  getGiftCard: function (giftCard) {
+    return paymentClientRepository({
+      method: 'post',
+      url: 'gift-card/get-new-gift-card',
+      data: giftCard
+    })
+  },
+  preDeposit: function (giftCard) {
+    return paymentClientRepository({
+      method: 'post',
+      url: 'gift-card/pre-deposit',
+      data: giftCard
+    })
+  }
+};
+
+export const pingService = {
+  ping: function (pingRequest) {
+    return paymentClientRepository({
+      method: 'post',
+      url: 'ping',
+      data: pingRequest
+    })
+  }
+};

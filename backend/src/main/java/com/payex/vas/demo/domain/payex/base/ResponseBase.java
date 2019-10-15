@@ -1,12 +1,15 @@
 package com.payex.vas.demo.domain.payex.base;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.payex.vas.demo.domain.payex.response.AbstractLinkResponse;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.OffsetDateTime;
 
 @Data
-public class ResponseBase {
+@EqualsAndHashCode(callSuper = true)
+public class ResponseBase extends AbstractLinkResponse {
 
     @JsonProperty("state")
     private String state;
