@@ -19,7 +19,7 @@ public class GiftCardController {
 
     private final GiftCardService giftCardService;
 
-    @PostMapping("/get-new-gift-card")
+    @PostMapping
     public ResponseEntity<GiftCardResponse> getGiftCard(@RequestBody GiftCardRequest request) {
         return ResponseEntity.ok(giftCardService.getGiftCard(request));
     }

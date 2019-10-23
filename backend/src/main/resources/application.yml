@@ -29,8 +29,7 @@ spring:
 
 application:
     vas-payment-server-api:
-        #base-url: "${VAS_PAYMENT_SERVER_API_URL:https://stage-evc.payex.com/payment-api/api/payments}"
-        base-url: "${VAS_PAYMENT_SERVER_API_URL:http://localhost:19001/api}"
+        base-url: "${VAS_PAYMENT_SERVER_API_URL:https://stage-evc.payex.com/payment-api/api/payments}"
         api-timeout: 20000
         api-key: "${API_KEY:Systemtest}" # Used for HMAC (provided by PayEx)
         api-secret: "${API_SECRET:Systemtest}" # Used for HMAC (provided by PayEx)
@@ -41,6 +40,5 @@ vas-payment-api:
             grantType: client_credentials
             clientId: "${CLIENT_ID:systemtest}" # Provided by PayEx
             clientSecret: "${CLIENT_SECRET:systemtest}" # Provided by PayEx
-            #accessTokenUri: "${VAS_AUTH_SERVER_URL:https://stage-evc.payex.com/VasIdentityServer/connect/token}"
-            accessTokenUri: "${VAS_AUTH_SERVER_URL:http://noutv002web.utvnet.net/VasIdentityServer/connect/token}"
+            accessTokenUri: "${VAS_AUTH_SERVER_URL:https://stage-evc.payex.com/VasIdentityServer/connect/token}"
             scope: publicapi

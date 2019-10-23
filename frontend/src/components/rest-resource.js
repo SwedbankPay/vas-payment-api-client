@@ -149,7 +149,7 @@ export const paymentGiftCardService = {
   getGiftCard: function (giftCard) {
     return paymentClientRepository({
       method: 'post',
-      url: 'gift-card/get-new-gift-card',
+      url: 'gift-card',
       data: giftCard
     })
   },
