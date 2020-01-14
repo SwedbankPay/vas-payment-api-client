@@ -70,6 +70,8 @@
             listMerchants() {
                 merchantService.listMerchants().then(res => {
                     this.merchantList = res.data
+                }).catch((error) => {
+                    toastError(error)
                 })
             },
             ping() {

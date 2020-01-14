@@ -12,7 +12,6 @@ export const formatDate = function (date) {
 }
 export const toastError = function (error) {
   if (error.response.data) {
-    console.log(error.response.data)
     const message = '<span><p>Status: ' + error.response.status + ' - ' + error.response.data.error + '</p></span>' +
       (error.response.data.message === 'No message available' ? '' : '<span><p>Message: ' + error.response.data.message + '</p></span>') +
       '<span><p>Path: ' + error.response.data.path + '</p></span>'

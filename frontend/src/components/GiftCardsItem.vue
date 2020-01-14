@@ -34,12 +34,10 @@
 <script>
     import {maskPan, formatNumber, formatDate} from '../utils/creditcard-util'
     import PreDepositDialog from "./PreDepositDialog";
-    import {paymentGiftCardService} from './rest-resource'
 
     export default {
         components: {PreDepositDialog},
         name: 'GiftCardsItem',
-        number: [],
         props: ['giftCardsList'],
         data() {
             return {
@@ -47,7 +45,6 @@
                 depositResponse: {
                     balance: 0,
                 }
-
             }
         },
 
@@ -58,6 +55,13 @@
                 px.dialog.init();
                 px.dialog.open("pre-deposit-dialog")
             },
+            preDepositResponse(response){
+                console.log('preDeposutResponse', response);
+                this.depositResponse = response;
+                px.toast({html: "successful Predeposit"});
+            }
+        },
+        computed: {
             maskPan(pan) {
                 return maskPan(pan)
             },
@@ -67,11 +71,6 @@
             formatDate(date) {
                 return formatDate(date)
             },
-            preDepositResponse(response){
-                console.log('preDeposutResponse', response);
-                this.depositResponse = response;
-                px.toast({html: "successful Predeposit"});
-            }
         }
     }
 </script>

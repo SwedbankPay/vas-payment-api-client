@@ -2,14 +2,8 @@ package com.payex.vas.demo.repository.external;
 
 import com.google.common.base.Stopwatch;
 import com.payex.vas.demo.config.ApplicationProperties;
-import com.payex.vas.demo.domain.payex.request.BalanceRequest;
-import com.payex.vas.demo.domain.payex.request.OperationRequest;
-import com.payex.vas.demo.domain.payex.request.PaymentRequest;
-import com.payex.vas.demo.domain.payex.request.TransactionRequest;
-import com.payex.vas.demo.domain.payex.response.OperationResponse;
-import com.payex.vas.demo.domain.payex.response.PaymentAccountResponse;
-import com.payex.vas.demo.domain.payex.response.PaymentResponse;
-import com.payex.vas.demo.domain.payex.response.TransactionResponse;
+import com.payex.vas.demo.domain.payex.request.*;
+import com.payex.vas.demo.domain.payex.response.*;
 import com.payex.vas.demo.util.JsonUtil;
 import com.payex.vas.demo.util.error.BadRequestException;
 import com.payex.vas.demo.util.error.InternalServerErrorException;
@@ -25,6 +19,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.SimpleDateFormat;
+
 import static com.payex.vas.demo.util.Constants.ApiHeaders.AGREEMENT_MERCHANT_ID;
 
 @Slf4j
@@ -32,6 +28,9 @@ import static com.payex.vas.demo.util.Constants.ApiHeaders.AGREEMENT_MERCHANT_ID
 @RequiredArgsConstructor
 public class VasPaymentApiRepository {
 
+    private final static String PING_ENDPOINT = "/payments/ping";
+    private static final String GET_GIFTCARD_ENDPOINT = "/payments/gift-card/get-new-gift-card";
+    private static final String PRE_DEPOSIT_GIFTCARD_ENDPOINT = "/payments/gift-card/pre-deposit";
     private static final String PAYMENT_PURCHASE_URL = "/payment-account/%s/payment/purchase";
     private static final String PAYMENT_AUTH_URL = "/payment-account/%s/payment/authorize";
     private static final String PAYMENT_CREDIT_URL = "/payment-account/%s/payment/credit";
@@ -123,7 +122,29 @@ public class VasPaymentApiRepository {
         return new HttpEntity<>(payload, headers);
     }
 
+    public GiftCardResponse getGiftCard(GiftCardRequest giftCardRequest){
+        if(giftCardRequest.getAmount() != null) {
+            giftCardRequest.setAmount(giftCardRequest.getAmount() * 100);
+        }
+        var payload = createPayload(giftCardRequest, giftCardRequest.getAgreementMerchantId());
+        return executeForEntity(getUrl(GET_GIFTCARD_ENDPOINT), HttpMethod.POST, payload, GiftCardResponse.class);
+    }
 
+    public PreDepositResponse preDeposit(GiftCardDepositRequest request) {
+        request.getSimpleAccountIdentifier().setExpiryDate(convertToShortDate(request.getSimpleAccountIdentifier().getExpiryDate()));
+        if(request.getSimpleAccountIdentifier().getExpiryDate() == null){
+            throw new BadRequestException("could not parse expiry date");
+        }
+        if(request.getAmount() != null) {
+            request.setAmount(request.getAmount() * 100);
+        }
+        var payload = createPayload(request, request.getAgreementMerchantId());
+        return executeForEntity(getUrl(PRE_DEPOSIT_GIFTCARD_ENDPOINT), HttpMethod.POST, payload, PreDepositResponse.class);
+    }
+    public PingResponse pingPong(PingRequest request) {
+        var payload = createPayload(request, request.getAgreementMerchantId());
+        return executeForEntity(getUrl(PING_ENDPOINT), HttpMethod.POST, payload, PingResponse.class);
+    }
     private String getUrlWithAccountAsParam(String postfix, String externalAccountId) {
         return applicationProperties.getVasPaymentServerApi().getBaseUrl() + String.format(postfix, externalAccountId);
     }
@@ -173,6 +194,16 @@ public class VasPaymentApiRepository {
         } else {
             log.error("Got exception while calling '{}'", url, ex);
             throw new InternalServerErrorException(ex.getResponseBodyAsString(), ex);
+        }
+    }
+
+    private String convertToShortDate(String expiryDate) {
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/yy");
+        try {
+            return formatter.format(parser.parse(expiryDate));
+        }catch (Exception e){
+            return null;
         }
     }
 

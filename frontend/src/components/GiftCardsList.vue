@@ -18,8 +18,6 @@
                 giftCardList: []
             }
         },
-        created: function () {
-        },
         methods: {
             handleAdd(data) {
                 this.giftCardList.push(data);

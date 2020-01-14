@@ -89,16 +89,6 @@
         data() {
             return {
                 defaultObject: null,
-                giftCardResponse: {
-                    paymentId:"PP-2741736",
-                    accountSummaryGiftCard:
-                        {
-                            expiryDate:"2021-04-11",
-                            accountKey:"6394570000011802262",
-                            cvc:"809",
-                            balance:10000
-                        }
-                },
                 response: Object,
                 currentMerchant: null,
                 merchantList: [],
@@ -127,15 +117,17 @@
             listMerchants() {
                 merchantService.listMerchants().then(res => {
                     this.merchantList = res.data;
+                }).catch((err) =>{
+                    toastError(err)
                 })
             },
             getGiftCard() {
                 paymentGiftCardService.getGiftCard(this.giftCardRequest).then(res => {
-                    px.toast({html: 'Successful'});
                     px.dialog.close('get-gift-card-dialog');
                     this.response = res.data;
                     this.response.currencyIso = this.currentMerchant.currencyIso;
                     this.response.agreementMerchantId = this.currentMerchant.agreementId;
+                    px.toast({html: 'Successful'});
                     console.log(this.response);
                     this.$emit('add', this.response);
                 }).catch((error) => {

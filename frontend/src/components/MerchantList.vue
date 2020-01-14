@@ -43,7 +43,6 @@ export default {
   },
   mounted () {
     this.$root.$on('merchant-update-event', (merchant) => {
-      console.log('got new "merchant-update-event" event')
       this.fetchItems()
     })
   },

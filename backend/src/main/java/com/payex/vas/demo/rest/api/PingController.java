@@ -15,7 +15,6 @@ public class PingController {
 
     @PostMapping
     public ResponseEntity<PingResponse> pingPong(@RequestBody PingRequest request){
-        PingResponse response = pingService.pingPong(request);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(pingService.pingPong(request));
     }
 }

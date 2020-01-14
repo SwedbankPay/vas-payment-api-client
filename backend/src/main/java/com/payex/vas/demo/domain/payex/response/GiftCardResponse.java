@@ -7,8 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@EqualsAndHashCode(callSuper = true)
-public class GiftCardResponse extends AbstractLinkResponse {
+public class GiftCardResponse {
     private String paymentId;
 
     @JsonProperty("accountSummaryGiftCard")
