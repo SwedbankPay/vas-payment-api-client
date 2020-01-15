@@ -101,7 +101,6 @@ export default {
     },
     invokePaymentOperation () {
       this.isSaving = true
-      console.log('invokePaymentOperation invoked with: ' + this.selectedPaymentOperation)
       this.paymentRequest.amount = this.inputAmount * 100
 
       if (this.selectedPaymentOperation === 'Authorize') {

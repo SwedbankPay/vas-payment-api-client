@@ -66,7 +66,6 @@ export default {
     },
     invokeBalance () {
       this.isSaving = true
-      console.log('invokeBalance invoked with agreementId: ' + this.selectedAgreementId)
       paymentOperationService.balance(this.$route.params.id, this.selectedAgreementId).then(res => {
         this.handleOkBalance(res.data)
       }).catch((error) => {

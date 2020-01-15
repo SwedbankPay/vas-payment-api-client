@@ -48,7 +48,6 @@ export default {
   },
   mounted () {
     this.$root.$on('payment-successful', () => {
-      console.log('got new "payment-successful" event')
       this.fetchItems()
     })
   },
@@ -66,7 +65,6 @@ export default {
       }
     },
     fetchItems () {
-      console.log('Fetching payments')
       paymentOperationService.listPayments(this.$route.params.id).then(res => {
         this.items = res.data
       })

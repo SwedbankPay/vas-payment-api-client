@@ -87,7 +87,6 @@ export default {
   },
   mounted () {
     this.$root.$on('balance-successful', (res) => {
-      console.log('got new "balance-successful" event')
       this.item.balance = res.balance
       this.item.lastBalanceSync = new Date().toISOString()
     })

@@ -3,7 +3,9 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/cards">Cards</router-link> |
+      <router-link to="/giftcards">Gift Cards</router-link> |
       <router-link to="/merchants">Merchants</router-link> |
+      <router-link to="/ping">Ping</router-link> |
       <router-link to="/about">About</router-link>
     </div>
     <router-view/>

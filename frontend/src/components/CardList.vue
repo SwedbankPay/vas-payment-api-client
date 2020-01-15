@@ -43,7 +43,6 @@ export default {
   },
   mounted () {
     this.$root.$on('add-card-successful', (card) => {
-      console.log('got new "add-card-successful" event')
       this.fetchItems()
     })
   },

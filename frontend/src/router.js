@@ -4,6 +4,8 @@ import Home from './views/Home.vue'
 import PaymentInstrument from './views/PaymentInstrument.vue'
 import About from './views/About'
 import Merchants from './views/Merchants'
+import GiftCards from "./views/GiftCards";
+import Ping from "./views/Ping";
 
 export default new VueRouter({
   mode: 'history',
@@ -25,6 +27,18 @@ export default new VueRouter({
       name: 'Merchants',
       path: '/merchants',
       component: Merchants,
+      props: true
+    },
+    {
+      name: 'GiftCards',
+      path: '/giftcards',
+      component: GiftCards,
+      props: true
+    },
+    {
+      name: 'Ping',
+      path: '/ping',
+      component: Ping,
       props: true
     },
     {
