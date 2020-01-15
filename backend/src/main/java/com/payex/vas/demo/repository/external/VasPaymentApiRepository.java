@@ -123,21 +123,11 @@ public class VasPaymentApiRepository {
     }
 
     public GiftCardResponse getGiftCard(GiftCardRequest giftCardRequest){
-        if(giftCardRequest.getAmount() != null) {
-            giftCardRequest.setAmount(giftCardRequest.getAmount() * 100);
-        }
         var payload = createPayload(giftCardRequest, giftCardRequest.getAgreementMerchantId());
         return executeForEntity(getUrl(GET_GIFTCARD_ENDPOINT), HttpMethod.POST, payload, GiftCardResponse.class);
     }
 
     public PreDepositResponse preDeposit(GiftCardDepositRequest request) {
-        request.getSimpleAccountIdentifier().setExpiryDate(convertToShortDate(request.getSimpleAccountIdentifier().getExpiryDate()));
-        if(request.getSimpleAccountIdentifier().getExpiryDate() == null){
-            throw new BadRequestException("could not parse expiry date");
-        }
-        if(request.getAmount() != null) {
-            request.setAmount(request.getAmount() * 100);
-        }
         var payload = createPayload(request, request.getAgreementMerchantId());
         return executeForEntity(getUrl(PRE_DEPOSIT_GIFTCARD_ENDPOINT), HttpMethod.POST, payload, PreDepositResponse.class);
     }
@@ -194,16 +184,6 @@ public class VasPaymentApiRepository {
         } else {
             log.error("Got exception while calling '{}'", url, ex);
             throw new InternalServerErrorException(ex.getResponseBodyAsString(), ex);
-        }
-    }
-
-    private String convertToShortDate(String expiryDate) {
-        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/yy");
-        try {
-            return formatter.format(parser.parse(expiryDate));
-        }catch (Exception e){
-            return null;
         }
     }
 
