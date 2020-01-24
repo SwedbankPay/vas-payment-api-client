@@ -19,8 +19,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
-import java.text.SimpleDateFormat;
-
 import static com.payex.vas.demo.util.Constants.ApiHeaders.AGREEMENT_MERCHANT_ID;
 
 @Slf4j
@@ -28,8 +26,8 @@ import static com.payex.vas.demo.util.Constants.ApiHeaders.AGREEMENT_MERCHANT_ID
 @RequiredArgsConstructor
 public class VasPaymentApiRepository {
 
-    private final static String PING_ENDPOINT = "/payments/ping";
-    private static final String GET_GIFTCARD_ENDPOINT = "/payments/gift-card/get-new-gift-card";
+    private final static String PING_ENDPOINT = "/ping";
+    private static final String GET_GIFTCARD_ENDPOINT = "/gift-card/get-new-gift-card";
     private static final String PRE_DEPOSIT_GIFTCARD_ENDPOINT = "/payments/gift-card/pre-deposit";
     private static final String PAYMENT_PURCHASE_URL = "/payment-account/%s/payment/purchase";
     private static final String PAYMENT_AUTH_URL = "/payment-account/%s/payment/authorize";

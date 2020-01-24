@@ -49,7 +49,8 @@
                 <span class="input-group-addon"><i class="material-icons">attach_money</i></span>
                 <input type="number" class="form-control" id="amount"
                        v-model.number="giftCardRequest.amount"
-                       placeholder="amount" value>
+                       placeholder="amount" value
+                       data-validate required>
               </div>
             </div>
             <div class="form-group"><label for="merchant">Merchant</label>
