@@ -29,7 +29,7 @@ spring:
 
 application:
     vas-payment-server-api:
-        base-url: "${VAS_PAYMENT_SERVER_API_URL:https://stage-evc.payex.com/payment-api/api}"
+        base-url: "${VAS_PAYMENT_SERVER_API_URL:https://stage-evc.payex.com/payment-api/api/payments}"
         api-timeout: 20000
         api-key: "${API_KEY:Systemtest}" # Used for HMAC (provided by PayEx)
         api-secret: "${API_SECRET:Systemtest}" # Used for HMAC (provided by PayEx)
