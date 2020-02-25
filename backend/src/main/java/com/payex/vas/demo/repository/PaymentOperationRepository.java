@@ -1,8 +1,6 @@
 package com.payex.vas.demo.repository;
 
 import com.payex.vas.demo.domain.entities.PaymentOperation;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
