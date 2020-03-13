@@ -6,7 +6,7 @@ import lombok.*;
 
 @Getter
 @Setter
-@Builder
+@RequiredArgsConstructor
 public class GiftCardResponse {
     private String paymentId;
 
