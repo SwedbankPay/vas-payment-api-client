@@ -1,5 +1,7 @@
 # Spring Boot + VueJS client for VasPublicPaymentApi
 
+[![Test Status](https://github.com/PayEx/vas-payment-api-client/workflows/Test/badge.svg)](https://github.com/PayEx/vas-payment-api-client/actions)
+
 * Java 11
 * VueJS
 * Maven
