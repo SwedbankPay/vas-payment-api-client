@@ -9,7 +9,7 @@
 
 ## Project setup
 
-```
+```text
 vas-payment-api-client
 ├─┬ backend     → backend module with Spring Boot code
 │ ├── src
@@ -20,11 +20,9 @@ vas-payment-api-client
 └── pom.xml     → Maven parent pom managing both modules
 ```
 
-
 ## Swagger documentation
 
 * [VasPublicPaymentApi](https://stage-evc.payex.com/payment-api/swagger-ui.html)
-
 
 ## Security
 
@@ -49,7 +47,9 @@ vas-payment-api:
             scope: publicapi
 
 ```
+
 And the implementation of these are located in [Oauth2RestTemplateConfiguration.java](./backend/src/main/java/com/swedbankpay/vas/demo/config/security/Oauth2RestTemplateConfiguration.java):
+
 ```java
 public class Oauth2RestTemplateConfiguration {
     //...
@@ -81,10 +81,13 @@ In this client the HMAC value is automatically calculated by [HmacSignatureBuild
 HMAC is implemented using SHA-512 secure hash algorithm.
 
 Expected `Hmac` header format is:
+
 ```text
 HmacSHA512 <user>:<nonce>:<digest>
 ```
+
 where `digest` is a Base64 formatted HMAC SHA512 digest of the following string:
+
 ```text
 METHOD\n
 RESOURCE\n
@@ -124,6 +127,7 @@ curl -X POST \
 In this example `USER` is user and `SECRET` is secret.
 
 The plain string to `digest` would then be:
+
 ```text
 POST
 /payment-api/api/payments/payment-account/balance
@@ -143,13 +147,14 @@ user
 The plain `digest` string is then hashed with `HmacSHA512` algorithm and the `SECRET`.
 Finally we Base64 encode the hashed value. This is the final `digest` to be provided in the `Hmac` header.
 
-
 Final `Hmac` header value:
+
 ```text
 HmacSHA512 user:21a0213e-30eb-85ab-b355-a310d31af30e:oY5Q5Rf1anCz7DRm3GyWR0dvJDnhl/psylfnNCn6FA0NOrQS3L0fvyUsQ1IQ9gQPeLUt9J3IM2zwoSfZpDgRJA==
 ```
 
 #### Postman example script
+
 In pre-request script copy/paste the following snippet:
 
 ```javascript
@@ -217,7 +222,6 @@ function guid() {
 
 ```
 
-
 </details>
 
 ### Security documentation
@@ -243,7 +247,7 @@ Run the Spring Boot App:
 mvn --projects backend spring-boot:run
 ```
 
-Now go to http://localhost:8080/ and have a look at your new client.
+Now go to `http://localhost:8080/` and have a look at your new client.
 
 ## Testing application
 
@@ -251,13 +255,14 @@ Now go to http://localhost:8080/ and have a look at your new client.
 2. Click on newly added Card
 3. Click on "initiate payment" to create a new transaction
 
+## Build docker image
 
-## Build docker image:
 ```bash
 mvn --projects backend clean compile jib:dockerBuild
 ```
 
-## Deploy to local docker:
+## Deploy to local docker
+
 ```bash
 docker-compose up -d
 ```
