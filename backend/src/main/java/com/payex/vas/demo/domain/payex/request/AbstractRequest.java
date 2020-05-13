@@ -1,4 +1,4 @@
-package com.payex.vas.demo.domain.payex.request;
+package com.swedbankpay.vas.demo.domain.swedbankpay.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;

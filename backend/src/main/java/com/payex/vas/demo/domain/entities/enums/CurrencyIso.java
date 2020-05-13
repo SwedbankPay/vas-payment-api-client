@@ -1,4 +1,4 @@
-package com.payex.vas.demo.domain.entities.enums;
+package com.swedbankpay.vas.demo.domain.entities.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

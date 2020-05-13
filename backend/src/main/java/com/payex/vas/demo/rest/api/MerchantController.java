@@ -1,8 +1,8 @@
-package com.payex.vas.demo.rest.api;
+package com.swedbankpay.vas.demo.rest.api;
 
-import com.payex.vas.demo.domain.entities.SimulatedMerchant;
-import com.payex.vas.demo.repository.SimulatedMerchantRepository;
-import com.payex.vas.demo.rest.util.ControllerExecutorHelper;
+import com.swedbankpay.vas.demo.domain.entities.SimulatedMerchant;
+import com.swedbankpay.vas.demo.repository.SimulatedMerchantRepository;
+import com.swedbankpay.vas.demo.rest.util.ControllerExecutorHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

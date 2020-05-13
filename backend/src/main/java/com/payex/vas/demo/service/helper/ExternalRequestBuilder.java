@@ -1,14 +1,14 @@
-package com.payex.vas.demo.service.helper;
+package com.swedbankpay.vas.demo.service.helper;
 
-import com.payex.vas.demo.domain.dto.GenericPaymentRequest;
-import com.payex.vas.demo.domain.entities.PaymentInstrument;
-import com.payex.vas.demo.domain.entities.PaymentOperation;
-import com.payex.vas.demo.domain.entities.SimulatedMerchant;
-import com.payex.vas.demo.domain.payex.base.AccountIdentifier;
-import com.payex.vas.demo.domain.payex.base.Merchant;
-import com.payex.vas.demo.domain.payex.request.OperationRequest;
-import com.payex.vas.demo.domain.payex.request.PaymentRequest;
-import com.payex.vas.demo.domain.payex.request.TransactionRequest;
+import com.swedbankpay.vas.demo.domain.dto.GenericPaymentRequest;
+import com.swedbankpay.vas.demo.domain.entities.PaymentInstrument;
+import com.swedbankpay.vas.demo.domain.entities.PaymentOperation;
+import com.swedbankpay.vas.demo.domain.entities.SimulatedMerchant;
+import com.swedbankpay.vas.demo.domain.swedbankpay.base.AccountIdentifier;
+import com.swedbankpay.vas.demo.domain.swedbankpay.base.Merchant;
+import com.swedbankpay.vas.demo.domain.swedbankpay.request.OperationRequest;
+import com.swedbankpay.vas.demo.domain.swedbankpay.request.PaymentRequest;
+import com.swedbankpay.vas.demo.domain.swedbankpay.request.TransactionRequest;
 
 import java.util.UUID;
 

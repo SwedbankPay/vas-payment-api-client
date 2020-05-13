@@ -1,4 +1,4 @@
-package com.payex.vas.demo.domain.payex.response;
+package com.swedbankpay.vas.demo.domain.swedbankpay.response;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.payex.vas.demo.util;
+package com.swedbankpay.vas.demo.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

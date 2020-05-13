@@ -1,10 +1,10 @@
-package com.payex.vas.demo.rest.api;
+package com.swedbankpay.vas.demo.rest.api;
 
-import com.payex.vas.demo.domain.payex.request.GiftCardDepositRequest;
-import com.payex.vas.demo.domain.payex.request.GiftCardRequest;
-import com.payex.vas.demo.domain.payex.response.GiftCardResponse;
-import com.payex.vas.demo.domain.payex.response.PreDepositResponse;
-import com.payex.vas.demo.service.GiftCardService;
+import com.swedbankpay.vas.demo.domain.swedbankpay.request.GiftCardDepositRequest;
+import com.swedbankpay.vas.demo.domain.swedbankpay.request.GiftCardRequest;
+import com.swedbankpay.vas.demo.domain.swedbankpay.response.GiftCardResponse;
+import com.swedbankpay.vas.demo.domain.swedbankpay.response.PreDepositResponse;
+import com.swedbankpay.vas.demo.service.GiftCardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

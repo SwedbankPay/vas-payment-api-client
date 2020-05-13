@@ -1,7 +1,7 @@
-package com.payex.vas.demo.service.helper;
+package com.swedbankpay.vas.demo.service.helper;
 
-import com.payex.vas.demo.domain.dto.BalanceResponse;
-import com.payex.vas.demo.domain.payex.response.PaymentAccountResponse;
+import com.swedbankpay.vas.demo.domain.dto.BalanceResponse;
+import com.swedbankpay.vas.demo.domain.swedbankpay.response.PaymentAccountResponse;
 
 public class BalanceResponseBuilder {
 

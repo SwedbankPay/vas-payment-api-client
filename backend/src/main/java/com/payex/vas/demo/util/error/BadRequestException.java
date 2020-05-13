@@ -1,4 +1,4 @@
-package com.payex.vas.demo.util.error;
+package com.swedbankpay.vas.demo.util.error;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;

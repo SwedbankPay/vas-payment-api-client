@@ -1,12 +1,12 @@
-package com.payex.vas.demo.service.helper;
+package com.swedbankpay.vas.demo.service.helper;
 
-import com.payex.vas.demo.domain.entities.PaymentInstrument;
-import com.payex.vas.demo.domain.entities.PaymentOperation;
-import com.payex.vas.demo.domain.payex.base.ResponseBase;
-import com.payex.vas.demo.domain.payex.response.OperationResponse;
-import com.payex.vas.demo.domain.payex.response.PaymentResponse;
-import com.payex.vas.demo.domain.payex.response.TransactionResponse;
-import com.payex.vas.demo.util.JsonUtil;
+import com.swedbankpay.vas.demo.domain.entities.PaymentInstrument;
+import com.swedbankpay.vas.demo.domain.entities.PaymentOperation;
+import com.swedbankpay.vas.demo.domain.swedbankpay.base.ResponseBase;
+import com.swedbankpay.vas.demo.domain.swedbankpay.response.OperationResponse;
+import com.swedbankpay.vas.demo.domain.swedbankpay.response.PaymentResponse;
+import com.swedbankpay.vas.demo.domain.swedbankpay.response.TransactionResponse;
+import com.swedbankpay.vas.demo.util.JsonUtil;
 
 import java.time.OffsetDateTime;
 

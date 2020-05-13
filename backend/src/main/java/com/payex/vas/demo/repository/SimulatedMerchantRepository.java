@@ -1,6 +1,6 @@
-package com.payex.vas.demo.repository;
+package com.swedbankpay.vas.demo.repository;
 
-import com.payex.vas.demo.domain.entities.SimulatedMerchant;
+import com.swedbankpay.vas.demo.domain.entities.SimulatedMerchant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

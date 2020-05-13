@@ -1,4 +1,4 @@
-package com.payex.vas.demo.config.security;
+package com.swedbankpay.vas.demo.config.security;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

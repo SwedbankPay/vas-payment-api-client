@@ -31,12 +31,12 @@ vas-payment-api-client
 <details>
 	<summary>Oauth2:</summary>
 
-VasPublicPaymentApi requires an OAuth2 access token for interaction.  
-This application automatically handles token fetching and refreshing by using [Spring Security](https://docs.spring.io/spring-security-oauth2-boot/docs/current/reference/htmlsingle/#boot-features-security-custom-user-info-client).   
-Configuration values are set in [application.yml](./backend/src/main/resources/application.yml): 
+VasPublicPaymentApi requires an OAuth2 access token for interaction.
+This application automatically handles token fetching and refreshing by using [Spring Security](https://docs.spring.io/spring-security-oauth2-boot/docs/current/reference/htmlsingle/#boot-features-security-custom-user-info-client).
+Configuration values are set in [application.yml](./backend/src/main/resources/application.yml):
 
 ```yaml
-# "XXX" Should be replaced by value provided by PayEx
+# "XXX" Should be replaced by value provided by Swedbank Pay
 # CLIENT_ID/CLIENT_SECRET/VAS_AUTH_SERVER_URL can also be set in docker-compose.yml as environment variables if running with docker
 # The application will see if environment variables are present, if not fall back to "XXX" values.
 vas-payment-api:
@@ -46,10 +46,10 @@ vas-payment-api:
             clientId: "${CLIENT_ID}:XXX"
             clientSecret: "${CLIENT_SECRET}:XXX"
             accessTokenUri: "${VAS_AUTH_SERVER_URL}:XXX"
-            scope: publicapi 
-            
+            scope: publicapi
+
 ```
-And the implementation of these are located in [Oauth2RestTemplateConfiguration.java](./backend/src/main/java/com/payex/vas/demo/config/security/Oauth2RestTemplateConfiguration.java):
+And the implementation of these are located in [Oauth2RestTemplateConfiguration.java](./backend/src/main/java/com/swedbankpay/vas/demo/config/security/Oauth2RestTemplateConfiguration.java):
 ```java
 public class Oauth2RestTemplateConfiguration {
     //...
@@ -75,16 +75,16 @@ public class Oauth2RestTemplateConfiguration {
 <details>
 	<summary>HMAC:</summary>
 
-The API also requires HMAC authentication to be present in a request.  
-In this client the HMAC value is automatically calculated by [HmacSignatureBuilder.java](./backend/src/main/java/com/payex/vas/demo/config/security/HmacSignatureBuilder.java) and added to all outgoing requests in [ExternalRequestInterceptor.java](./backend/src/main/java/com/payex/vas/demo/config/ExternalRequestInterceptor.java)  
+The API also requires HMAC authentication to be present in a request.
+In this client the HMAC value is automatically calculated by [HmacSignatureBuilder.java](./backend/src/main/java/com/swedbankpay/vas/demo/config/security/HmacSignatureBuilder.java) and added to all outgoing requests in [ExternalRequestInterceptor.java](./backend/src/main/java/com/swedbankpay/vas/demo/config/ExternalRequestInterceptor.java)
 
-HMAC is implemented using SHA-512 secure hash algorithm. 
+HMAC is implemented using SHA-512 secure hash algorithm.
 
 Expected `Hmac` header format is:
 ```text
-HmacSHA512 <user>:<nonce>:<digest>	
+HmacSHA512 <user>:<nonce>:<digest>
 ```
-where `digest` is a Base64 formatted HMAC SHA512 digest of the following string: 
+where `digest` is a Base64 formatted HMAC SHA512 digest of the following string:
 ```text
 METHOD\n
 RESOURCE\n
@@ -94,11 +94,11 @@ DATE\n
 PAYLOAD\n
 ```
 
-`METHOD` (mandatory) the requested method (in upper case) 
-`RESOURCE` (mandatory) the path to desired resource (without hostname and any query parameters)  
-`NONSE` (mandatory) a unique value for each request ([UUID](https://tools.ietf.org/rfc/rfc4122.txt)) 
+`METHOD` (mandatory) the requested method (in upper case)
+`RESOURCE` (mandatory) the path to desired resource (without hostname and any query parameters)
+`NONSE` (mandatory) a unique value for each request ([UUID](https://tools.ietf.org/rfc/rfc4122.txt))
 `DATE`(optional) same as `Transmission-Time` if provided as seperate header. Uses [ISO8601 standard](https://en.wikipedia.org/wiki/ISO_8601)
-`PAYLOAD` (optional) body of request 
+`PAYLOAD` (optional) body of request
 
 Example request:
 
@@ -121,7 +121,7 @@ curl -X POST \
 }'
 ```
 
-In this example `USER` is user and `SECRET` is secret. 
+In this example `USER` is user and `SECRET` is secret.
 
 The plain string to `digest` would then be:
 ```text
@@ -144,8 +144,8 @@ The plain `digest` string is then hashed with `HmacSHA512` algorithm and the `SE
 Finally we Base64 encode the hashed value. This is the final `digest` to be provided in the `Hmac` header.
 
 
-Final `Hmac` header value: 
-```text 
+Final `Hmac` header value:
+```text
 HmacSHA512 user:21a0213e-30eb-85ab-b355-a310d31af30e:oY5Q5Rf1anCz7DRm3GyWR0dvJDnhl/psylfnNCn6FA0NOrQS3L0fvyUsQ1IQ9gQPeLUt9J3IM2zwoSfZpDgRJA==
 ```
 
@@ -174,7 +174,7 @@ function generateHMAC(user, secret, transmissionTime) {
     var method = request.method.toUpperCase();
     var nonce = generateNonce(); //UUID
     var date = transmissionTime;
-    
+
     var uri_path = replaceRequestEnv(request.url.trim()).trim().replace(new RegExp('^https?://[^/]+/'), '/'); // strip hostname
     uri_path = uri_path.split("?")[0]; //Remove query paramters
     var payload = _.isEmpty(request.data) ? "" : request.data;
@@ -228,10 +228,10 @@ function guid() {
 
 ## First App run
 
-__NB! The application expects a PostgreSQL server to be running on localhost with a username `test` and password `test` to exist.__  
-__This can automatically be configured if PostgreSQL server is started in docker with environment variables `POSTGRES_USER=test` and `POSTGRES_PASSWORD=test` are set (See [docker-compose.yml](./docker-compose.yml)).__ 
+__NB! The application expects a PostgreSQL server to be running on localhost with a username `test` and password `test` to exist.__
+__This can automatically be configured if PostgreSQL server is started in docker with environment variables `POSTGRES_USER=test` and `POSTGRES_PASSWORD=test` are set (See [docker-compose.yml](./docker-compose.yml)).__
 
-Inside the root directory, do a: 
+Inside the root directory, do a:
 
 ```bash
 mvn clean install
@@ -247,17 +247,17 @@ Now go to http://localhost:8080/ and have a look at your new client.
 
 ## Testing application
 
-1. Add a new card with provided details from PayEx.
+1. Add a new card with provided details from Swedbank Pay.
 2. Click on newly added Card
-3. Click on "initiate payment" to create a new transaction 
- 
+3. Click on "initiate payment" to create a new transaction
+
 
 ## Build docker image:
 ```bash
 mvn --projects backend clean compile jib:dockerBuild
 ```
-    
+
 ## Deploy to local docker:
 ```bash
-docker-compose up -d    
+docker-compose up -d
 ```

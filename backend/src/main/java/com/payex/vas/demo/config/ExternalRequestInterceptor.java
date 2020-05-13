@@ -1,8 +1,8 @@
-package com.payex.vas.demo.config;
+package com.swedbankpay.vas.demo.config;
 
 import com.google.common.base.Stopwatch;
-import com.payex.vas.demo.config.security.HmacSignatureBuilder;
-import com.payex.vas.demo.config.security.SecurityUtils;
+import com.swedbankpay.vas.demo.config.security.HmacSignatureBuilder;
+import com.swedbankpay.vas.demo.config.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-import static com.payex.vas.demo.util.Constants.ApiHeaders.*;
+import static com.swedbankpay.vas.demo.util.Constants.ApiHeaders.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Slf4j

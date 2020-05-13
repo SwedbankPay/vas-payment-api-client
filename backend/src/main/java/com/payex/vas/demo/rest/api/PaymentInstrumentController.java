@@ -1,10 +1,10 @@
-package com.payex.vas.demo.rest.api;
+package com.swedbankpay.vas.demo.rest.api;
 
-import com.payex.vas.demo.domain.entities.PaymentInstrument;
-import com.payex.vas.demo.repository.PaymentInstrumentRepository;
-import com.payex.vas.demo.rest.util.ControllerExecutorHelper;
-import com.payex.vas.demo.service.PaymentService;
-import com.payex.vas.demo.util.error.BadRequestException;
+import com.swedbankpay.vas.demo.domain.entities.PaymentInstrument;
+import com.swedbankpay.vas.demo.repository.PaymentInstrumentRepository;
+import com.swedbankpay.vas.demo.rest.util.ControllerExecutorHelper;
+import com.swedbankpay.vas.demo.service.PaymentService;
+import com.swedbankpay.vas.demo.util.error.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -77,7 +77,7 @@ public class PaymentInstrumentController {
                 paymentInstrument.setLastBalanceSync(OffsetDateTime.now());
                 paymentInstrument.setBalance(balanceResponse.getBalance());
             } catch (Exception ex) {
-                throw new BadRequestException("Failed while invoking balance request against PayEx: " + ex.getMessage());
+                throw new BadRequestException("Failed while invoking balance request against Swedbank Pay: " + ex.getMessage());
             }
         }
     }

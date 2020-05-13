@@ -1,6 +1,6 @@
-package com.payex.vas.demo.domain.entities;
+package com.swedbankpay.vas.demo.domain.entities;
 
-import com.payex.vas.demo.domain.entities.enums.CurrencyIso;
+import com.swedbankpay.vas.demo.domain.entities.enums.CurrencyIso;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,7 +19,7 @@ public class SimulatedMerchant {
     private String merchantName;
 
     /**
-     * Provided by PayEx
+     * Provided by Swedbank Pay
      */
     @NotBlank
     private String agreementId;

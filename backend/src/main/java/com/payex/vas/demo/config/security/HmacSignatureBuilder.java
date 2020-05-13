@@ -1,6 +1,6 @@
-package com.payex.vas.demo.config.security;
+package com.swedbankpay.vas.demo.config.security;
 
-import com.payex.vas.demo.util.error.InternalServerErrorException;
+import com.swedbankpay.vas.demo.util.error.InternalServerErrorException;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 

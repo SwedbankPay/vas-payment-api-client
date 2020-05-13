@@ -1,9 +1,9 @@
-package com.payex.vas.demo.rest.util;
+package com.swedbankpay.vas.demo.rest.util;
 
 import com.google.common.base.Stopwatch;
-import com.payex.vas.demo.config.security.SecurityUtils;
-import com.payex.vas.demo.util.JsonUtil;
-import com.payex.vas.demo.util.error.InternalServerErrorException;
+import com.swedbankpay.vas.demo.config.security.SecurityUtils;
+import com.swedbankpay.vas.demo.util.JsonUtil;
+import com.swedbankpay.vas.demo.util.error.InternalServerErrorException;
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

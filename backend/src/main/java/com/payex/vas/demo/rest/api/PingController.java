@@ -1,8 +1,8 @@
-package com.payex.vas.demo.rest.api;
+package com.swedbankpay.vas.demo.rest.api;
 
-import com.payex.vas.demo.domain.payex.request.PingRequest;
-import com.payex.vas.demo.domain.payex.response.PingResponse;
-import com.payex.vas.demo.service.PingService;
+import com.swedbankpay.vas.demo.domain.swedbankpay.request.PingRequest;
+import com.swedbankpay.vas.demo.domain.swedbankpay.response.PingResponse;
+import com.swedbankpay.vas.demo.service.PingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

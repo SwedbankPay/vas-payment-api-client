@@ -1,7 +1,7 @@
-package com.payex.vas.demo.domain.payex.response;
+package com.swedbankpay.vas.demo.domain.swedbankpay.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.payex.vas.demo.domain.payex.base.AccountSummaryGiftCard;
+import com.swedbankpay.vas.demo.domain.swedbankpay.base.AccountSummaryGiftCard;
 import lombok.*;
 
 @Getter

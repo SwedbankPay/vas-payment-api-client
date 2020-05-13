@@ -1,7 +1,7 @@
-package com.payex.vas.demo.domain.payex.request;
+package com.swedbankpay.vas.demo.domain.swedbankpay.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.payex.vas.demo.domain.entities.SimpleAccountIdentifier;
+import com.swedbankpay.vas.demo.domain.entities.SimpleAccountIdentifier;
 import lombok.Data;
 
 @Data

@@ -1,6 +1,6 @@
-package com.payex.vas.demo.domain.payex.response;
+package com.swedbankpay.vas.demo.domain.swedbankpay.response;
 
-import com.payex.vas.demo.domain.payex.base.ResponseBase;
+import com.swedbankpay.vas.demo.domain.swedbankpay.base.ResponseBase;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

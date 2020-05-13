@@ -1,7 +1,7 @@
-package com.payex.vas.demo.service.helper;
+package com.swedbankpay.vas.demo.service.helper;
 
-import com.payex.vas.demo.domain.dto.GenericPaymentResponse;
-import com.payex.vas.demo.domain.entities.PaymentOperation;
+import com.swedbankpay.vas.demo.domain.dto.GenericPaymentResponse;
+import com.swedbankpay.vas.demo.domain.entities.PaymentOperation;
 
 public class GenericPaymentResponseBuilder {
 

@@ -1,4 +1,4 @@
-package com.payex.vas.demo.domain.dto;
+package com.swedbankpay.vas.demo.domain.dto;
 
 import lombok.Builder;
 import lombok.Data;

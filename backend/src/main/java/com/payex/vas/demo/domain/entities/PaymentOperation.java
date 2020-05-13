@@ -1,4 +1,4 @@
-package com.payex.vas.demo.domain.entities;
+package com.swedbankpay.vas.demo.domain.entities;
 
 import lombok.Data;
 

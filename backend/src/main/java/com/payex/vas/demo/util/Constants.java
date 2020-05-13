@@ -1,4 +1,4 @@
-package com.payex.vas.demo.util;
+package com.swedbankpay.vas.demo.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

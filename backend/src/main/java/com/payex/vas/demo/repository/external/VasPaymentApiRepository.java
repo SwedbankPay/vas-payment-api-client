@@ -1,13 +1,13 @@
-package com.payex.vas.demo.repository.external;
+package com.swedbankpay.vas.demo.repository.external;
 
 import com.google.common.base.Stopwatch;
-import com.payex.vas.demo.config.ApplicationProperties;
-import com.payex.vas.demo.domain.payex.request.*;
-import com.payex.vas.demo.domain.payex.response.*;
-import com.payex.vas.demo.util.JsonUtil;
-import com.payex.vas.demo.util.error.BadRequestException;
-import com.payex.vas.demo.util.error.InternalServerErrorException;
-import com.payex.vas.demo.util.error.NotFoundException;
+import com.swedbankpay.vas.demo.config.ApplicationProperties;
+import com.swedbankpay.vas.demo.domain.swedbankpay.request.*;
+import com.swedbankpay.vas.demo.domain.swedbankpay.response.*;
+import com.swedbankpay.vas.demo.util.JsonUtil;
+import com.swedbankpay.vas.demo.util.error.BadRequestException;
+import com.swedbankpay.vas.demo.util.error.InternalServerErrorException;
+import com.swedbankpay.vas.demo.util.error.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -19,7 +19,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
-import static com.payex.vas.demo.util.Constants.ApiHeaders.AGREEMENT_MERCHANT_ID;
+import static com.swedbankpay.vas.demo.util.Constants.ApiHeaders.AGREEMENT_MERCHANT_ID;
 
 @Slf4j
 @Component

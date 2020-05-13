@@ -1,9 +1,9 @@
-package com.payex.vas.demo.domain.payex.response;
+package com.swedbankpay.vas.demo.domain.swedbankpay.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.payex.vas.demo.domain.payex.base.AccountIdentifier;
-import com.payex.vas.demo.domain.payex.base.Issuer;
-import com.payex.vas.demo.domain.payex.base.ResponseBase;
+import com.swedbankpay.vas.demo.domain.swedbankpay.base.AccountIdentifier;
+import com.swedbankpay.vas.demo.domain.swedbankpay.base.Issuer;
+import com.swedbankpay.vas.demo.domain.swedbankpay.base.ResponseBase;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

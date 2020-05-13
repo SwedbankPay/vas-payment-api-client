@@ -1,4 +1,4 @@
-package com.payex.vas.demo.config;
+package com.swedbankpay.vas.demo.config;
 
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;

@@ -1,9 +1,9 @@
-package com.payex.vas.demo.config.security;
+package com.swedbankpay.vas.demo.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
-import com.payex.vas.demo.config.ApplicationProperties;
-import com.payex.vas.demo.config.ExternalRequestInterceptor;
+import com.swedbankpay.vas.demo.config.ApplicationProperties;
+import com.swedbankpay.vas.demo.config.ExternalRequestInterceptor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;

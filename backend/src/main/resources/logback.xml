@@ -15,7 +15,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.payex" level="DEBUG"/>
+    <logger name="com.swedbankpay" level="DEBUG"/>
     <logger name="org.flywaydb" level="INFO"/>
     <logger name="javax.activation" level="WARN"/>
     <logger name="javax.mail" level="WARN"/>

@@ -1,10 +1,10 @@
-package com.payex.vas.demo.rest.api;
+package com.swedbankpay.vas.demo.rest.api;
 
-import com.payex.vas.demo.domain.dto.BalanceResponse;
-import com.payex.vas.demo.domain.dto.GenericPaymentRequest;
-import com.payex.vas.demo.domain.dto.GenericPaymentResponse;
-import com.payex.vas.demo.rest.util.ControllerExecutorHelper;
-import com.payex.vas.demo.service.PaymentService;
+import com.swedbankpay.vas.demo.domain.dto.BalanceResponse;
+import com.swedbankpay.vas.demo.domain.dto.GenericPaymentRequest;
+import com.swedbankpay.vas.demo.domain.dto.GenericPaymentResponse;
+import com.swedbankpay.vas.demo.rest.util.ControllerExecutorHelper;
+import com.swedbankpay.vas.demo.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

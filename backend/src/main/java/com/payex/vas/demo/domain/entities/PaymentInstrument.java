@@ -1,6 +1,6 @@
-package com.payex.vas.demo.domain.entities;
+package com.swedbankpay.vas.demo.domain.entities;
 
-import com.payex.vas.demo.domain.entities.enums.PaymentInstrumentType;
+import com.swedbankpay.vas.demo.domain.entities.enums.PaymentInstrumentType;
 import lombok.Data;
 
 import javax.persistence.*;

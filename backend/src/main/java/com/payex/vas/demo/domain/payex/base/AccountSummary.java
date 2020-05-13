@@ -1,7 +1,7 @@
-package com.payex.vas.demo.domain.payex.base;
+package com.swedbankpay.vas.demo.domain.swedbankpay.base;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.payex.vas.demo.domain.entities.enums.CurrencyIso;
+import com.swedbankpay.vas.demo.domain.entities.enums.CurrencyIso;
 import lombok.Data;
 
 @Data

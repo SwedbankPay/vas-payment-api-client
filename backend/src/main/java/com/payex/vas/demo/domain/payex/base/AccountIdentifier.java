@@ -1,4 +1,4 @@
-package com.payex.vas.demo.domain.payex.base;
+package com.swedbankpay.vas.demo.domain.swedbankpay.base;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
