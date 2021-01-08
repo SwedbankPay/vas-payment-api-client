@@ -19,7 +19,7 @@ services:
         environment:
             - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
             - VAS_PAYMENT_SERVER_API_URL=https://stage-evc.payex.com/payment-api/api/payments
-            - VAS_AUTH_SERVER_URL=https://stage-evc.payex.com/VasIdentityServer/connect/token
+            - VAS_AUTH_SERVER_URL=https://stage-evc.payex.com/authorization/oauth/token
             - CLIENT_ID=systemtest
             - CLIENT_SECRET=systemtest
             - API_KEY=Systemtest

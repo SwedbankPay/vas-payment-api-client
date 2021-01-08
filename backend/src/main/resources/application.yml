@@ -40,5 +40,5 @@ vas-payment-api:
             grantType: client_credentials
             clientId: "${CLIENT_ID:systemtest}" # Provided by Swedbank Pay
             clientSecret: "${CLIENT_SECRET:systemtest}" # Provided by Swedbank Pay
-            accessTokenUri: "${VAS_AUTH_SERVER_URL:https://stage-evc.payex.com/VasIdentityServer/connect/token}"
+            accessTokenUri: "${VAS_AUTH_SERVER_URL:https://stage-evc.payex.com/authorization/oauth/token}"
             scope: publicapi
