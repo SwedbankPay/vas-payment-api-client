@@ -1,0 +1,35 @@
+version: 2
+updates:
+- package-ecosystem: maven
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "03:00"
+    timezone: Europe/Oslo
+  open-pull-requests-limit: 99
+  ignore:
+  - dependency-name: org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure
+    versions:
+    - 2.4.2
+    - 2.4.3
+    - 2.4.4
+  - dependency-name: org.springframework.boot:spring-boot-starter-parent
+    versions:
+    - 2.4.2
+    - 2.4.3
+    - 2.4.4
+  - dependency-name: com.google.cloud.tools:jib-maven-plugin
+    versions:
+    - 2.7.1
+    - 2.8.0
+  - dependency-name: com.github.eirslett:frontend-maven-plugin
+    versions:
+    - 1.11.0
+    - 1.11.2
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "03:00"
+    timezone: Europe/Oslo
+  open-pull-requests-limit: 99
