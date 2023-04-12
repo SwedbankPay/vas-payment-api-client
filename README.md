@@ -265,4 +265,4 @@ mvn --projects backend clean compile jib:dockerBuild
 
 ```bash
 docker-compose up -d
-```
+``` 
